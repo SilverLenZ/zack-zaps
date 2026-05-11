@@ -3,160 +3,129 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zaps ⚡ | Support SilverLenz Art Pipeline</title>
+  <title>SilverLenz ⚡ Nostr Zap Gallery</title>
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    body {
-      background: #0a0a0a;
-      color: #f1f1f1;
-      font-family: system-ui, sans-serif;
-    }
-
-    .preset-row {
-      transition: all 0.2s ease;
-      padding: 1.25rem 1.75rem;
-      border-radius: 1.5rem;
-    }
-
-    .preset-row:hover {
-      transform: translateY(-2px);
-      background: rgba(251, 191, 36, 0.1);
-    }
+    body { background:#0a0a0a; color:#f1f1f1; font-family:system-ui; }
+    .card { transition:0.2s; }
+    .card:hover { transform: translateY(-2px); }
   </style>
 </head>
 
-<body class="min-h-screen flex flex-col items-center p-6 md:p-12">
-  <div class="max-w-3xl w-full">
+<body class="p-6 md:p-12 flex justify-center">
+  <div class="max-w-4xl w-full">
 
     <!-- Header -->
-    <div class="flex items-center gap-5 mb-10 justify-center">
-      <img src="https://raw.githubusercontent.com/SilverLenZ/zack-zaps/main/silverlenz%20logo.jpg"
-           alt="SilverLenz"
-           class="w-20 h-20 rounded-2xl object-cover border border-amber-400/50">
-
-      <div>
-        <h1 class="text-5xl font-light tracking-widest">ZACK COVELL</h1>
-        <p class="text-amber-300 text-xl -mt-1">SilverLenz • Fibonacci Art Pipeline</p>
-      </div>
+    <div class="text-center mb-10">
+      <h1 class="text-5xl font-light tracking-widest">SILVERLENZ</h1>
+      <p class="text-amber-300 mt-2">Nostr Art + Lightning Zaps ⚡</p>
+      <p class="text-xs opacity-60 mt-2">Lightning: silverlenz@rizful.com</p>
     </div>
 
-    <h2 class="text-center text-4xl font-light mb-4 tracking-wider">
-      ZAPS THAT RESONATE ⚡
-    </h2>
-
-    <p class="text-center text-amber-300 mb-8 text-lg">
-      Support the daily art pipeline
-    </p>
-
-    <!-- Main Card -->
-    <div class="bg-zinc-900/90 border border-amber-400/20 rounded-3xl p-8 shadow-2xl mb-16">
-
-      <!-- Lightning Address -->
-      <div class="mb-8">
-        <p class="uppercase text-xs tracking-widest text-amber-300 mb-3">
-          LIGHTNING ADDRESS
-        </p>
-
-        <div class="flex items-center justify-between bg-black/60 rounded-2xl p-5">
-          <code class="font-mono text-2xl text-amber-400">
-            silverlenz@rizful.com
-          </code>
-
-          <button onclick="copyAddress()"
-                  class="bg-amber-600 hover:bg-amber-500 px-6 py-3 rounded-2xl text-base font-medium transition">
-            Copy
-          </button>
-        </div>
-      </div>
-
-      <!-- Presets -->
-      <div>
-        <p class="uppercase text-xs tracking-widest text-amber-300 mb-5">
-          PRESET AMOUNTS
-        </p>
-
-        <div class="space-y-4" id="presets"></div>
-      </div>
-    </div>
-
-    <footer class="text-center text-xs opacity-60">
-      Powered by Lightning ⚡
-    </footer>
+    <!-- Feed -->
+    <div id="feed" class="space-y-6"></div>
 
   </div>
 
-  <script>
-    const LN_ADDRESS = "silverlenz@rizful.com";
+<script>
+const LN_ADDRESS = "silverlenz@rizful.com";
 
-    const presets = [
-      { sats: 1440, name: "Perfect Harmony ♫", emoji: "👍" },
-      { sats: 2330, name: "Artistic Flow 🌀", emoji: "🚀" },
-      { sats: 3770, name: "Divine Proportion △", emoji: "☕" },
-      { sats: 6100, name: "Spiral Energy 🌀", emoji: "✨" },
-      { sats: 9870, name: "Golden Spiral ✨", emoji: "🍷" },
-      { sats: 15970, name: "Ultimate Fibonacci ✨", emoji: "👑" }
-    ];
+/**
+ * Your "Nostr posts" (static demo feed)
+ * In real Nostr: these are kind 1 events from relays
+ */
+const posts = [
+  {
+    id: "art-001",
+    title: "Perfect Harmony",
+    sats: 1440,
+    emoji: "🎼"
+  },
+  {
+    id: "art-002",
+    title: "Artistic Flow",
+    sats: 2330,
+    emoji: "🌀"
+  },
+  {
+    id: "art-003",
+    title: "Golden Spiral",
+    sats: 9870,
+    emoji: "✨"
+  }
+];
 
-    function renderPresets() {
-      const container = document.getElementById("presets");
+function renderFeed() {
+  document.getElementById("feed").innerHTML = posts.map(p => `
+    <div class="card bg-zinc-900 border border-amber-400/20 rounded-3xl p-6">
 
-      container.innerHTML = presets.map(p => `
-        <button onclick="triggerZap(${p.sats})"
-                class="preset-row w-full flex items-center gap-6 bg-zinc-800 text-left">
-          <span>${p.emoji}</span>
-          <span class="text-3xl font-bold w-24">${p.sats.toLocaleString()}</span>
-          <span class="flex-1 text-lg">${p.name}</span>
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-2xl font-light">${p.emoji} ${p.title}</h2>
+          <p class="text-xs text-amber-300 mt-1">Post ID: ${p.id}</p>
+        </div>
+
+        <button onclick="zap('${p.id}', ${p.sats})"
+                class="bg-amber-600 hover:bg-amber-500 px-5 py-3 rounded-2xl">
+          ⚡ Zap ${p.sats}
         </button>
-      `).join("");
+      </div>
+
+    </div>
+  `).join("");
+}
+
+/**
+ * REAL zap flow:
+ * - resolves LNURL
+ * - fetches invoice
+ * - optionally includes Nostr metadata hook (future relay support)
+ */
+async function zap(postId, sats) {
+  try {
+    const msats = sats * 1000;
+
+    // 1. LNURL resolve
+    const [name, domain] = LN_ADDRESS.split("@");
+    const lnurl = `https://${domain}/.well-known/lnurlp/${name}`;
+
+    const res = await fetch(lnurl);
+    const data = await res.json();
+
+    // 2. invoice
+    const invoiceRes = await fetch(`${data.callback}?amount=${msats}`);
+    const invoice = await invoiceRes.json();
+
+    if (!invoice.pr) {
+      alert("Invoice failed");
+      return;
     }
 
-    async function triggerZap(sats) {
-      try {
-        const msats = sats * 1000;
-
-        // 1. Resolve LNURL from Lightning Address
-        const [name, domain] = LN_ADDRESS.split("@");
-        const lnurl = `https://${domain}/.well-known/lnurlp/${name}`;
-
-        const res = await fetch(lnurl);
-        const data = await res.json();
-
-        // 2. Get invoice
-        const callback = data.callback;
-        const invoiceRes = await fetch(`${callback}?amount=${msats}`);
-        const invoice = await invoiceRes.json();
-
-        if (!invoice.pr) {
-          alert("Failed to generate invoice");
-          return;
-        }
-
-        // 3. Try WebLN (best experience)
-        if (window.webln) {
-          await window.webln.enable();
-          await window.webln.sendPayment(invoice.pr);
-          return;
-        }
-
-        // 4. Fallback: open invoice
-        window.location.href = `lightning:${invoice.pr}`;
-
-      } catch (err) {
-        console.error(err);
-        alert("Zap failed to initialize");
-      }
+    // 3. WebLN (best UX)
+    if (window.webln) {
+      await window.webln.enable();
+      await window.webln.sendPayment(invoice.pr);
+      return;
     }
 
-    function copyAddress() {
-      navigator.clipboard.writeText(LN_ADDRESS);
-      const btn = event.target;
-      const old = btn.textContent;
-      btn.textContent = "Copied!";
-      setTimeout(() => btn.textContent = old, 1500);
-    }
+    // 4. fallback
+    window.location.href = `lightning:${invoice.pr}`;
 
-    window.onload = renderPresets;
-  </script>
+    console.log("Zap context (Nostr-ready):", {
+      event: postId,
+      sats,
+      type: "nostr-zap-ready"
+    });
+
+  } catch (e) {
+    console.error(e);
+    alert("Zap failed");
+  }
+}
+
+renderFeed();
+</script>
+
 </body>
 </html>
