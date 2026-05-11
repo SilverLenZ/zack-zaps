@@ -28,13 +28,11 @@ body {
   background: rgba(251,191,36,0.06);
 }
 
-/* glow tiers */
 .low { box-shadow: 0 0 10px rgba(251,191,36,0.08); }
 .mid { box-shadow: 0 0 16px rgba(251,191,36,0.12); }
 .high { box-shadow: 0 0 24px rgba(251,191,36,0.18); }
 .legend { box-shadow: 0 0 35px rgba(251,191,36,0.28); }
 
-/* QR box fixed size */
 .qr-box {
   width: 60px;
   height: 60px;
@@ -44,9 +42,8 @@ body {
   flex-shrink: 0;
 }
 
-/* ensure sats NEVER get covered */
 .sats {
-  min-width: 110px;
+  min-width: 120px;
   text-align: right;
 }
 </style>
@@ -84,62 +81,60 @@ body {
   </p>
 </div>
 
-<!-- ZAPS -->
+<!-- ZAPS (RESTORED ORIGINAL SCALE) -->
 <div class="max-w-3xl w-full space-y-3 mb-16">
 
-  <!-- ROW TEMPLATE -->
-
   <div class="zap-row low flex items-center justify-between bg-zinc-800 p-4 rounded-2xl">
-    <button onclick="zap(1440,this)" class="flex-1 flex items-center gap-2 text-left">
+    <button onclick="zap(1440,this)" class="flex-1 text-left">
       👍 Perfect Harmony
     </button>
-    <span class="sats text-amber-300 font-bold">144 sats</span>
+    <span class="sats text-amber-300 font-bold">1440 sats</span>
     <div id="qr1440" class="qr-box ml-4"></div>
   </div>
 
   <div class="zap-row mid flex items-center justify-between bg-zinc-800 p-4 rounded-2xl">
-    <button onclick="zap(2330,this)" class="flex-1 flex items-center gap-2 text-left">
+    <button onclick="zap(2330,this)" class="flex-1 text-left">
       🚀 Artistic Flow
     </button>
-    <span class="sats text-amber-300 font-bold">233 sats</span>
+    <span class="sats text-amber-300 font-bold">2330 sats</span>
     <div id="qr2330" class="qr-box ml-4"></div>
   </div>
 
   <div class="zap-row mid flex items-center justify-between bg-zinc-800 p-4 rounded-2xl">
-    <button onclick="zap(3770,this)" class="flex-1 flex items-center gap-2 text-left">
+    <button onclick="zap(3770,this)" class="flex-1 text-left">
       ✨ Divine Proportion
     </button>
-    <span class="sats text-amber-300 font-bold">377 sats</span>
+    <span class="sats text-amber-300 font-bold">3770 sats</span>
     <div id="qr3770" class="qr-box ml-4"></div>
   </div>
 
   <div class="zap-row high flex items-center justify-between bg-zinc-800 p-4 rounded-2xl">
-    <button onclick="zap(6100,this)" class="flex-1 flex items-center gap-2 text-left">
+    <button onclick="zap(6100,this)" class="flex-1 text-left">
       🌀 Spiral Energy
     </button>
-    <span class="sats text-amber-300 font-bold">610 sats</span>
+    <span class="sats text-amber-300 font-bold">6100 sats</span>
     <div id="qr6100" class="qr-box ml-4"></div>
   </div>
 
   <div class="zap-row high flex items-center justify-between bg-zinc-800 p-4 rounded-2xl">
-    <button onclick="zap(9870,this)" class="flex-1 flex items-center gap-2 text-left">
+    <button onclick="zap(9870,this)" class="flex-1 text-left">
       🍷 Golden Spiral
     </button>
-    <span class="sats text-amber-300 font-bold">987 sats</span>
+    <span class="sats text-amber-300 font-bold">9870 sats</span>
     <div id="qr9870" class="qr-box ml-4"></div>
   </div>
 
   <div class="zap-row legend flex items-center justify-between bg-zinc-800 p-4 rounded-2xl">
-    <button onclick="zap(15970,this)" class="flex-1 flex items-center gap-2 text-left">
+    <button onclick="zap(15970,this)" class="flex-1 text-left">
       👑 Ultimate Fibonacci
     </button>
-    <span class="sats text-amber-300 font-bold">1597 sats</span>
+    <span class="sats text-amber-300 font-bold">15970 sats</span>
     <div id="qr15970" class="qr-box ml-4"></div>
   </div>
 
 </div>
 
-<!-- FACEBOOK -->
+<!-- FACEBOOK (STABLE FIXED VERSION) -->
 <div class="w-full flex justify-center mb-16">
   <div class="max-w-[1100px] w-full text-center">
 
@@ -165,7 +160,7 @@ body {
 <script>
 const LN = "silverlenz@rizful.com";
 
-/* ZAP FLOW */
+/* ZAP */
 async function zap(sats, btn){
   const msats = sats * 1000;
   const [name, domain] = LN.split("@");
@@ -206,7 +201,7 @@ window.onload = () => {
   generateQRs();
 };
 
-/* QR GENERATION (FIXED POSITION SAFE) */
+/* QR */
 function generateQRs(){
   const satsList = [1440,2330,3770,6100,9870,15970];
   const [name, domain] = LN.split("@");
@@ -230,7 +225,7 @@ function generateQRs(){
       });
 
     } catch(e){
-      console.log("QR error", e);
+      console.log(e);
     }
   });
 }
