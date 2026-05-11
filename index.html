@@ -17,7 +17,6 @@ body {
   font-family: system-ui, sans-serif;
 }
 
-/* BUTTONS */
 .zap-btn {
   border: 2px solid rgba(251,191,36,0.18);
   transition: all 0.2s ease;
@@ -29,7 +28,7 @@ body {
   background: rgba(251,191,36,0.06);
 }
 
-/* GLOWS */
+/* tier glow */
 .low { box-shadow: 0 0 10px rgba(251,191,36,0.08); }
 .mid { box-shadow: 0 0 16px rgba(251,191,36,0.12); }
 .high { box-shadow: 0 0 24px rgba(251,191,36,0.18); }
@@ -45,7 +44,7 @@ body {
   100% { box-shadow: 0 0 0 rgba(251,191,36,0); }
 }
 
-/* FACEBOOK — SAFE RESPONSIVE WRAPPER */
+/* Facebook safe container */
 .fb-container {
   width: 100%;
   max-width: 1100px;
@@ -69,7 +68,7 @@ body {
     Living Lightning Art Economy ⚡
   </p>
 
-  <!-- ONLY SHOWS IF WEblN EXISTS -->
+  <!-- WebLN status -->
   <div id="weblnStatus" class="text-xs mt-2 opacity-70"></div>
 
 </div>
@@ -132,7 +131,7 @@ body {
 
 </div>
 
-<!-- FACEBOOK (FIXED — WILL NOT DISAPPEAR) -->
+<!-- FACEBOOK (FIXED PROPERLY) -->
 <div class="w-full flex justify-center mb-16">
   <div class="fb-container text-center">
 
@@ -156,7 +155,7 @@ body {
 </div>
 
 <!-- QR -->
-<div id="qrModal" class="hidden fixed inset-0 bg-black/80 items-center justify-center z-50">
+<div id="qrModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
   <div class="bg-zinc-900 p-6 rounded-2xl text-center">
     <div id="qrcode"></div>
     <button onclick="closeQR()" class="mt-4 bg-amber-600 px-4 py-2 rounded-xl">Close</button>
@@ -207,13 +206,32 @@ function setStatus(t) {
   document.getElementById("status").innerText = t;
 }
 
-/* WEbLN DETECTION (SAFE) */
+/* WEBLN DETECTION */
 window.onload = () => {
   const el = document.getElementById("weblnStatus");
   if (window.webln) {
     el.innerText = "⚡ Alby WebLN detected";
   }
 };
+
+/* FACEBOOK SDK — REAL FIX */
+window.fbAsyncInit = function() {
+  FB.init({
+    xfbml: true,
+    version: 'v18.0'
+  });
+
+  FB.XFBML.parse();
+};
+
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://connect.facebook.net/en_US/sdk.js";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
 </script>
 
 </body>
