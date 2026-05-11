@@ -6,10 +6,11 @@
   <title>Zaps ⚡ | Support SilverLenz Art Pipeline</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/nostr-zap@latest"></script>
-  <script src="https://unpkg.com/nostr-tools/lib/nostr.bundle.js"></script>
+  <!-- nostr-embed for reliable post rendering -->
+  <script src="https://cdn.jsdelivr.net/gh/nostrband/nostr-embed@latest/dist/nostr-embed.js"></script>
   <style>
     body { background: #0a0a0a; color: #f1f1f1; font-family: system-ui, sans-serif; }
-    .art-hero img { max-height: 75vh; width: 100%; object-fit: contain; border-radius: 16px; box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.5); }
+    .art-hero { max-width: 100%; margin: 0 auto; }
     .preset-row { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
     .preset-row:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgb(245 158 11 / 0.3); }
   </style>
@@ -19,10 +20,8 @@
     <h1 class="text-5xl font-light text-center mb-2 tracking-widest">ZAPS THAT RESONATE ⚡</h1>
     <p class="text-center text-amber-300 mb-12 text-lg">Latest from the Fibonacci Art Pipeline</p>
 
-    <!-- Dynamic Latest Post -->
-    <div id="latest-post" class="mb-16 bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl">
-      <div class="p-8 text-center text-lg">Loading your most recent art post...</div>
-    </div>
+    <!-- Reliable Nostr Post Embed -->
+    <div id="latest-post" class="mb-16 bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl"></div>
 
     <!-- Zap Presets -->
     <div>
@@ -31,58 +30,14 @@
     </div>
 
     <footer class="text-center text-xs opacity-60 mt-24">
-      Powered by Nostr • Automatically shows your newest post
+      Powered by Nostr • Click any preset to zap
     </footer>
   </div>
 
   <script>
     const npub = "npub1qc87690ur36nn5td80c07adf72s0evw6fen60l5ytghgp44awljsxml2ka";
-    const fallbackNevent = "nevent1qvzqqqqqqypzqps0a52lc8r488gk6wlsla66nu4qljca5nn85llggk3wsrtt6al9qqsy209tvjpkg55syad7xa5rykhxy93faxkzu2m9de0jharkst745vgqpjjnn";
 
-    let pubkey;
-    try { pubkey = NostrTools.nip19.decode(npub).data; } catch (e) { console.error("Invalid npub"); }
-
-    async function loadLatestPost() {
-      const pool = new NostrTools.SimplePool();
-      const relays = ['wss://relay.damus.io', 'wss://relay.primal.net', 'wss://nos.lol', 'wss://nostr.wine', 'wss://relay.nostr.band'];
-
-      try {
-        // Try most recent post
-        let events = await pool.get(relays, { kinds: [1], authors: [pubkey], limit: 1 });
-
-        if (!events.length) {
-          // Fallback to specific post you provided
-          events = await pool.get(relays, { ids: [NostrTools.nip19.decode(fallbackNevent).data.id] });
-        }
-
-        const container = document.getElementById('latest-post');
-        if (!events.length) {
-          container.innerHTML = `<div class="p-12 text-center text-amber-400">No recent posts found.<br><small class="opacity-60">Post something new on Nostr and refresh.</small></div>`;
-          return;
-        }
-
-        const event = events[0];
-        const imageMatch = event.content.match(/(https?:\/\/[^\s]+\.(jpg|jpeg|png|gif|webp|webm))/i);
-        const imageUrl = imageMatch ? imageMatch[0] : null;
-
-        let html = `
-          <div class="art-hero">
-            ${imageUrl ? `<img src="${imageUrl}" alt="Latest Art" loading="lazy">` : ''}
-            <div class="p-8">
-              <p class="text-lg leading-relaxed whitespace-pre-wrap">${event.content}</p>
-              <div class="mt-6 text-xs opacity-60">${new Date(event.created_at * 1000).toLocaleString()}</div>
-            </div>
-          </div>
-        `;
-        container.innerHTML = html;
-      } catch (e) {
-        console.error(e);
-        document.getElementById('latest-post').innerHTML = `<div class="p-12 text-center text-amber-400">Loading post... please refresh.</div>`;
-      } finally {
-        pool.close(relays);
-      }
-    }
-
+    // Populate presets (exact match to your screenshot)
     function renderPresets() {
       const presetsHTML = `
         <button data-npub="${npub}" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl p-7 text-left text-xl">
@@ -107,9 +62,16 @@
       document.getElementById('presets').innerHTML = presetsHTML;
     }
 
+    // Initialize everything
     window.onload = () => {
-      loadLatestPost();
       renderPresets();
+
+      // Render the specific post you shared (reliable embed)
+      nostrEmbed.init(
+        "nevent1qvzqqqqqqypzqps0a52lc8r488gk6wlsla66nu4qljca5nn85llggk3wsrtt6al9qqsy209tvjpkg55syad7xa5rykhxy93faxkzu2m9de0jharkst745vgqpjjnn",
+        "#latest-post",
+        "wss://relay.primal.net"   // Reliable relay
+      );
     };
   </script>
 </body>
