@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SilverLenz ⚡ Zaps</title>
+  <title>SilverLenz ⚡ Art Pipeline Zaps</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
     body {
@@ -15,7 +16,7 @@
     }
 
     .zap-btn {
-      transition: all 0.2s ease;
+      transition: 0.2s ease;
       border: 1px solid rgba(251,191,36,0.15);
     }
 
@@ -25,12 +26,25 @@
       background: rgba(251,191,36,0.08);
     }
 
-    .status {
-      transition: all 0.3s ease;
+    .success-glow {
+      animation: pulse 0.6s ease;
     }
 
-    .glow {
-      box-shadow: 0 0 30px rgba(251,191,36,0.2);
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 rgba(251,191,36,0); }
+      50% { box-shadow: 0 0 40px rgba(251,191,36,0.5); }
+      100% { box-shadow: 0 0 0 rgba(251,191,36,0); }
+    }
+
+    /* FULL WIDTH FACEBOOK FEED */
+    .fb-wrap {
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+    }
+
+    .fb-inner {
+      max-width: 1100px;
+      margin: 0 auto;
     }
   </style>
 </head>
@@ -42,17 +56,14 @@
   <!-- HEADER -->
   <div class="text-center mb-10">
     <h1 class="text-5xl font-light tracking-widest">SILVERLENZ</h1>
-    <p class="text-amber-300 mt-2">Fibonacci Art Pipeline ⚡ Lightning Zaps</p>
+    <p class="text-amber-300 mt-2">Fibonacci Art Pipeline ⚡ Live Zaps</p>
   </div>
 
   <!-- ADDRESS CARD -->
-  <div class="bg-zinc-900/90 border border-amber-400/20 rounded-3xl p-8 shadow-2xl mb-10 glow">
+  <div id="card"
+       class="bg-zinc-900/90 border border-amber-400/20 rounded-3xl p-8 shadow-2xl mb-10">
 
-    <p class="uppercase text-xs tracking-widest text-amber-300 mb-3">
-      LIGHTNING ADDRESS
-    </p>
-
-    <div class="flex items-center justify-between bg-black/60 rounded-2xl p-5 mb-6">
+    <div class="flex justify-between items-center mb-6">
       <code class="text-amber-400 text-lg">silverlenz@rizful.com</code>
 
       <button onclick="copyAddress()"
@@ -61,13 +72,13 @@
       </button>
     </div>
 
-    <p id="status" class="status text-sm text-center text-gray-400">
+    <p id="status" class="text-sm text-center text-gray-400">
       Ready to receive zaps ⚡
     </p>
   </div>
 
   <!-- ZAP BUTTONS -->
-  <div class="space-y-4">
+  <div class="space-y-4 mb-16">
 
     <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
             onclick="zap(1440)">
@@ -109,25 +120,47 @@
 
 </div>
 
+<!-- FACEBOOK FEED (FULL WIDTH + CENTERED) -->
+<div class="fb-wrap mb-16">
+  <div class="fb-inner text-center">
+
+    <h2 class="text-2xl font-light mb-6 text-amber-300">
+      Live Art Pipeline Feed
+    </h2>
+
+    <div id="fb-root"></div>
+
+    <div class="fb-page"
+      data-href="https://www.facebook.com/covellz/"
+      data-tabs="timeline"
+      data-width="1000"
+      data-height="800"
+      data-small-header="false"
+      data-adapt-container-width="true"
+      data-hide-cover="false"
+      data-show-facepile="true">
+    </div>
+
+  </div>
+</div>
+
 <script>
 const LN_ADDRESS = "silverlenz@rizful.com";
 
-function setStatus(msg) {
-  document.getElementById("status").innerText = msg;
-}
-
+/* -----------------------
+   ZAP SYSTEM
+------------------------*/
 async function zap(sats) {
+  const card = document.getElementById("card");
+
   try {
     setStatus("Preparing zap ⚡...");
 
     const msats = sats * 1000;
     const [name, domain] = LN_ADDRESS.split("@");
-
     const lnurl = `https://${domain}/.well-known/lnurlp/${name}`;
 
     const res = await fetch(lnurl);
-    if (!res.ok) throw new Error("LNURL failed");
-
     const data = await res.json();
 
     const invoiceRes = await fetch(`${data.callback}?amount=${msats}`);
@@ -140,24 +173,64 @@ async function zap(sats) {
     if (window.webln) {
       await window.webln.enable();
       await window.webln.sendPayment(invoice.pr);
-      setStatus("⚡ Zap sent successfully!");
+      successFX(card);
       return;
     }
 
     window.location.href = `lightning:${invoice.pr}`;
-    setStatus("Wallet opened ⚡");
+    successFX(card);
 
   } catch (e) {
     console.error(e);
-    setStatus("Zap failed — wallet may not support this flow");
+    setStatus("Zap failed ⚠️");
   }
 }
 
+/* -----------------------
+   SUCCESS FX
+------------------------*/
+function successFX(el) {
+  setStatus("⚡ Zap sent successfully!");
+
+  el.classList.add("success-glow");
+  setTimeout(() => el.classList.remove("success-glow"), 700);
+
+  confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+
+  setTimeout(() => {
+    confetti({ particleCount: 60, spread: 50, origin: { x: 0 } });
+  }, 200);
+
+  setTimeout(() => setStatus("Ready to receive zaps ⚡"), 2500);
+}
+
+/* -----------------------
+   STATUS
+------------------------*/
+function setStatus(msg) {
+  document.getElementById("status").innerText = msg;
+}
+
+/* -----------------------
+   COPY
+------------------------*/
 function copyAddress() {
   navigator.clipboard.writeText(LN_ADDRESS);
   setStatus("Address copied ✔");
   setTimeout(() => setStatus("Ready to receive zaps ⚡"), 2000);
 }
+
+/* -----------------------
+   FACEBOOK SDK
+------------------------*/
+!(function(d,s,id){
+  var js,fjs=d.getElementsByTagName(s)[0];
+  if(d.getElementById(id))return;
+  js=d.createElement(s);js.id=id;
+  js.src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0";
+  fjs.parentNode.insertBefore(js,fjs);
+}(document,'script','facebook-jssdk'));
+
 </script>
 
 </body>
