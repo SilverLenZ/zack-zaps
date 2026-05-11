@@ -17,23 +17,51 @@
     }
 
     .zap-btn {
-      transition: all 0.2s ease;
-      border: 2px solid rgba(251,191,36,0.18);
+      transition: all 0.25s ease;
+      border: 2px solid rgba(251,191,36,0.15);
+      position: relative;
+      overflow: hidden;
     }
 
     .zap-btn:hover {
       transform: translateY(-2px);
-      border-color: rgba(251,191,36,0.55);
-      background: rgba(251,191,36,0.08);
     }
 
-    .success-glow {
-      animation: pulse 0.6s ease;
+    /* -------------------------
+       TIER GLOW SYSTEM
+    --------------------------*/
+
+    .tier-low {
+      box-shadow: 0 0 10px rgba(251,191,36,0.08);
+    }
+
+    .tier-mid {
+      box-shadow: 0 0 18px rgba(251,191,36,0.15);
+    }
+
+    .tier-high {
+      box-shadow: 0 0 28px rgba(251,191,36,0.25);
+    }
+
+    .tier-legend {
+      box-shadow: 0 0 45px rgba(251,191,36,0.45);
+      animation: pulse 2.2s infinite ease-in-out;
     }
 
     @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.01); }
+      100% { transform: scale(1); }
+    }
+
+    /* success animation */
+    .success-glow {
+      animation: successPulse 0.6s ease;
+    }
+
+    @keyframes successPulse {
       0% { box-shadow: 0 0 0 rgba(251,191,36,0); }
-      50% { box-shadow: 0 0 30px rgba(251,191,36,0.4); }
+      50% { box-shadow: 0 0 40px rgba(251,191,36,0.5); }
       100% { box-shadow: 0 0 0 rgba(251,191,36,0); }
     }
 
@@ -57,7 +85,7 @@
   <p class="text-amber-300 mt-2 text-sm">Fibonacci Art Pipeline ⚡ Live Zaps</p>
 </div>
 
-<!-- ZAP CARD -->
+<!-- CARD -->
 <div id="card"
      class="max-w-3xl w-full bg-zinc-900/90 border border-amber-400/20 rounded-3xl p-7 shadow-2xl mb-10">
 
@@ -78,39 +106,39 @@
 <!-- ZAP BUTTONS -->
 <div class="max-w-3xl w-full space-y-3 mb-16">
 
-  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(1440)">
-    <span class="text-lg font-medium tracking-wide">👍 Perfect Harmony</span>
+  <button class="zap-btn tier-low w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
+          onclick="zap(1440, this)">
+    <span class="text-lg font-medium">👍 Perfect Harmony</span>
     <span class="text-2xl font-bold text-amber-300">1,440 sats</span>
   </button>
 
-  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(2330)">
-    <span class="text-lg font-medium tracking-wide">🚀 Artistic Flow</span>
+  <button class="zap-btn tier-mid w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
+          onclick="zap(2330, this)">
+    <span class="text-lg font-medium">🚀 Artistic Flow</span>
     <span class="text-2xl font-bold text-amber-300">2,330 sats</span>
   </button>
 
-  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(3770)">
-    <span class="text-lg font-medium tracking-wide">☕ Divine Proportion</span>
+  <button class="zap-btn tier-mid w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
+          onclick="zap(3770, this)">
+    <span class="text-lg font-medium">☕ Divine Proportion</span>
     <span class="text-2xl font-bold text-amber-300">3,770 sats</span>
   </button>
 
-  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(6100)">
-    <span class="text-lg font-medium tracking-wide">✨ Spiral Energy</span>
+  <button class="zap-btn tier-high w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
+          onclick="zap(6100, this)">
+    <span class="text-lg font-medium">✨ Spiral Energy</span>
     <span class="text-2xl font-bold text-amber-300">6,100 sats</span>
   </button>
 
-  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(9870)">
-    <span class="text-lg font-medium tracking-wide">🍷 Golden Spiral</span>
+  <button class="zap-btn tier-high w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
+          onclick="zap(9870, this)">
+    <span class="text-lg font-medium">🍷 Golden Spiral</span>
     <span class="text-2xl font-bold text-amber-300">9,870 sats</span>
   </button>
 
-  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(15970)">
-    <span class="text-lg font-medium tracking-wide">👑 Ultimate Fibonacci</span>
+  <button class="zap-btn tier-legend w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
+          onclick="zap(15970, this)">
+    <span class="text-lg font-medium">👑 Ultimate Fibonacci</span>
     <span class="text-2xl font-bold text-amber-300">15,970 sats</span>
   </button>
 
@@ -131,7 +159,6 @@
       data-tabs="timeline"
       data-width="1100"
       data-height="800"
-      data-small-header="false"
       data-adapt-container-width="true"
       data-hide-cover="false"
       data-show-facepile="true">
@@ -165,7 +192,7 @@ let lastInvoice = null;
 /* -----------------------
    ZAP
 ------------------------*/
-async function zap(sats) {
+async function zap(sats, btn) {
   const card = document.getElementById("card");
 
   try {
@@ -185,17 +212,15 @@ async function zap(sats) {
 
     setStatus("Opening wallet...");
 
-    const deepLink = `lightning:${invoice.pr}`;
-
     const a = document.createElement("a");
-    a.href = deepLink;
+    a.href = `lightning:${invoice.pr}`;
     document.body.appendChild(a);
     a.click();
     a.remove();
 
     setTimeout(() => showQR(invoice.pr), 1200);
 
-    successFX(card);
+    successFX(card, btn);
 
   } catch (e) {
     console.error(e);
@@ -204,19 +229,26 @@ async function zap(sats) {
 }
 
 /* -----------------------
-   SUCCESS FX
+   SUCCESS FX + TIER GLOW
 ------------------------*/
-function successFX(el) {
+function successFX(card, btn) {
   setStatus("⚡ Zap sent!");
 
-  el.classList.add("success-glow");
-  setTimeout(() => el.classList.remove("success-glow"), 700);
+  card.classList.add("success-glow");
+  setTimeout(() => card.classList.remove("success-glow"), 700);
 
-  confetti({ particleCount: 100, spread: 65, origin: { y: 0.6 } });
+  // confetti
+  confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
 
   setTimeout(() => {
     confetti({ particleCount: 50, spread: 45, origin: { x: 0 } });
   }, 200);
+
+  // button glow pulse boost
+  if (btn) {
+    btn.style.boxShadow = "0 0 40px rgba(251,191,36,0.5)";
+    setTimeout(() => btn.style.boxShadow = "", 800);
+  }
 
   setTimeout(() => setStatus("Ready to receive zaps ⚡"), 2500);
 }
