@@ -12,15 +12,6 @@
       padding: 1.3rem 1.8rem;
     }
     .preset-row:hover { transform: translateY(-3px); }
-    .lightning-address {
-      font-size: 1.35rem;
-      word-break: break-all;
-    }
-    @media (max-width: 480px) {
-      .lightning-address {
-        font-size: 1.1rem;
-      }
-    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-6 md:p-12">
@@ -44,10 +35,10 @@
       <p class="text-amber-300 font-medium mb-4">💡 How to Zap</p>
       <p class="text-sm mb-6">Tap any amount below or copy the Lightning Address</p>
       
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 bg-black/60 rounded-2xl p-5">
-        <code class="lightning-address font-mono text-amber-400">silverlenz@getalby.com</code>
+      <div class="flex items-center justify-center gap-4 bg-black/60 rounded-2xl p-5">
+        <code class="font-mono text-2xl text-amber-400">silverlenz@getalby.com</code>
         <button onclick="copyAddress()" 
-                class="bg-amber-600 hover:bg-amber-500 px-7 py-3 rounded-2xl text-base font-medium transition whitespace-nowrap">
+                class="bg-amber-600 hover:bg-amber-500 px-7 py-3 rounded-2xl text-base font-medium transition">
           Copy
         </button>
       </div>
@@ -59,7 +50,7 @@
               width="100%" height="650" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>
     </div>
 
-    <!-- Zap Buttons -->
+    <!-- Zap Buttons - Updated Amounts -->
     <div>
       <h3 class="text-3xl font-light text-center mb-8">Choose Your Resonance</h3>
       <div class="space-y-4" id="presets"></div>
@@ -75,23 +66,23 @@
 
     function renderPresets() {
       const html = `
-        <a href="lightning:${lnAddress}?amount=144000" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
-          👍 <span class="text-3xl font-bold w-16">144</span><span class="flex-1">Perfect Harmony ♫</span>
+        <a href="lightning:${lnAddress}?amount=1440000" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
+          👍 <span class="text-3xl font-bold w-16">1,440</span><span class="flex-1">Perfect Harmony ♫</span>
         </a>
-        <a href="lightning:${lnAddress}?amount=233000" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
-          🚀 <span class="text-3xl font-bold w-16">233</span><span class="flex-1">Artistic Flow 🌀</span>
+        <a href="lightning:${lnAddress}?amount=2330000" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
+          🚀 <span class="text-3xl font-bold w-16">2,330</span><span class="flex-1">Artistic Flow 🌀</span>
         </a>
-        <a href="lightning:${lnAddress}?amount=377000" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
-          ☕ <span class="text-3xl font-bold w-16">377</span><span class="flex-1">Divine Proportion △</span>
+        <a href="lightning:${lnAddress}?amount=3770000" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
+          ☕ <span class="text-3xl font-bold w-16">3,770</span><span class="flex-1">Divine Proportion △</span>
         </a>
-        <a href="lightning:${lnAddress}?amount=610000" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
-          ✨ <span class="text-3xl font-bold w-16">610</span><span class="flex-1">Spiral Energy 🌀</span>
+        <a href="lightning:${lnAddress}?amount=6100000" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
+          ✨ <span class="text-3xl font-bold w-16">6,100</span><span class="flex-1">Spiral Energy 🌀</span>
         </a>
-        <a href="lightning:${lnAddress}?amount=987000" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
-          🍷 <span class="text-3xl font-bold w-16">987</span><span class="flex-1">Golden Spiral ✨</span>
+        <a href="lightning:${lnAddress}?amount=9870000" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
+          🍷 <span class="text-3xl font-bold w-16">9,870</span><span class="flex-1">Golden Spiral ✨</span>
         </a>
-        <a href="lightning:${lnAddress}?amount=1597000" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
-          👑 <span class="text-3xl font-bold w-16">1597</span><span class="flex-1">Ultimate Fibonacci ✨</span>
+        <a href="lightning:${lnAddress}?amount=15970000" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
+          👑 <span class="text-3xl font-bold w-16">15,970</span><span class="flex-1">Ultimate Fibonacci ✨</span>
         </a>
       `;
       document.getElementById('presets').innerHTML = html;
