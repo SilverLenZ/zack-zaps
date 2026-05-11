@@ -7,11 +7,15 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/nostr-zap@latest"></script>
   <style>
-    body { background: #0a0a0a; color: #f1f1f1; font-family: system-ui, sans-serif; }
+    body { 
+      background: #0a0a0a; 
+      color: #f1f1f1; 
+      font-family: system-ui, sans-serif; 
+    }
     .preset-row { 
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
       font-size: 1.1rem;
-      padding: 1.25rem 1.75rem;
+      padding: 1.2rem 1.6rem;
     }
     .preset-row:hover { 
       transform: translateY(-3px); 
@@ -19,7 +23,10 @@
     }
     .fb-container {
       width: 100%;
-      max-width: 100%;
+    }
+    .fb-page {
+      width: 100% !important;
+      max-width: 100% !important;
     }
   </style>
 </head>
@@ -40,14 +47,14 @@
     <h2 class="text-center text-4xl font-light mb-4 tracking-wider">ZAPS THAT RESONATE ⚡</h2>
     <p class="text-center text-amber-300 mb-12 text-lg">Support the daily art pipeline</p>
 
-    <!-- Facebook Embed - Full Width -->
+    <!-- Wider Facebook Embed -->
     <div class="mb-16 bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl p-4">
       <div class="fb-container">
         <div class="fb-page" 
              data-href="https://www.facebook.com/covellz/" 
              data-tabs="timeline" 
              data-width="1000" 
-             data-height="700" 
+             data-height="720" 
              data-small-header="false" 
              data-adapt-container-width="true" 
              data-hide-cover="false" 
