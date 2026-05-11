@@ -5,29 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zaps ⚡ | Support SilverLenz Art Pipeline</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/nostr-zap@latest"></script>
   <style>
-    body { 
-      background: #0a0a0a; 
-      color: #f1f1f1; 
-      font-family: system-ui, sans-serif; 
-    }
+    body { background: #0a0a0a; color: #f1f1f1; font-family: system-ui, sans-serif; }
     .preset-row { 
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
-      font-size: 1.1rem;
-      padding: 1.2rem 1.6rem;
+      padding: 1.25rem 1.75rem;
     }
-    .preset-row:hover { 
-      transform: translateY(-3px); 
-      box-shadow: 0 15px 25px -5px rgb(245 158 11 / 0.3); 
-    }
-    .fb-container {
-      width: 100%;
-    }
-    .fb-page {
-      width: 100% !important;
-      max-width: 100% !important;
-    }
+    .preset-row:hover { transform: translateY(-3px); }
   </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-6 md:p-12">
@@ -36,8 +20,7 @@
     <!-- Header -->
     <div class="flex items-center gap-5 mb-10 justify-center">
       <img src="https://raw.githubusercontent.com/SilverLenZ/zack-zaps/main/silverlenz%20logo.jpg" 
-           alt="SilverLenz" 
-           class="w-20 h-20 rounded-2xl object-cover border border-amber-400/50">
+           alt="SilverLenz" class="w-20 h-20 rounded-2xl object-cover border border-amber-400/50">
       <div>
         <h1 class="text-5xl font-light tracking-widest">ZACK COVELL</h1>
         <p class="text-amber-300 text-xl -mt-1">SilverLenz • Fibonacci Art Pipeline</p>
@@ -45,70 +28,64 @@
     </div>
 
     <h2 class="text-center text-4xl font-light mb-4 tracking-wider">ZAPS THAT RESONATE ⚡</h2>
-    <p class="text-center text-amber-300 mb-12 text-lg">Support the daily art pipeline</p>
+    <p class="text-center text-amber-300 mb-8 text-lg">Support the daily art pipeline</p>
 
-    <!-- Wider Facebook Embed -->
+    <!-- Instructions -->
+    <div class="bg-amber-900/30 border border-amber-400/30 rounded-3xl p-6 mb-12 text-center">
+      <p class="text-amber-300 font-medium mb-2">💡 How to Zap</p>
+      <p class="text-sm">Tap any amount below. It will open your wallet (Alby Go, Phoenix, etc.) to send sats.</p>
+    </div>
+
+    <!-- Facebook Embed -->
     <div class="mb-16 bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl p-4">
       <div class="fb-container">
         <div class="fb-page" 
              data-href="https://www.facebook.com/covellz/" 
              data-tabs="timeline" 
              data-width="1000" 
-             data-height="720" 
-             data-small-header="false" 
-             data-adapt-container-width="true" 
-             data-hide-cover="false" 
-             data-show-facepile="true">
+             data-height="650" 
+             data-adapt-container-width="true">
         </div>
       </div>
     </div>
 
-    <!-- Zap Presets -->
+    <!-- Reliable Lightning Buttons -->
     <div>
       <h3 class="text-3xl font-light text-center mb-8">Choose Your Resonance</h3>
       <div class="space-y-4" id="presets"></div>
     </div>
 
-    <footer class="text-center text-xs opacity-60 mt-16">
-      Powered by Nostr • Thank you for resonating with the work
+    <footer class="text-center text-xs opacity-60 mt-12">
+      Lightning Address: <span class="text-amber-400">silverlenz@rizful.com</span>
     </footer>
   </div>
 
   <script>
-    const npub = "npub1qc87690ur36nn5td80c07adf72s0evw6fen60l5ytghgp44awljsxml2ka";
+    const lnAddress = "silverlenz@rizful.com";
 
     function renderPresets() {
       const presetsHTML = `
-        <button data-npub="${npub}" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left border border-amber-400/10">
+        <a href="lightning:${lnAddress}?amount=144000" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
           👍 <span class="text-3xl font-bold w-16">144</span><span class="flex-1">Perfect Harmony ♫</span>
-        </button>
-        <button data-npub="${npub}" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left border border-amber-400/10">
+        </a>
+        <a href="lightning:${lnAddress}?amount=233000" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
           🚀 <span class="text-3xl font-bold w-16">233</span><span class="flex-1">Artistic Flow 🌀</span>
-        </button>
-        <button data-npub="${npub}" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left border border-amber-400/10">
+        </a>
+        <a href="lightning:${lnAddress}?amount=377000" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
           ☕ <span class="text-3xl font-bold w-16">377</span><span class="flex-1">Divine Proportion △</span>
-        </button>
-        <button data-npub="${npub}" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left border border-amber-400/10">
+        </a>
+        <a href="lightning:${lnAddress}?amount=610000" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
           ✨ <span class="text-3xl font-bold w-16">610</span><span class="flex-1">Spiral Energy 🌀</span>
-        </button>
-        <button data-npub="${npub}" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left border border-amber-400/10">
+        </a>
+        <a href="lightning:${lnAddress}?amount=987000" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
           🍷 <span class="text-3xl font-bold w-16">987</span><span class="flex-1">Golden Spiral ✨</span>
-        </button>
-        <button data-npub="${npub}" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left border border-amber-400/10">
+        </a>
+        <a href="lightning:${lnAddress}?amount=1597000" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
           👑 <span class="text-3xl font-bold w-16">1597</span><span class="flex-1">Ultimate Fibonacci ✨</span>
-        </button>
+        </a>
       `;
       document.getElementById('presets').innerHTML = presetsHTML;
     }
-
-    // Facebook SDK
-    !(function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
 
     window.onload = renderPresets;
   </script>
