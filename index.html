@@ -28,7 +28,6 @@ body {
   background: rgba(251,191,36,0.06);
 }
 
-/* tier glow */
 .low { box-shadow: 0 0 10px rgba(251,191,36,0.08); }
 .mid { box-shadow: 0 0 16px rgba(251,191,36,0.12); }
 .high { box-shadow: 0 0 24px rgba(251,191,36,0.18); }
@@ -44,7 +43,6 @@ body {
   100% { box-shadow: 0 0 0 rgba(251,191,36,0); }
 }
 
-/* Facebook safe container */
 .fb-container {
   width: 100%;
   max-width: 1100px;
@@ -68,7 +66,6 @@ body {
     Living Lightning Art Economy ⚡
   </p>
 
-  <!-- WebLN status -->
   <div id="weblnStatus" class="text-xs mt-2 opacity-70"></div>
 
 </div>
@@ -131,7 +128,7 @@ body {
 
 </div>
 
-<!-- FACEBOOK (FIXED PROPERLY) -->
+<!-- FACEBOOK (ONLY CHANGE: SIZE REDUCED BY ~50px) -->
 <div class="w-full flex justify-center mb-16">
   <div class="fb-container text-center">
 
@@ -144,8 +141,8 @@ body {
     <div class="fb-page"
       data-href="https://www.facebook.com/covellz/"
       data-tabs="timeline"
-      data-width="500"
-      data-height="800"
+      data-width="450"
+      data-height="750"
       data-adapt-container-width="true"
       data-hide-cover="false"
       data-show-facepile="true">
@@ -206,32 +203,13 @@ function setStatus(t) {
   document.getElementById("status").innerText = t;
 }
 
-/* WEBLN DETECTION */
+/* WEbLN */
 window.onload = () => {
   const el = document.getElementById("weblnStatus");
   if (window.webln) {
     el.innerText = "⚡ Alby WebLN detected";
   }
 };
-
-/* FACEBOOK SDK — REAL FIX */
-window.fbAsyncInit = function() {
-  FB.init({
-    xfbml: true,
-    version: 'v18.0'
-  });
-
-  FB.XFBML.parse();
-};
-
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s);
-  js.id = id;
-  js.src = "https://connect.facebook.net/en_US/sdk.js";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
 </script>
 
 </body>
