@@ -16,13 +16,13 @@
     }
 
     .zap-btn {
-      transition: 0.2s ease;
-      border: 1px solid rgba(251,191,36,0.15);
+      transition: all 0.2s ease;
+      border: 2px solid rgba(251,191,36,0.18);
     }
 
     .zap-btn:hover {
       transform: translateY(-2px);
-      border-color: rgba(251,191,36,0.5);
+      border-color: rgba(251,191,36,0.55);
       background: rgba(251,191,36,0.08);
     }
 
@@ -36,7 +36,6 @@
       100% { box-shadow: 0 0 0 rgba(251,191,36,0); }
     }
 
-    /* FULL WIDTH FACEBOOK FEED */
     .fb-wrap {
       width: 100vw;
       margin-left: calc(-50vw + 50%);
@@ -51,76 +50,72 @@
 
 <body class="min-h-screen flex flex-col items-center p-6 md:p-12">
 
-<div class="max-w-3xl w-full">
+<!-- HEADER -->
+<div class="max-w-3xl w-full text-center mb-10">
+  <h1 class="text-5xl font-light tracking-widest">SILVERLENZ</h1>
+  <p class="text-amber-300 mt-2">Fibonacci Art Pipeline ⚡ Live Zaps</p>
+</div>
 
-  <!-- HEADER -->
-  <div class="text-center mb-10">
-    <h1 class="text-5xl font-light tracking-widest">SILVERLENZ</h1>
-    <p class="text-amber-300 mt-2">Fibonacci Art Pipeline ⚡ Live Zaps</p>
+<!-- ZAP CARD -->
+<div id="card"
+     class="max-w-3xl w-full bg-zinc-900/90 border border-amber-400/20 rounded-3xl p-8 shadow-2xl mb-10">
+
+  <div class="flex justify-between items-center mb-6">
+    <code class="text-amber-400 text-lg">silverlenz@rizful.com</code>
+
+    <button onclick="copyAddress()"
+            class="bg-amber-600 hover:bg-amber-500 px-5 py-2 rounded-xl text-sm">
+      Copy
+    </button>
   </div>
 
-  <!-- ADDRESS CARD -->
-  <div id="card"
-       class="bg-zinc-900/90 border border-amber-400/20 rounded-3xl p-8 shadow-2xl mb-10">
+  <p id="status" class="text-sm text-center text-gray-400">
+    Ready to receive zaps ⚡
+  </p>
+</div>
 
-    <div class="flex justify-between items-center mb-6">
-      <code class="text-amber-400 text-lg">silverlenz@rizful.com</code>
+<!-- ZAP BUTTONS -->
+<div class="max-w-3xl w-full space-y-4 mb-16">
 
-      <button onclick="copyAddress()"
-              class="bg-amber-600 hover:bg-amber-500 px-5 py-2 rounded-xl text-sm">
-        Copy
-      </button>
-    </div>
+  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-6 rounded-2xl"
+          onclick="zap(1440)">
+    <span class="text-2xl font-semibold tracking-wide">👍 Perfect Harmony</span>
+    <span class="text-3xl md:text-4xl font-extrabold text-amber-300">1,440 sats</span>
+  </button>
 
-    <p id="status" class="text-sm text-center text-gray-400">
-      Ready to receive zaps ⚡
-    </p>
-  </div>
+  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-6 rounded-2xl"
+          onclick="zap(2330)">
+    <span class="text-2xl font-semibold tracking-wide">🚀 Artistic Flow</span>
+    <span class="text-3xl md:text-4xl font-extrabold text-amber-300">2,330 sats</span>
+  </button>
 
-  <!-- ZAP BUTTONS -->
-  <div class="space-y-4 mb-16">
+  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-6 rounded-2xl"
+          onclick="zap(3770)">
+    <span class="text-2xl font-semibold tracking-wide">☕ Divine Proportion</span>
+    <span class="text-3xl md:text-4xl font-extrabold text-amber-300">3,770 sats</span>
+  </button>
 
-    <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-            onclick="zap(1440)">
-      <span>👍 Perfect Harmony</span>
-      <span class="text-amber-300 font-bold">1,440 sats</span>
-    </button>
+  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-6 rounded-2xl"
+          onclick="zap(6100)">
+    <span class="text-2xl font-semibold tracking-wide">✨ Spiral Energy</span>
+    <span class="text-3xl md:text-4xl font-extrabold text-amber-300">6,100 sats</span>
+  </button>
 
-    <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-            onclick="zap(2330)">
-      <span>🚀 Artistic Flow</span>
-      <span class="text-amber-300 font-bold">2,330 sats</span>
-    </button>
+  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-6 rounded-2xl"
+          onclick="zap(9870)">
+    <span class="text-2xl font-semibold tracking-wide">🍷 Golden Spiral</span>
+    <span class="text-3xl md:text-4xl font-extrabold text-amber-300">9,870 sats</span>
+  </button>
 
-    <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-            onclick="zap(3770)">
-      <span>☕ Divine Proportion</span>
-      <span class="text-amber-300 font-bold">3,770 sats</span>
-    </button>
-
-    <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-            onclick="zap(6100)">
-      <span>✨ Spiral Energy</span>
-      <span class="text-amber-300 font-bold">6,100 sats</span>
-    </button>
-
-    <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-            onclick="zap(9870)">
-      <span>🍷 Golden Spiral</span>
-      <span class="text-amber-300 font-bold">9,870 sats</span>
-    </button>
-
-    <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-            onclick="zap(15970)">
-      <span>👑 Ultimate Fibonacci</span>
-      <span class="text-amber-300 font-bold">15,970 sats</span>
-    </button>
-
-  </div>
+  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-6 rounded-2xl"
+          onclick="zap(15970)">
+    <span class="text-2xl font-semibold tracking-wide">👑 Ultimate Fibonacci</span>
+    <span class="text-3xl md:text-4xl font-extrabold text-amber-300">15,970 sats</span>
+  </button>
 
 </div>
 
-<!-- FACEBOOK FEED (FULL WIDTH + CENTERED) -->
+<!-- FACEBOOK FEED -->
 <div class="fb-wrap mb-16">
   <div class="fb-inner text-center">
 
@@ -133,7 +128,7 @@
     <div class="fb-page"
       data-href="https://www.facebook.com/covellz/"
       data-tabs="timeline"
-      data-width="1000"
+      data-width="1100"
       data-height="800"
       data-small-header="false"
       data-adapt-container-width="true"
@@ -205,15 +200,12 @@ function successFX(el) {
 }
 
 /* -----------------------
-   STATUS
+   STATUS + COPY
 ------------------------*/
 function setStatus(msg) {
   document.getElementById("status").innerText = msg;
 }
 
-/* -----------------------
-   COPY
-------------------------*/
 function copyAddress() {
   navigator.clipboard.writeText(LN_ADDRESS);
   setStatus("Address copied ✔");
@@ -230,7 +222,6 @@ function copyAddress() {
   js.src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0";
   fjs.parentNode.insertBefore(js,fjs);
 }(document,'script','facebook-jssdk'));
-
 </script>
 
 </body>
