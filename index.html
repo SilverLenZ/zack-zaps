@@ -8,9 +8,22 @@
   <script src="https://cdn.jsdelivr.net/npm/nostr-zap@latest"></script>
   <style>
     body { background: #0a0a0a; color: #f1f1f1; font-family: system-ui, sans-serif; }
-    .preset-row { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-    .preset-row:hover { transform: translateY(-3px); box-shadow: 0 15px 25px -5px rgb(245 158 11 / 0.3); }
-    .fb-page { max-width: 100%; }
+    .preset-row { 
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
+    }
+    .preset-row:hover { 
+      transform: translateY(-3px); 
+      box-shadow: 0 15px 25px -5px rgb(245 158 11 / 0.3); 
+    }
+    .fb-container {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+    .fb-page {
+      max-width: 600px;
+      width: 100%;
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-6 md:p-12">
@@ -19,7 +32,8 @@
     <!-- Header with Logo -->
     <div class="flex items-center gap-5 mb-10 justify-center">
       <img src="https://raw.githubusercontent.com/SilverLenZ/zack-zaps/main/silverlenz%20logo.jpg" 
-           alt="SilverLenz" class="w-20 h-20 rounded-2xl object-cover border border-amber-400/50">
+           alt="SilverLenz" 
+           class="w-20 h-20 rounded-2xl object-cover border border-amber-400/50">
       <div>
         <h1 class="text-5xl font-light tracking-widest">ZACK COVELL</h1>
         <p class="text-amber-300 text-xl -mt-1">SilverLenz • Fibonacci Art Pipeline</p>
@@ -35,16 +49,19 @@
       <div class="space-y-5" id="presets"></div>
     </div>
 
-    <!-- Facebook Latest Posts -->
-    <div class="bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl p-4">
-      <div class="fb-page" data-href="https://www.facebook.com/covellz/" 
-           data-tabs="timeline" 
-           data-width="600" 
-           data-height="600" 
-           data-small-header="false" 
-           data-adapt-container-width="true" 
-           data-hide-cover="false" 
-           data-show-facepile="true">
+    <!-- Centered Facebook Posts -->
+    <div class="bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl p-6">
+      <div class="fb-container">
+        <div class="fb-page" 
+             data-href="https://www.facebook.com/covellz/" 
+             data-tabs="timeline" 
+             data-width="600" 
+             data-height="700" 
+             data-small-header="false" 
+             data-adapt-container-width="true" 
+             data-hide-cover="false" 
+             data-show-facepile="true">
+        </div>
       </div>
     </div>
 
@@ -80,7 +97,7 @@
       document.getElementById('presets').innerHTML = presetsHTML;
     }
 
-    // Load Facebook SDK
+    // Facebook SDK
     !(function(d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) return;
