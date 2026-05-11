@@ -8,9 +8,19 @@
   <script src="https://cdn.jsdelivr.net/npm/nostr-zap@latest"></script>
   <style>
     body { background: #0a0a0a; color: #f1f1f1; font-family: system-ui, sans-serif; }
-    .art-hero iframe { height: 560px; width: 100%; border: none; border-radius: 16px; }
-    .preset-row { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-    .preset-row:hover { transform: translateY(-3px); box-shadow: 0 15px 25px -5px rgb(245 158 11 / 0.3); }
+    .art-hero iframe { 
+      height: 800px; 
+      width: 100%; 
+      border: none; 
+      border-radius: 16px; 
+    }
+    .preset-row { 
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
+    }
+    .preset-row:hover { 
+      transform: translateY(-3px); 
+      box-shadow: 0 15px 25px -5px rgb(245 158 11 / 0.3); 
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-6 md:p-12">
@@ -36,7 +46,7 @@
       <div class="space-y-5" id="presets"></div>
     </div>
 
-    <!-- Nostr Post at Bottom -->
+    <!-- Tall Nostr Post Iframe -->
     <div class="bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl p-3">
       <div class="art-hero">
         <iframe 
@@ -46,7 +56,7 @@
       </div>
     </div>
 
-    <footer class="text-center text-xs opacity-60 mt-16">
+    <footer class="text-center text-xs opacity-60 mt-12">
       Powered by Nostr • Thank you for resonating with the work
     </footer>
   </div>
