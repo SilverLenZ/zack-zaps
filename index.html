@@ -28,29 +28,19 @@ body {
   background: rgba(251,191,36,0.06);
 }
 
+/* tiers */
 .low { box-shadow: 0 0 10px rgba(251,191,36,0.08); }
 .mid { box-shadow: 0 0 16px rgba(251,191,36,0.12); }
 .high { box-shadow: 0 0 24px rgba(251,191,36,0.18); }
 .legend { box-shadow: 0 0 35px rgba(251,191,36,0.28); }
 
-.flash {
-  animation: flash 0.6s ease;
-}
-
-@keyframes flash {
-  0% { box-shadow: 0 0 0 rgba(251,191,36,0); }
-  50% { box-shadow: 0 0 30px rgba(251,191,36,0.5); }
-  100% { box-shadow: 0 0 0 rgba(251,191,36,0); }
-}
-
-.fb-container {
-  width: 100%;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.fb-page {
-  width: 100% !important;
+/* QR mini */
+.qr-mini {
+  width: 52px;
+  height: 52px;
+  background: white;
+  border-radius: 8px;
+  padding: 4px;
 }
 </style>
 </head>
@@ -90,47 +80,59 @@ body {
 <!-- ZAPS -->
 <div class="max-w-3xl w-full space-y-3 mb-16">
 
-  <button class="zap-btn low w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(1440,this)">
-    <span class="text-lg">Perfect Harmony</span>
-    <span class="text-2xl font-bold text-amber-300">1,440 sats</span>
-  </button>
+  <!-- 144 -->
+  <div class="zap-btn low flex justify-between items-center bg-zinc-800 p-4 rounded-2xl">
+    <button onclick="zap(1440,this)" class="flex items-center gap-2 w-full text-left">
+      👍 Perfect Harmony <span class="text-amber-300 font-bold ml-auto">144 sats</span>
+    </button>
+    <div id="qr1440" class="qr-mini"></div>
+  </div>
 
-  <button class="zap-btn mid w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(2330,this)">
-    <span class="text-lg">Artistic Flow</span>
-    <span class="text-2xl font-bold text-amber-300">2,330 sats</span>
-  </button>
+  <!-- 233 -->
+  <div class="zap-btn mid flex justify-between items-center bg-zinc-800 p-4 rounded-2xl">
+    <button onclick="zap(2330,this)" class="flex items-center gap-2 w-full text-left">
+      🚀 Artistic Flow <span class="text-amber-300 font-bold ml-auto">233 sats</span>
+    </button>
+    <div id="qr2330" class="qr-mini"></div>
+  </div>
 
-  <button class="zap-btn mid w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(3770,this)">
-    <span class="text-lg">Divine Proportion</span>
-    <span class="text-2xl font-bold text-amber-300">3,770 sats</span>
-  </button>
+  <!-- 377 -->
+  <div class="zap-btn mid flex justify-between items-center bg-zinc-800 p-4 rounded-2xl">
+    <button onclick="zap(3770,this)" class="flex items-center gap-2 w-full text-left">
+      ✨ Divine Proportion <span class="text-amber-300 font-bold ml-auto">377 sats</span>
+    </button>
+    <div id="qr3770" class="qr-mini"></div>
+  </div>
 
-  <button class="zap-btn high w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(6100,this)">
-    <span class="text-lg">Spiral Energy</span>
-    <span class="text-2xl font-bold text-amber-300">6,100 sats</span>
-  </button>
+  <!-- 610 -->
+  <div class="zap-btn high flex justify-between items-center bg-zinc-800 p-4 rounded-2xl">
+    <button onclick="zap(6100,this)" class="flex items-center gap-2 w-full text-left">
+      🌀 Spiral Energy <span class="text-amber-300 font-bold ml-auto">610 sats</span>
+    </button>
+    <div id="qr6100" class="qr-mini"></div>
+  </div>
 
-  <button class="zap-btn high w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(9870,this)">
-    <span class="text-lg">Golden Spiral</span>
-    <span class="text-2xl font-bold text-amber-300">9,870 sats</span>
-  </button>
+  <!-- 987 -->
+  <div class="zap-btn high flex justify-between items-center bg-zinc-800 p-4 rounded-2xl">
+    <button onclick="zap(9870,this)" class="flex items-center gap-2 w-full text-left">
+      🍷 Golden Spiral <span class="text-amber-300 font-bold ml-auto">987 sats</span>
+    </button>
+    <div id="qr9870" class="qr-mini"></div>
+  </div>
 
-  <button class="zap-btn legend w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(15970,this)">
-    <span class="text-lg">Ultimate Fibonacci</span>
-    <span class="text-2xl font-bold text-amber-300">15,970 sats</span>
-  </button>
+  <!-- 1597 -->
+  <div class="zap-btn legend flex justify-between items-center bg-zinc-800 p-4 rounded-2xl">
+    <button onclick="zap(15970,this)" class="flex items-center gap-2 w-full text-left">
+      👑 Ultimate Fibonacci <span class="text-amber-300 font-bold ml-auto">1597 sats</span>
+    </button>
+    <div id="qr15970" class="qr-mini"></div>
+  </div>
 
 </div>
 
-<!-- FACEBOOK (ONLY CHANGE: SIZE REDUCED BY ~50px) -->
+<!-- FACEBOOK -->
 <div class="w-full flex justify-center mb-16">
-  <div class="fb-container text-center">
+  <div class="max-w-[1100px] w-full text-center">
 
     <h2 class="text-xl font-light mb-5 text-amber-300">
       Live Art Pipeline Feed
@@ -151,65 +153,79 @@ body {
   </div>
 </div>
 
-<!-- QR -->
-<div id="qrModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-  <div class="bg-zinc-900 p-6 rounded-2xl text-center">
-    <div id="qrcode"></div>
-    <button onclick="closeQR()" class="mt-4 bg-amber-600 px-4 py-2 rounded-xl">Close</button>
-  </div>
-</div>
-
 <script>
 const LN = "silverlenz@rizful.com";
 
 /* ZAP */
-async function zap(sats, btn) {
-  try {
-    const msats = sats * 1000;
-    const [name, domain] = LN.split("@");
+async function zap(sats, btn){
+  const msats = sats * 1000;
+  const [name, domain] = LN.split("@");
 
-    const lnurl = `https://${domain}/.well-known/lnurlp/${name}`;
-    const res = await fetch(lnurl);
-    const data = await res.json();
+  const lnurl = `https://${domain}/.well-known/lnurlp/${name}`;
+  const res = await fetch(lnurl);
+  const data = await res.json();
 
-    const inv = await fetch(`${data.callback}?amount=${msats}`);
-    const invoice = await inv.json();
+  const inv = await fetch(`${data.callback}?amount=${msats}`);
+  const invoice = await inv.json();
 
-    const a = document.createElement("a");
-    a.href = "lightning:" + invoice.pr;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+  const a = document.createElement("a");
+  a.href = "lightning:" + invoice.pr;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
 
-    success(btn);
-
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-function success(btn) {
   btn.classList.add("flash");
-  setTimeout(() => btn.classList.remove("flash"), 600);
+  setTimeout(()=>btn.classList.remove("flash"),600);
+
   confetti({ particleCount: 80, spread: 60 });
 }
 
-function copyAddress() {
+/* COPY */
+function copyAddress(){
   navigator.clipboard.writeText(LN);
   setStatus("Copied ✔");
 }
 
-function setStatus(t) {
+function setStatus(t){
   document.getElementById("status").innerText = t;
 }
 
-/* WEbLN */
+/* WEBLN */
 window.onload = () => {
   const el = document.getElementById("weblnStatus");
-  if (window.webln) {
+  if(window.webln){
     el.innerText = "⚡ Alby WebLN detected";
   }
+
+  generateQRs();
 };
+
+/* QR generation (static lightning address hint) */
+function generateQRs(){
+  const sats = [1440,2330,3770,6100,9870,15970];
+
+  sats.forEach(s => {
+    new QRCode(document.getElementById("qr"+s), {
+      text: `lightning:${LN}`,
+      width: 52,
+      height: 52
+    });
+  });
+}
+
+/* FACEBOOK FIX */
+window.fbAsyncInit = function() {
+  FB.init({ xfbml: true, version: 'v18.0' });
+  FB.XFBML.parse();
+};
+
+(function(d,s,id){
+  var js,fjs=d.getElementsByTagName(s)[0];
+  if(d.getElementById(id))return;
+  js=d.createElement(s);js.id=id;
+  js.src="https://connect.facebook.net/en_US/sdk.js";
+  fjs.parentNode.insertBefore(js,fjs);
+}(document,'script','facebook-jssdk'));
 </script>
 
 </body>
