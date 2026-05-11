@@ -9,7 +9,7 @@
     body { background: #0a0a0a; color: #f1f1f1; font-family: system-ui, sans-serif; }
     .preset-row { 
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
-      padding: 1.3rem 1.8rem;
+      padding: 1.25rem 1.75rem;
     }
     .preset-row:hover { transform: translateY(-3px); }
   </style>
@@ -30,32 +30,34 @@
     <h2 class="text-center text-4xl font-light mb-4 tracking-wider">ZAPS THAT RESONATE ⚡</h2>
     <p class="text-center text-amber-300 mb-8 text-lg">Support the daily art pipeline</p>
 
-    <!-- Instructions -->
+    <!-- How to Zap -->
     <div class="bg-amber-900/30 border border-amber-400/30 rounded-3xl p-6 mb-12 text-center">
-      <p class="text-amber-300 font-medium">💡 How to Zap</p>
-      <p class="text-sm mt-2">Tap any amount below. It should open Alby Go or your Lightning wallet.</p>
-      <p class="text-xs mt-4 text-amber-400">Lightning Address: silverlenz@rizful.com</p>
+      <p class="text-amber-300 font-medium mb-2">💡 How to Zap</p>
+      <p class="text-sm">Tap any amount below. It will open Alby Go or your Lightning wallet.</p>
     </div>
 
-    <!-- Facebook Embed - Cleaner version -->
+    <!-- Facebook Embed -->
     <div class="mb-16 bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl p-4">
-      <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fcovellz%2F&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=1032861222423751" 
-              width="100%" 
-              height="600" 
-              style="border:none;overflow:hidden" 
-              scrolling="no" 
-              frameborder="0" 
-              allowfullscreen="true">
-      </iframe>
+      <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fcovellz%2F&tabs=timeline&width=500&height=650&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=1032861222423751" 
+              width="100%" height="650" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>
     </div>
 
     <!-- Preset Buttons -->
-    <div>
+    <div class="mb-12">
       <h3 class="text-3xl font-light text-center mb-8">Choose Your Resonance</h3>
       <div class="space-y-4" id="presets"></div>
     </div>
 
-    <footer class="text-center text-xs opacity-60 mt-12">
+    <!-- Lightning Address -->
+    <div class="bg-zinc-900/70 border border-amber-400/20 rounded-3xl p-6 text-center">
+      <p class="uppercase text-xs tracking-widest text-amber-300 mb-3">Lightning Address</p>
+      <div class="flex items-center justify-center gap-4 bg-black/50 rounded-2xl p-5">
+        <code class="font-mono text-amber-400 text-lg">silverlenz@rizful.com</code>
+        <button onclick="copyAddress()" class="bg-amber-600 hover:bg-amber-500 px-6 py-3 rounded-xl text-sm font-medium transition">Copy</button>
+      </div>
+    </div>
+
+    <footer class="text-center text-xs opacity-60 mt-16">
       Powered by Nostr & Lightning
     </footer>
   </div>
@@ -85,6 +87,14 @@
         </a>
       `;
       document.getElementById('presets').innerHTML = html;
+    }
+
+    function copyAddress() {
+      navigator.clipboard.writeText(lnAddress);
+      const btn = event.target;
+      const original = btn.textContent;
+      btn.textContent = "Copied!";
+      setTimeout(() => btn.textContent = original, 2000);
     }
 
     window.onload = renderPresets;
