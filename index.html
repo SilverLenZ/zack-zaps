@@ -37,31 +37,27 @@
 
   <script>
     const npub = "npub1qc87690ur36nn5td80c07adf72s0evw6fen60l5ytghgp44awljsxml2ka";
-    let pubkey;
+    const fallbackNevent = "nevent1qvzqqqqqqypzqps0a52lc8r488gk6wlsla66nu4qljca5nn85llggk3wsrtt6al9qqsy209tvjpkg55syad7xa5rykhxy93faxkzu2m9de0jharkst745vgqpjjnn";
 
-    try {
-      pubkey = NostrTools.nip19.decode(npub).data;
-    } catch (e) {
-      console.error("Invalid npub");
-    }
+    let pubkey;
+    try { pubkey = NostrTools.nip19.decode(npub).data; } catch (e) { console.error("Invalid npub"); }
 
     async function loadLatestPost() {
       const pool = new NostrTools.SimplePool();
-      const relays = [
-        'wss://relay.damus.io', 'wss://relay.primal.net', 
-        'wss://nos.lol', 'wss://nostr.wine', 'wss://relay.nostr.band'
-      ];
+      const relays = ['wss://relay.damus.io', 'wss://relay.primal.net', 'wss://nos.lol', 'wss://nostr.wine', 'wss://relay.nostr.band'];
 
       try {
-        const events = await pool.get(relays, {
-          kinds: [1],
-          authors: [pubkey],
-          limit: 1
-        });
+        // Try most recent post
+        let events = await pool.get(relays, { kinds: [1], authors: [pubkey], limit: 1 });
+
+        if (!events.length) {
+          // Fallback to specific post you provided
+          events = await pool.get(relays, { ids: [NostrTools.nip19.decode(fallbackNevent).data.id] });
+        }
 
         const container = document.getElementById('latest-post');
         if (!events.length) {
-          container.innerHTML = `<div class="p-12 text-center text-amber-400">No recent posts found.<br><small class="opacity-60">Post something new on Nostr and refresh this page.</small></div>`;
+          container.innerHTML = `<div class="p-12 text-center text-amber-400">No recent posts found.<br><small class="opacity-60">Post something new on Nostr and refresh.</small></div>`;
           return;
         }
 
@@ -81,7 +77,7 @@
         container.innerHTML = html;
       } catch (e) {
         console.error(e);
-        document.getElementById('latest-post').innerHTML = `<div class="p-12 text-center text-amber-400">Unable to load latest post.<br><small>Try refreshing in a minute.</small></div>`;
+        document.getElementById('latest-post').innerHTML = `<div class="p-12 text-center text-amber-400">Loading post... please refresh.</div>`;
       } finally {
         pool.close(relays);
       }
