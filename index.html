@@ -17,7 +17,7 @@ body {
   font-family: system-ui, sans-serif;
 }
 
-/* ZAP BUTTONS */
+/* BUTTONS */
 .zap-btn {
   border: 2px solid rgba(251,191,36,0.18);
   transition: all 0.2s ease;
@@ -29,30 +29,31 @@ body {
   background: rgba(251,191,36,0.06);
 }
 
-/* TIER GLOW */
+/* GLOWS */
 .low { box-shadow: 0 0 10px rgba(251,191,36,0.08); }
 .mid { box-shadow: 0 0 16px rgba(251,191,36,0.12); }
 .high { box-shadow: 0 0 24px rgba(251,191,36,0.18); }
 .legend { box-shadow: 0 0 35px rgba(251,191,36,0.28); }
 
-/* FLASH */
 .flash {
   animation: flash 0.6s ease;
 }
+
 @keyframes flash {
   0% { box-shadow: 0 0 0 rgba(251,191,36,0); }
   50% { box-shadow: 0 0 30px rgba(251,191,36,0.5); }
   100% { box-shadow: 0 0 0 rgba(251,191,36,0); }
 }
 
-/* FACEBOOK FULL WIDTH */
-.fb-wrap {
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-}
-.fb-inner {
+/* FACEBOOK — SAFE RESPONSIVE WRAPPER */
+.fb-container {
+  width: 100%;
   max-width: 1100px;
   margin: 0 auto;
+}
+
+.fb-page {
+  width: 100% !important;
 }
 </style>
 </head>
@@ -64,19 +65,17 @@ body {
 
   <h1 class="text-4xl font-light tracking-widest">SILVERLENZ</h1>
 
-  <!-- NEW SYSTEM TITLE -->
   <p class="text-amber-300 mt-2 text-sm">
     Living Lightning Art Economy ⚡
   </p>
 
-  <!-- WebLN status injected dynamically -->
+  <!-- ONLY SHOWS IF WEblN EXISTS -->
   <div id="weblnStatus" class="text-xs mt-2 opacity-70"></div>
 
 </div>
 
-<!-- WALLET CARD -->
-<div id="card"
-     class="max-w-3xl w-full bg-zinc-900/90 border border-amber-400/20 rounded-3xl p-7 shadow-2xl mb-10">
+<!-- WALLET -->
+<div class="max-w-3xl w-full bg-zinc-900/90 border border-amber-400/20 rounded-3xl p-7 shadow-2xl mb-10">
 
   <div class="flex justify-between items-center mb-5">
     <code class="text-amber-400 text-base">silverlenz@rizful.com</code>
@@ -92,7 +91,7 @@ body {
   </p>
 </div>
 
-<!-- ZAP BUTTONS -->
+<!-- ZAPS -->
 <div class="max-w-3xl w-full space-y-3 mb-16">
 
   <button class="zap-btn low w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
@@ -133,9 +132,9 @@ body {
 
 </div>
 
-<!-- FACEBOOK FEED -->
-<div class="fb-wrap mb-16">
-  <div class="fb-inner text-center">
+<!-- FACEBOOK (FIXED — WILL NOT DISAPPEAR) -->
+<div class="w-full flex justify-center mb-16">
+  <div class="fb-container text-center">
 
     <h2 class="text-xl font-light mb-5 text-amber-300">
       Live Art Pipeline Feed
@@ -146,7 +145,7 @@ body {
     <div class="fb-page"
       data-href="https://www.facebook.com/covellz/"
       data-tabs="timeline"
-      data-width="1100"
+      data-width="500"
       data-height="800"
       data-adapt-container-width="true"
       data-hide-cover="false"
@@ -156,49 +155,35 @@ body {
   </div>
 </div>
 
-<!-- QR MODAL -->
-<div id="qrModal"
-     class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-
-  <div class="bg-zinc-900 p-6 rounded-2xl border border-amber-400/20 w-[320px] text-center">
-
-    <h2 class="text-amber-300 text-lg mb-4">Scan to Pay ⚡</h2>
-
-    <div id="qrcode" class="flex justify-center mb-4"></div>
-
-    <button onclick="closeQR()"
-            class="bg-amber-600 hover:bg-amber-500 px-4 py-2 rounded-xl text-sm">
-      Close
-    </button>
-
+<!-- QR -->
+<div id="qrModal" class="hidden fixed inset-0 bg-black/80 items-center justify-center z-50">
+  <div class="bg-zinc-900 p-6 rounded-2xl text-center">
+    <div id="qrcode"></div>
+    <button onclick="closeQR()" class="mt-4 bg-amber-600 px-4 py-2 rounded-xl">Close</button>
   </div>
 </div>
 
 <script>
-const LN_ADDRESS = "silverlenz@rizful.com";
+const LN = "silverlenz@rizful.com";
 
-/* ---------------- ZAP ---------------- */
+/* ZAP */
 async function zap(sats, btn) {
   try {
     const msats = sats * 1000;
-    const [name, domain] = LN_ADDRESS.split("@");
+    const [name, domain] = LN.split("@");
 
     const lnurl = `https://${domain}/.well-known/lnurlp/${name}`;
     const res = await fetch(lnurl);
     const data = await res.json();
 
-    const invoiceRes = await fetch(`${data.callback}?amount=${msats}`);
-    const invoice = await invoiceRes.json();
-
-    const pr = invoice.pr;
+    const inv = await fetch(`${data.callback}?amount=${msats}`);
+    const invoice = await inv.json();
 
     const a = document.createElement("a");
-    a.href = "lightning:" + pr;
+    a.href = "lightning:" + invoice.pr;
     document.body.appendChild(a);
     a.click();
     a.remove();
-
-    setTimeout(() => showQR(pr), 1200);
 
     success(btn);
 
@@ -207,53 +192,26 @@ async function zap(sats, btn) {
   }
 }
 
-/* ---------------- SUCCESS ---------------- */
 function success(btn) {
-  setStatus("⚡ Zap sent!");
-
   btn.classList.add("flash");
   setTimeout(() => btn.classList.remove("flash"), 600);
-
-  confetti({ particleCount: 90, spread: 60 });
-
-  setTimeout(() => setStatus("Ready to receive zaps ⚡"), 2500);
-}
-
-/* ---------------- QR ---------------- */
-function showQR(pr) {
-  document.getElementById("qrModal").classList.remove("hidden");
-  document.getElementById("qrcode").innerHTML = "";
-
-  new QRCode(document.getElementById("qrcode"), {
-    text: pr,
-    width: 220,
-    height: 220
-  });
-}
-
-function closeQR() {
-  document.getElementById("qrModal").classList.add("hidden");
-}
-
-/* ---------------- STATUS ---------------- */
-function setStatus(msg) {
-  document.getElementById("status").innerText = msg;
+  confetti({ particleCount: 80, spread: 60 });
 }
 
 function copyAddress() {
-  navigator.clipboard.writeText(LN_ADDRESS);
-  setStatus("Address copied ✔");
-  setTimeout(() => setStatus("Ready to receive zaps ⚡"), 2000);
+  navigator.clipboard.writeText(LN);
+  setStatus("Copied ✔");
 }
 
-/* ---------------- WEBLN DETECTION ---------------- */
-window.onload = async () => {
-  const el = document.getElementById("weblnStatus");
+function setStatus(t) {
+  document.getElementById("status").innerText = t;
+}
 
+/* WEbLN DETECTION (SAFE) */
+window.onload = () => {
+  const el = document.getElementById("weblnStatus");
   if (window.webln) {
     el.innerText = "⚡ Alby WebLN detected";
-  } else {
-    el.innerText = "";
   }
 };
 </script>
