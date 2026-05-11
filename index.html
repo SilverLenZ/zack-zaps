@@ -9,7 +9,7 @@
   <style>
     body { background: #0a0a0a; color: #f1f1f1; font-family: system-ui, sans-serif; }
     .art-hero iframe { 
-      height: 950px; 
+      height: 650px; 
       width: 100%; 
       border: none; 
       border-radius: 16px; 
@@ -20,6 +20,10 @@
     .preset-row:hover { 
       transform: translateY(-3px); 
       box-shadow: 0 15px 25px -5px rgb(245 158 11 / 0.3); 
+    }
+    /* Mobile improvements */
+    @media (max-width: 640px) {
+      .art-hero iframe { height: 520px; }
     }
   </style>
 </head>
@@ -46,7 +50,7 @@
       <div class="space-y-5" id="presets"></div>
     </div>
 
-    <!-- Much Taller Nostr Post -->
+    <!-- Nostr Post -->
     <div class="bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl p-3">
       <div class="art-hero">
         <iframe 
