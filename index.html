@@ -8,22 +8,33 @@
   <script src="https://cdn.jsdelivr.net/npm/nostr-zap@latest"></script>
   <style>
     body { background: #0a0a0a; color: #f1f1f1; font-family: system-ui, sans-serif; }
-    .art-hero iframe, .art-hero img { max-height: 70vh; width: 100%; border-radius: 16px; box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.5); }
+    .art-hero iframe { height: 520px; width: 100%; border: none; border-radius: 16px; }
     .preset-row { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-    .preset-row:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgb(245 158 11 / 0.3); }
+    .preset-row:hover { transform: translateY(-3px); box-shadow: 0 15px 25px -5px rgb(245 158 11 / 0.3); }
   </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-6 md:p-12">
   <div class="max-w-3xl w-full">
-    <h1 class="text-5xl font-light text-center mb-2 tracking-widest">ZAPS THAT RESONATE ⚡</h1>
-    <p class="text-center text-amber-300 mb-12 text-lg">Latest from the Fibonacci Art Pipeline</p>
 
-    <!-- Live Nostr Post Section (njump gateway) -->
-    <div class="mb-16 bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl p-4">
+    <!-- Header with Profile -->
+    <div class="flex items-center gap-4 mb-8 justify-center">
+      <img src="https://silverlenz.carrd.co/assets/images/profile.jpg" 
+           alt="SilverLenz" 
+           class="w-16 h-16 rounded-2xl object-cover border-2 border-amber-400">
+      <div>
+        <h1 class="text-5xl font-light tracking-widest">ZACK COVELL</h1>
+        <p class="text-amber-300 text-lg -mt-1">SilverLenz • Daily Digital Art</p>
+      </div>
+    </div>
+
+    <h2 class="text-center text-3xl font-light mb-12 tracking-wider">ZAPS THAT RESONATE ⚡</h2>
+    <p class="text-center text-amber-300 mb-12">Latest from the Fibonacci Art Pipeline</p>
+
+    <!-- Live Nostr Post -->
+    <div class="mb-16 bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl p-3">
       <div class="art-hero">
         <iframe 
           src="https://njump.me/nevent1qvzqqqqqqypzqps0a52lc8r488gk6wlsla66nu4qljca5nn85llggk3wsrtt6al9qqsy209tvjpkg55syad7xa5rykhxy93faxkzu2m9de0jharkst745vgqpjjnn" 
-          style="height: 620px; width: 100%; border: none;" 
           title="Latest SilverLenz Art Post">
         </iframe>
       </div>
@@ -31,12 +42,12 @@
 
     <!-- Zap Presets -->
     <div>
-      <h2 class="text-3xl font-light text-center mb-8">Choose Your Resonance</h2>
+      <h3 class="text-3xl font-light text-center mb-8">Choose Your Resonance</h3>
       <div class="space-y-5" id="presets"></div>
     </div>
 
-    <footer class="text-center text-xs opacity-60 mt-24">
-      Powered by Nostr • Automatically shows recent art
+    <footer class="text-center text-xs opacity-60 mt-20">
+      Powered by Nostr • Thank you for supporting the art pipeline
     </footer>
   </div>
 
