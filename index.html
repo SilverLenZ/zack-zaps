@@ -1,299 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SilverLenz ⚡ Zaps</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<title>SilverLenz ⚡ Living Zap Art</title>
 
-  <style>
-    body {
-      background: radial-gradient(circle at top, #111 0%, #000 100%);
-      color: #f1f1f1;
-      font-family: system-ui, sans-serif;
-    }
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
-    .zap-btn {
-      transition: all 0.25s ease;
-      border: 2px solid rgba(251,191,36,0.15);
-      position: relative;
-      overflow: hidden;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: radial-gradient(circle at top, #111 0%, #000 100%);
+  color: #f1f1f1;
+  overflow-x: hidden;
+}
 
-    .zap-btn:hover {
-      transform: translateY(-2px);
-    }
+/* ----------------------------
+   BACKGROUND ENERGY LAYER
+-----------------------------*/
+#bgGlow {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(circle at 50% 30%, rgba(251,191,36,0.08), transparent 60%);
+  transition: 0.6s ease;
+}
 
-    /* -------------------------
-       TIER GLOW SYSTEM
-    --------------------------*/
+/* ----------------------------
+   ZAP BUTTONS
+-----------------------------*/
+.zap-btn {
+  border: 2px solid rgba(251,191,36,0.15);
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
 
-    .tier-low {
-      box-shadow: 0 0 10px rgba(251,191,36,0.08);
-    }
+.zap-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(251,191,36,0.5);
+}
 
-    .tier-mid {
-      box-shadow: 0 0 18px rgba(251,191,36,0.15);
-    }
+/* tier glow */
+.low { box-shadow: 0 0 10px rgba(251,191,36,0.08); }
+.mid { box-shadow: 0 0 18px rgba(251,191,36,0.15); }
+.high { box-shadow: 0 0 28px rgba(251,191,36,0.25); }
+.legend {
+  box-shadow: 0 0 50px rgba(251,191,36,0.45);
+  animation: breathe 2.4s ease-in-out infinite;
+}
 
-    .tier-high {
-      box-shadow: 0 0 28px rgba(251,191,36,0.25);
-    }
+@keyframes breathe {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.01); }
+}
 
-    .tier-legend {
-      box-shadow: 0 0 45px rgba(251,191,36,0.45);
-      animation: pulse 2.2s infinite ease-in-out;
-    }
+/* zap pulse */
+.flash {
+  animation: flash 0.6s ease;
+}
+@keyframes flash {
+  0% { box-shadow: 0 0 0 rgba(251,191,36,0); }
+  50% { box-shadow: 0 0 40px rgba(251,191,36,0.5); }
+  100% { box-shadow: 0 0 0 rgba(251,191,36,0); }
+}
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.01); }
-      100% { transform: scale(1); }
-    }
+/* LIVE TICKER */
+#ticker {
+  position: fixed;
+  bottom: 12px;
+  left: 12px;
+  font-size: 12px;
+  opacity: 0.7;
+}
 
-    /* success animation */
-    .success-glow {
-      animation: successPulse 0.6s ease;
-    }
-
-    @keyframes successPulse {
-      0% { box-shadow: 0 0 0 rgba(251,191,36,0); }
-      50% { box-shadow: 0 0 40px rgba(251,191,36,0.5); }
-      100% { box-shadow: 0 0 0 rgba(251,191,36,0); }
-    }
-
-    .fb-wrap {
-      width: 100vw;
-      margin-left: calc(-50vw + 50%);
-    }
-
-    .fb-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-  </style>
+/* QR */
+#qrModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  align-items: center;
+  justify-content: center;
+}
+</style>
 </head>
 
-<body class="min-h-screen flex flex-col items-center p-6 md:p-12">
+<body>
+
+<div id="bgGlow"></div>
 
 <!-- HEADER -->
-<div class="max-w-3xl w-full text-center mb-10">
+<div class="text-center mt-10 mb-6">
   <h1 class="text-4xl font-light tracking-widest">SILVERLENZ</h1>
-  <p class="text-amber-300 mt-2 text-sm">Fibonacci Art Pipeline ⚡ Live Zaps</p>
+  <p class="text-amber-300 text-sm">Living Lightning Art Economy ⚡</p>
+  <div id="weblnStatus" class="text-xs mt-2 opacity-60"></div>
 </div>
 
-<!-- CARD -->
-<div id="card"
-     class="max-w-3xl w-full bg-zinc-900/90 border border-amber-400/20 rounded-3xl p-7 shadow-2xl mb-10">
-
-  <div class="flex justify-between items-center mb-5">
-    <code class="text-amber-400 text-base">silverlenz@rizful.com</code>
-
-    <button onclick="copyAddress()"
-            class="bg-amber-600 hover:bg-amber-500 px-4 py-2 rounded-xl text-xs">
-      Copy
-    </button>
-  </div>
-
-  <p id="status" class="text-xs text-center text-gray-400">
-    Ready to receive zaps ⚡
-  </p>
+<!-- ZAP ADDRESS -->
+<div class="max-w-xl mx-auto bg-zinc-900/80 p-5 rounded-2xl border border-amber-400/20 text-center mb-6">
+  <div class="text-amber-400">silverlenz@rizful.com</div>
 </div>
 
 <!-- ZAP BUTTONS -->
-<div class="max-w-3xl w-full space-y-3 mb-16">
+<div class="max-w-xl mx-auto space-y-3 mb-20">
 
-  <button class="zap-btn tier-low w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(1440, this)">
-    <span class="text-lg font-medium">👍 Perfect Harmony</span>
-    <span class="text-2xl font-bold text-amber-300">1,440 sats</span>
-  </button>
+<button class="zap-btn low w-full flex justify-between p-4 rounded-xl bg-zinc-800"
+onclick="zap(1440,this)">
+<span>Perfect Harmony</span><span class="text-amber-300 font-bold">1,440</span>
+</button>
 
-  <button class="zap-btn tier-mid w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(2330, this)">
-    <span class="text-lg font-medium">🚀 Artistic Flow</span>
-    <span class="text-2xl font-bold text-amber-300">2,330 sats</span>
-  </button>
+<button class="zap-btn mid w-full flex justify-between p-4 rounded-xl bg-zinc-800"
+onclick="zap(2330,this)">
+<span>Artistic Flow</span><span class="text-amber-300 font-bold">2,330</span>
+</button>
 
-  <button class="zap-btn tier-mid w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(3770, this)">
-    <span class="text-lg font-medium">☕ Divine Proportion</span>
-    <span class="text-2xl font-bold text-amber-300">3,770 sats</span>
-  </button>
+<button class="zap-btn mid w-full flex justify-between p-4 rounded-xl bg-zinc-800"
+onclick="zap(3770,this)">
+<span>Divine Proportion</span><span class="text-amber-300 font-bold">3,770</span>
+</button>
 
-  <button class="zap-btn tier-high w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(6100, this)">
-    <span class="text-lg font-medium">✨ Spiral Energy</span>
-    <span class="text-2xl font-bold text-amber-300">6,100 sats</span>
-  </button>
+<button class="zap-btn high w-full flex justify-between p-4 rounded-xl bg-zinc-800"
+onclick="zap(6100,this)">
+<span>Spiral Energy</span><span class="text-amber-300 font-bold">6,100</span>
+</button>
 
-  <button class="zap-btn tier-high w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(9870, this)">
-    <span class="text-lg font-medium">🍷 Golden Spiral</span>
-    <span class="text-2xl font-bold text-amber-300">9,870 sats</span>
-  </button>
+<button class="zap-btn high w-full flex justify-between p-4 rounded-xl bg-zinc-800"
+onclick="zap(9870,this)">
+<span>Golden Spiral</span><span class="text-amber-300 font-bold">9,870</span>
+</button>
 
-  <button class="zap-btn tier-legend w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(15970, this)">
-    <span class="text-lg font-medium">👑 Ultimate Fibonacci</span>
-    <span class="text-2xl font-bold text-amber-300">15,970 sats</span>
-  </button>
+<button class="zap-btn legend w-full flex justify-between p-4 rounded-xl bg-zinc-800"
+onclick="zap(15970,this)">
+<span>Ultimate Fibonacci</span><span class="text-amber-300 font-bold">15,970</span>
+</button>
 
 </div>
 
-<!-- FACEBOOK FEED -->
-<div class="fb-wrap mb-16">
-  <div class="fb-inner text-center">
-
-    <h2 class="text-xl font-light mb-5 text-amber-300">
-      Live Art Pipeline Feed
-    </h2>
-
-    <div id="fb-root"></div>
-
-    <div class="fb-page"
-      data-href="https://www.facebook.com/covellz/"
-      data-tabs="timeline"
-      data-width="1100"
-      data-height="800"
-      data-adapt-container-width="true"
-      data-hide-cover="false"
-      data-show-facepile="true">
-    </div>
-
-  </div>
-</div>
+<!-- LIVE ZAP TICKER -->
+<div id="ticker">⚡ waiting for zaps...</div>
 
 <!-- QR MODAL -->
-<div id="qrModal"
-     class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-
-  <div class="bg-zinc-900 p-6 rounded-2xl border border-amber-400/20 w-[320px] text-center">
-
-    <h2 class="text-amber-300 text-lg mb-4">Scan to Pay ⚡</h2>
-
-    <div id="qrcode" class="flex justify-center mb-4"></div>
-
-    <button onclick="closeQR()"
-            class="bg-amber-600 hover:bg-amber-500 px-4 py-2 rounded-xl text-sm">
-      Close
-    </button>
-
+<div id="qrModal">
+  <div style="background:#111;padding:20px;border-radius:12px;text-align:center">
+    <div id="qr"></div>
+    <button onclick="closeQR()" style="margin-top:10px">Close</button>
   </div>
 </div>
 
 <script>
-const LN_ADDRESS = "silverlenz@rizful.com";
-let lastInvoice = null;
+const LN = "silverlenz@rizful.com";
+let heat = 0;
 
-/* -----------------------
-   ZAP
-------------------------*/
-async function zap(sats, btn) {
-  const card = document.getElementById("card");
+/* -------------------------
+   WEBSOCKET SIM (LIVE FEEL)
+--------------------------*/
+function pushZap(amount){
+  const ticker = document.getElementById("ticker");
+  ticker.innerText = `⚡ incoming zap: ${amount} sats`;
+}
 
+/* -------------------------
+   ZAP SYSTEM
+--------------------------*/
+async function zap(sats, btn){
   try {
-    setStatus("Preparing zap ⚡...");
+    heat += sats;
+    updateBackground();
+
+    pushZap(sats);
 
     const msats = sats * 1000;
-    const [name, domain] = LN_ADDRESS.split("@");
-    const lnurl = `https://${domain}/.well-known/lnurlp/${name}`;
+    const [name, domain] = LN.split("@");
 
+    const lnurl = `https://${domain}/.well-known/lnurlp/${name}`;
     const res = await fetch(lnurl);
     const data = await res.json();
 
-    const invoiceRes = await fetch(`${data.callback}?amount=${msats}`);
-    const invoice = await invoiceRes.json();
+    const inv = await fetch(`${data.callback}?amount=${msats}`);
+    const invoice = await inv.json();
 
-    if (!invoice.pr) throw new Error("No invoice");
+    const pr = invoice.pr;
 
-    setStatus("Opening wallet...");
-
+    // attempt wallet
     const a = document.createElement("a");
-    a.href = `lightning:${invoice.pr}`;
+    a.href = "lightning:" + pr;
     document.body.appendChild(a);
     a.click();
     a.remove();
 
-    setTimeout(() => showQR(invoice.pr), 1200);
+    setTimeout(()=>showQR(pr),1200);
 
-    successFX(card, btn);
+    success(btn);
 
-  } catch (e) {
-    console.error(e);
-    setStatus("Zap failed ⚠️");
+  } catch(e){
+    console.log(e);
   }
 }
 
-/* -----------------------
-   SUCCESS FX + TIER GLOW
-------------------------*/
-function successFX(card, btn) {
-  setStatus("⚡ Zap sent!");
+/* -------------------------
+   SUCCESS FX
+--------------------------*/
+function success(btn){
+  btn.classList.add("flash");
+  setTimeout(()=>btn.classList.remove("flash"),600);
 
-  card.classList.add("success-glow");
-  setTimeout(() => card.classList.remove("success-glow"), 700);
+  confetti({ particleCount: 80, spread: 60 });
 
-  // confetti
-  confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-
-  setTimeout(() => {
-    confetti({ particleCount: 50, spread: 45, origin: { x: 0 } });
-  }, 200);
-
-  // button glow pulse boost
-  if (btn) {
-    btn.style.boxShadow = "0 0 40px rgba(251,191,36,0.5)";
-    setTimeout(() => btn.style.boxShadow = "", 800);
-  }
-
-  setTimeout(() => setStatus("Ready to receive zaps ⚡"), 2500);
+  setTimeout(()=>{
+    confetti({ particleCount: 40, spread: 40 });
+  },150);
 }
 
-/* -----------------------
-   QR
-------------------------*/
-function showQR(invoice) {
-  document.getElementById("qrModal").classList.remove("hidden");
-  document.getElementById("qrcode").innerHTML = "";
+/* -------------------------
+   BACKGROUND ENERGY
+--------------------------*/
+function updateBackground(){
+  const glow = document.getElementById("bgGlow");
 
-  new QRCode(document.getElementById("qrcode"), {
-    text: invoice,
-    width: 220,
-    height: 220
+  const intensity = Math.min(heat / 20000, 1);
+
+  glow.style.background =
+    `radial-gradient(circle at 50% 30%,
+     rgba(251,191,36,${0.05 + intensity*0.25}),
+     transparent 60%)`;
+}
+
+/* -------------------------
+   QR FALLBACK
+--------------------------*/
+function showQR(pr){
+  document.getElementById("qrModal").style.display="flex";
+  document.getElementById("qr").innerHTML="";
+  new QRCode(document.getElementById("qr"), {
+    text: pr,
+    width: 200,
+    height: 200
   });
 }
 
-function closeQR() {
-  document.getElementById("qrModal").classList.add("hidden");
+function closeQR(){
+  document.getElementById("qrModal").style.display="none";
 }
 
-/* -----------------------
-   STATUS + COPY
-------------------------*/
-function setStatus(msg) {
-  document.getElementById("status").innerText = msg;
-}
-
-function copyAddress() {
-  navigator.clipboard.writeText(LN_ADDRESS);
-  setStatus("Address copied ✔");
-  setTimeout(() => setStatus("Ready to receive zaps ⚡"), 2000);
-}
-
-/* -----------------------
-   FACEBOOK SDK
-------------------------*/
-!(function(d,s,id){
-  var js,fjs=d.getElementsByTagName(s)[0];
-  if(d.getElementById(id))return;
-  js=d.createElement(s);js.id=id;
-  js.src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0";
-  fjs.parentNode.insertBefore(js,fjs);
-}(document,'script','facebook-jssdk'));
+/* -------------------------
+   WEBSOCKET DETECTION
+--------------------------*/
+window.onload = async ()=>{
+  if(window.webln){
+    document.getElementById("weblnStatus").innerText = "⚡ Alby WebLN detected";
+  } else {
+    document.getElementById("weblnStatus").innerText = "QR fallback mode ready";
+  }
+};
 </script>
 
 </body>
