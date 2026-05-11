@@ -47,7 +47,10 @@
 
     async function loadLatestPost() {
       const pool = new NostrTools.SimplePool();
-      const relays = ['wss://relay.damus.io', 'wss://relay.primal.net', 'wss://nos.lol', 'wss://nostr.wine'];
+      const relays = [
+        'wss://relay.damus.io', 'wss://relay.primal.net', 
+        'wss://nos.lol', 'wss://nostr.wine', 'wss://relay.nostr.band'
+      ];
 
       try {
         const events = await pool.get(relays, {
@@ -58,7 +61,7 @@
 
         const container = document.getElementById('latest-post');
         if (!events.length) {
-          container.innerHTML = `<div class="p-12 text-center">No recent posts found.</div>`;
+          container.innerHTML = `<div class="p-12 text-center text-amber-400">No recent posts found.<br><small class="opacity-60">Post something new on Nostr and refresh this page.</small></div>`;
           return;
         }
 
@@ -78,7 +81,7 @@
         container.innerHTML = html;
       } catch (e) {
         console.error(e);
-        document.getElementById('latest-post').innerHTML = `<div class="p-12 text-center text-amber-400">Unable to load latest post at this time.</div>`;
+        document.getElementById('latest-post').innerHTML = `<div class="p-12 text-center text-amber-400">Unable to load latest post.<br><small>Try refreshing in a minute.</small></div>`;
       } finally {
         pool.close(relays);
       }
