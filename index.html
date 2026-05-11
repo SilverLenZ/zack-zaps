@@ -7,6 +7,11 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { background: #0a0a0a; color: #f1f1f1; font-family: system-ui, sans-serif; }
+    .preset-row {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 1.25rem 1.75rem;
+    }
+    .preset-row:hover { transform: translateY(-2px); }
   </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-6 md:p-12">
@@ -23,34 +28,23 @@
     </div>
 
     <h2 class="text-center text-4xl font-light mb-4 tracking-wider">ZAPS THAT RESONATE ⚡</h2>
-    <p class="text-center text-amber-300 mb-10 text-lg">Support the daily art pipeline</p>
+    <p class="text-center text-amber-300 mb-8 text-lg">Support the daily art pipeline</p>
 
-    <!-- Main Card with Address + Presets -->
+    <!-- Main Card: Address + Presets -->
     <div class="bg-zinc-900/90 border border-amber-400/20 rounded-3xl p-8 shadow-2xl mb-16">
-      
       <!-- Lightning Address -->
-      <div>
+      <div class="mb-8">
         <p class="uppercase text-xs tracking-widest text-amber-300 mb-3">LIGHTNING ADDRESS</p>
         <div class="flex items-center justify-between bg-black/60 rounded-2xl p-5">
           <code class="font-mono text-2xl text-amber-400">silverlenz@rizful.com</code>
-          <button onclick="copyAddress()" 
-                  class="bg-amber-600 hover:bg-amber-500 px-6 py-3 rounded-2xl text-base font-medium transition">
-            Copy
-          </button>
+          <button onclick="copyAddress()" class="bg-amber-600 hover:bg-amber-500 px-6 py-3 rounded-2xl text-base font-medium transition">Copy</button>
         </div>
       </div>
 
-      <!-- Fibonacci Preset Amounts (tight in same box) -->
-      <div class="mt-10">
+      <!-- Preset Zap Buttons -->
+      <div>
         <p class="uppercase text-xs tracking-widest text-amber-300 mb-5">PRESET AMOUNTS</p>
-        <div class="space-y-4 text-lg">
-          <div class="flex items-center gap-4">👍 <span class="font-bold w-20">1,440</span> Perfect Harmony ♫</div>
-          <div class="flex items-center gap-4">🚀 <span class="font-bold w-20">2,330</span> Artistic Flow 🌀</div>
-          <div class="flex items-center gap-4">☕ <span class="font-bold w-20">3,770</span> Divine Proportion △</div>
-          <div class="flex items-center gap-4">✨ <span class="font-bold w-20">6,100</span> Spiral Energy 🌀</div>
-          <div class="flex items-center gap-4">🍷 <span class="font-bold w-20">9,870</span> Golden Spiral ✨</div>
-          <div class="flex items-center gap-4">👑 <span class="font-bold w-20">15,970</span> Ultimate Fibonacci ✨</div>
-        </div>
+        <div class="space-y-4" id="presets"></div>
       </div>
     </div>
 
@@ -75,8 +69,35 @@
   </div>
 
   <script>
+    const LN_ADDRESS = "silverlenz@rizful.com";
+
+    function renderPresets() {
+      const presets = [
+        { amount: 1440000, label: "1,440", name: "Perfect Harmony ♫", emoji: "👍" },
+        { amount: 2330000, label: "2,330", name: "Artistic Flow 🌀", emoji: "🚀" },
+        { amount: 3770000, label: "3,770", name: "Divine Proportion △", emoji: "☕" },
+        { amount: 6100000, label: "6,100", name: "Spiral Energy 🌀", emoji: "✨" },
+        { amount: 9870000, label: "9,870", name: "Golden Spiral ✨", emoji: "🍷" },
+        { amount: 15970000, label: "15,970", name: "Ultimate Fibonacci ✨", emoji: "👑" }
+      ];
+
+      const html = presets.map(p => `
+        <button onclick="triggerZap(${p.amount}, '${p.name}')" 
+                class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
+          ${p.emoji} <span class="text-3xl font-bold w-20">${p.label}</span><span class="flex-1">${p.name}</span>
+        </button>
+      `).join('');
+
+      document.getElementById('presets').innerHTML = html;
+    }
+
+    function triggerZap(millisats, label) {
+      const uri = `lightning:${LN_ADDRESS}?amount=${millisats}`;
+      window.location.href = uri;
+    }
+
     function copyAddress() {
-      navigator.clipboard.writeText("silverlenz@rizful.com");
+      navigator.clipboard.writeText(LN_ADDRESS);
       const btn = event.target;
       const original = btn.textContent;
       btn.textContent = "Copied!";
@@ -91,6 +112,8 @@
       js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0";
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
+
+    window.onload = renderPresets;
   </script>
 </body>
 </html>
