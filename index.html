@@ -12,6 +12,13 @@
       padding: 1.3rem 1.8rem;
     }
     .preset-row:hover { transform: translateY(-3px); }
+    .lightning-address {
+      font-size: 1.35rem;
+      word-break: break-all;
+    }
+    @media (max-width: 480px) {
+      .lightning-address { font-size: 1.05rem; }
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-6 md:p-12">
@@ -35,22 +42,22 @@
       <p class="text-amber-300 font-medium mb-4">💡 How to Zap</p>
       <p class="text-sm mb-6">Tap any amount below or copy the Lightning Address</p>
       
-      <div class="flex items-center justify-center gap-4">
-        <code class="font-mono text-2xl text-amber-400">silverlenz@getalby.com</code>
+      <div class="flex items-center justify-center gap-3">
+        <code class="lightning-address font-mono text-amber-400">silverlenz@getalby.com</code>
         <button onclick="copyAddress()" 
-                class="bg-amber-600 hover:bg-amber-500 px-7 py-3 rounded-2xl text-base font-medium transition">
+                class="bg-amber-600 hover:bg-amber-500 px-6 py-3 rounded-2xl text-sm font-medium transition whitespace-nowrap">
           Copy
         </button>
       </div>
     </div>
 
-    <!-- Facebook Embed -->
+    <!-- Facebook Embed - Full Width -->
     <div class="mb-16 bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl p-4">
-      <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fcovellz%2F&tabs=timeline&width=1000&height=650&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=1032861222423751" 
-              width="100%" height="650" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>
+      <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fcovellz%2F&tabs=timeline&width=1000&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=1032861222423751" 
+              width="100%" height="700" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>
     </div>
 
-    <!-- Zap Buttons - Copy to Clipboard -->
+    <!-- Zap Buttons -->
     <div>
       <h3 class="text-3xl font-light text-center mb-8">Choose Your Resonance</h3>
       <div class="space-y-4" id="presets"></div>
@@ -66,22 +73,22 @@
 
     function renderPresets() {
       const html = `
-        <button onclick="copyZap(1440000, 'Perfect Harmony ♫')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
+        <button onclick="copyZap(1440000, '1,440 sats - Perfect Harmony ♫')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
           👍 <span class="text-3xl font-bold w-16">1,440</span><span class="flex-1">Perfect Harmony ♫</span>
         </button>
-        <button onclick="copyZap(2330000, 'Artistic Flow 🌀')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
+        <button onclick="copyZap(2330000, '2,330 sats - Artistic Flow 🌀')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
           🚀 <span class="text-3xl font-bold w-16">2,330</span><span class="flex-1">Artistic Flow 🌀</span>
         </button>
-        <button onclick="copyZap(3770000, 'Divine Proportion △')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
+        <button onclick="copyZap(3770000, '3,770 sats - Divine Proportion △')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
           ☕ <span class="text-3xl font-bold w-16">3,770</span><span class="flex-1">Divine Proportion △</span>
         </button>
-        <button onclick="copyZap(6100000, 'Spiral Energy 🌀')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
+        <button onclick="copyZap(6100000, '6,100 sats - Spiral Energy 🌀')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
           ✨ <span class="text-3xl font-bold w-16">6,100</span><span class="flex-1">Spiral Energy 🌀</span>
         </button>
-        <button onclick="copyZap(9870000, 'Golden Spiral ✨')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
+        <button onclick="copyZap(9870000, '9,870 sats - Golden Spiral ✨')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
           🍷 <span class="text-3xl font-bold w-16">9,870</span><span class="flex-1">Golden Spiral ✨</span>
         </button>
-        <button onclick="copyZap(15970000, 'Ultimate Fibonacci ✨')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
+        <button onclick="copyZap(15970000, '15,970 sats - Ultimate Fibonacci ✨')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
           👑 <span class="text-3xl font-bold w-16">15,970</span><span class="flex-1">Ultimate Fibonacci ✨</span>
         </button>
       `;
@@ -91,7 +98,7 @@
     function copyZap(amount, label) {
       const uri = `lightning:${lnAddress}?amount=${amount}`;
       navigator.clipboard.writeText(uri);
-      alert(`Copied: ${label}\n\nPaste into Alby Go or any Lightning wallet.`);
+      alert(`✅ Copied: ${label}\n\nPaste into Alby Go or any Lightning wallet to send.`);
     }
 
     function copyAddress() {
