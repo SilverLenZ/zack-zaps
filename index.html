@@ -8,14 +8,9 @@
   <script src="https://cdn.jsdelivr.net/npm/nostr-zap@latest"></script>
   <style>
     body { background: #0a0a0a; color: #f1f1f1; font-family: system-ui, sans-serif; }
-    .nostr-embed-container { max-width: 100%; margin: 0 auto; }
-    .preset-row { 
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
-    }
-    .preset-row:hover { 
-      transform: translateY(-3px); 
-      box-shadow: 0 15px 25px -5px rgb(245 158 11 / 0.3); 
-    }
+    .preset-row { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+    .preset-row:hover { transform: translateY(-3px); box-shadow: 0 15px 25px -5px rgb(245 158 11 / 0.3); }
+    .fb-page { max-width: 100%; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-6 md:p-12">
@@ -24,8 +19,7 @@
     <!-- Header with Logo -->
     <div class="flex items-center gap-5 mb-10 justify-center">
       <img src="https://raw.githubusercontent.com/SilverLenZ/zack-zaps/main/silverlenz%20logo.jpg" 
-           alt="SilverLenz" 
-           class="w-20 h-20 rounded-2xl object-cover border border-amber-400/50">
+           alt="SilverLenz" class="w-20 h-20 rounded-2xl object-cover border border-amber-400/50">
       <div>
         <h1 class="text-5xl font-light tracking-widest">ZACK COVELL</h1>
         <p class="text-amber-300 text-xl -mt-1">SilverLenz • Fibonacci Art Pipeline</p>
@@ -41,9 +35,17 @@
       <div class="space-y-5" id="presets"></div>
     </div>
 
-    <!-- Cleaner Nostr Embed -->
+    <!-- Facebook Latest Posts -->
     <div class="bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl p-4">
-      <div id="nostr-embed" class="nostr-embed-container"></div>
+      <div class="fb-page" data-href="https://www.facebook.com/covellz/" 
+           data-tabs="timeline" 
+           data-width="600" 
+           data-height="600" 
+           data-small-header="false" 
+           data-adapt-container-width="true" 
+           data-hide-cover="false" 
+           data-show-facepile="true">
+      </div>
     </div>
 
     <footer class="text-center text-xs opacity-60 mt-12">
@@ -78,22 +80,14 @@
       document.getElementById('presets').innerHTML = presetsHTML;
     }
 
-    // Load nostr-embed
-    !(function () {
-      const n = document.createElement('script');
-      n.type = 'text/javascript';
-      n.async = true;
-      n.src = 'https://cdn.jsdelivr.net/gh/nostrband/nostr-embed@latest/dist/nostr-embed.js';
-      n.onload = function () {
-        nostrEmbed.init(
-          "nevent1qvzqqqqqqypzqps0a52lc8r488gk6wlsla66nu4qljca5nn85llggk3wsrtt6al9qqsy209tvjpkg55syad7xa5rykhxy93faxkzu2m9de0jharkst745vgqpjjnn",
-          "#nostr-embed",
-          "wss://relay.primal.net"
-        );
-      };
-      const a = document.getElementsByTagName('script')[0];
-      a.parentNode.insertBefore(n, a);
-    })();
+    // Load Facebook SDK
+    !(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
 
     window.onload = renderPresets;
   </script>
