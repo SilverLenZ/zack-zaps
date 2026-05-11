@@ -53,8 +53,8 @@
 
     <!-- Facebook Embed - Full Width -->
     <div class="mb-16 bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl p-4">
-      <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fcovellz%2F&tabs=timeline&width=1000&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=1032861222423751" 
-              width="100%" height="700" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>
+      <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fcovellz%2F&tabs=timeline&width=1000&height=650&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=1032861222423751" 
+              width="100%" height="650" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>
     </div>
 
     <!-- Zap Buttons -->
@@ -98,7 +98,7 @@
     function copyZap(amount, label) {
       const uri = `lightning:${lnAddress}?amount=${amount}`;
       navigator.clipboard.writeText(uri);
-      alert(`✅ Copied: ${label}\n\nPaste into Alby Go or any Lightning wallet to send.`);
+      alert(`✅ Copied ready-to-pay request for ${label}\n\nOpen Alby Go → Send → Paste → Confirm`);
     }
 
     function copyAddress() {
