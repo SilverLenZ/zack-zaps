@@ -1,29 +1,216 @@
-<div id="fb-root"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SilverLenz ⚡ Zaps</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+<style>
+body {
+  background: radial-gradient(circle at top, #111 0%, #000 100%);
+  color: #f1f1f1;
+  font-family: system-ui, sans-serif;
+}
+
+.zap-btn {
+  border: 2px solid rgba(251,191,36,0.18);
+  transition: all 0.2s ease;
+}
+
+.zap-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(251,191,36,0.5);
+  background: rgba(251,191,36,0.06);
+}
+
+.low { box-shadow: 0 0 10px rgba(251,191,36,0.08); }
+.mid { box-shadow: 0 0 16px rgba(251,191,36,0.12); }
+.high { box-shadow: 0 0 24px rgba(251,191,36,0.18); }
+.legend { box-shadow: 0 0 35px rgba(251,191,36,0.28); }
+
+.flash {
+  animation: flash 0.6s ease;
+}
+
+@keyframes flash {
+  0% { box-shadow: 0 0 0 rgba(251,191,36,0); }
+  50% { box-shadow: 0 0 30px rgba(251,191,36,0.5); }
+  100% { box-shadow: 0 0 0 rgba(251,191,36,0); }
+}
+
+.fb-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.fb-page {
+  width: 100% !important;
+}
+</style>
+</head>
+
+<body class="min-h-screen flex flex-col items-center p-6 md:p-12">
+
+<!-- HEADER -->
+<div class="max-w-3xl w-full text-center mb-6">
+
+  <h1 class="text-4xl font-light tracking-widest">SILVERLENZ</h1>
+
+  <p class="text-amber-300 mt-2 text-sm">
+    Living Lightning Art Economy ⚡
+  </p>
+
+  <div id="weblnStatus" class="text-xs mt-2 opacity-70"></div>
+
+</div>
+
+<!-- WALLET -->
+<div class="max-w-3xl w-full bg-zinc-900/90 border border-amber-400/20 rounded-3xl p-7 shadow-2xl mb-10">
+
+  <div class="flex justify-between items-center mb-5">
+    <code class="text-amber-400 text-base">silverlenz@rizful.com</code>
+
+    <button onclick="copyAddress()"
+            class="bg-amber-600 hover:bg-amber-500 px-4 py-2 rounded-xl text-xs">
+      Copy
+    </button>
+  </div>
+
+  <p id="status" class="text-xs text-center text-gray-400">
+    Ready to receive zaps ⚡
+  </p>
+</div>
+
+<!-- ZAPS -->
+<div class="max-w-3xl w-full space-y-3 mb-16">
+
+  <button class="zap-btn low w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
+          onclick="zap(1440,this)">
+    <span class="text-lg">Perfect Harmony</span>
+    <span class="text-2xl font-bold text-amber-300">1,440 sats</span>
+  </button>
+
+  <button class="zap-btn mid w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
+          onclick="zap(2330,this)">
+    <span class="text-lg">Artistic Flow</span>
+    <span class="text-2xl font-bold text-amber-300">2,330 sats</span>
+  </button>
+
+  <button class="zap-btn mid w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
+          onclick="zap(3770,this)">
+    <span class="text-lg">Divine Proportion</span>
+    <span class="text-2xl font-bold text-amber-300">3,770 sats</span>
+  </button>
+
+  <button class="zap-btn high w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
+          onclick="zap(6100,this)">
+    <span class="text-lg">Spiral Energy</span>
+    <span class="text-2xl font-bold text-amber-300">6,100 sats</span>
+  </button>
+
+  <button class="zap-btn high w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
+          onclick="zap(9870,this)">
+    <span class="text-lg">Golden Spiral</span>
+    <span class="text-2xl font-bold text-amber-300">9,870 sats</span>
+  </button>
+
+  <button class="zap-btn legend w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
+          onclick="zap(15970,this)">
+    <span class="text-lg">Ultimate Fibonacci</span>
+    <span class="text-2xl font-bold text-amber-300">15,970 sats</span>
+  </button>
+
+</div>
+
+<!-- FACEBOOK (ONLY CHANGE: SIZE REDUCED BY ~50px) -->
+<div class="w-full flex justify-center mb-16">
+  <div class="fb-container text-center">
+
+    <h2 class="text-xl font-light mb-5 text-amber-300">
+      Live Art Pipeline Feed
+    </h2>
+
+    <div id="fb-root"></div>
+
+    <div class="fb-page"
+      data-href="https://www.facebook.com/covellz/"
+      data-tabs="timeline"
+      data-width="450"
+      data-height="750"
+      data-adapt-container-width="true"
+      data-hide-cover="false"
+      data-show-facepile="true">
+    </div>
+
+  </div>
+</div>
+
+<!-- QR -->
+<div id="qrModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+  <div class="bg-zinc-900 p-6 rounded-2xl text-center">
+    <div id="qrcode"></div>
+    <button onclick="closeQR()" class="mt-4 bg-amber-600 px-4 py-2 rounded-xl">Close</button>
+  </div>
+</div>
 
 <script>
-window.fbAsyncInit = function() {
-  FB.init({
-    xfbml: true,
-    version: 'v18.0'
-  });
+const LN = "silverlenz@rizful.com";
 
-  // IMPORTANT: force render after init
-  FB.XFBML.parse();
-};
+/* ZAP */
+async function zap(sats, btn) {
+  try {
+    const msats = sats * 1000;
+    const [name, domain] = LN.split("@");
 
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s);
-  js.id = id;
-  js.src = "https://connect.facebook.net/en_US/sdk.js";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
+    const lnurl = `https://${domain}/.well-known/lnurlp/${name}`;
+    const res = await fetch(lnurl);
+    const data = await res.json();
 
-// SECOND SAFETY NET (this is what was missing)
-window.addEventListener("load", function () {
-  if (window.FB) {
-    FB.XFBML.parse();
+    const inv = await fetch(`${data.callback}?amount=${msats}`);
+    const invoice = await inv.json();
+
+    const a = document.createElement("a");
+    a.href = "lightning:" + invoice.pr;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    success(btn);
+
+  } catch (e) {
+    console.log(e);
   }
-});
+}
+
+function success(btn) {
+  btn.classList.add("flash");
+  setTimeout(() => btn.classList.remove("flash"), 600);
+  confetti({ particleCount: 80, spread: 60 });
+}
+
+function copyAddress() {
+  navigator.clipboard.writeText(LN);
+  setStatus("Copied ✔");
+}
+
+function setStatus(t) {
+  document.getElementById("status").innerText = t;
+}
+
+/* WEbLN */
+window.onload = () => {
+  const el = document.getElementById("weblnStatus");
+  if (window.webln) {
+    el.innerText = "⚡ Alby WebLN detected";
+  }
+};
 </script>
+
+</body>
+</html>
