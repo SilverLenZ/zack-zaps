@@ -3,194 +3,161 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zaps ⚡ | SilverLenz Art Pipeline</title>
+  <title>SilverLenz ⚡ Zaps</title>
+
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
     body {
-      background: #0a0a0a;
+      background: radial-gradient(circle at top, #111 0%, #000 100%);
       color: #f1f1f1;
       font-family: system-ui, sans-serif;
     }
 
-    .zap-row {
-      transition: 0.2s ease;
-      padding: 1.25rem 1.75rem;
-      border-radius: 1.5rem;
+    .zap-btn {
+      transition: all 0.2s ease;
+      border: 1px solid rgba(251,191,36,0.15);
     }
 
-    .zap-row:hover {
+    .zap-btn:hover {
       transform: translateY(-2px);
+      border-color: rgba(251,191,36,0.5);
       background: rgba(251,191,36,0.08);
     }
 
-    /* Full width FB wrapper */
-    .fb-wrapper {
-      width: 100vw;
-      max-width: 100vw;
-      margin-left: calc(-50vw + 50%);
+    .status {
+      transition: all 0.3s ease;
+    }
+
+    .glow {
+      box-shadow: 0 0 30px rgba(251,191,36,0.2);
     }
   </style>
 </head>
 
 <body class="min-h-screen flex flex-col items-center p-6 md:p-12">
-<div style="color:red; font-size:30px;">
-  TEST CSS IS WORKING
-</div>
+
 <div class="max-w-3xl w-full">
 
   <!-- HEADER -->
-  <div class="flex items-center gap-5 mb-10 justify-center">
-    <img src="https://raw.githubusercontent.com/SilverLenZ/zack-zaps/main/silverlenz%20logo.jpg"
-         class="w-20 h-20 rounded-2xl border border-amber-400/50">
-
-    <div>
-      <h1 class="text-5xl font-light tracking-widest">ZACK COVELL</h1>
-      <p class="text-amber-300 text-xl -mt-1">SilverLenz • Fibonacci Art Pipeline</p>
-    </div>
+  <div class="text-center mb-10">
+    <h1 class="text-5xl font-light tracking-widest">SILVERLENZ</h1>
+    <p class="text-amber-300 mt-2">Fibonacci Art Pipeline ⚡ Lightning Zaps</p>
   </div>
 
-  <h2 class="text-center text-4xl font-light mb-4 tracking-wider">
-    ZAPS THAT RESONATE ⚡
-  </h2>
+  <!-- ADDRESS CARD -->
+  <div class="bg-zinc-900/90 border border-amber-400/20 rounded-3xl p-8 shadow-2xl mb-10 glow">
 
-  <p class="text-center text-amber-300 mb-10 text-lg">
-    Support the daily art pipeline
-  </p>
-
-  <!-- MAIN CARD -->
-  <div class="bg-zinc-900/90 border border-amber-400/20 rounded-3xl p-8 shadow-2xl mb-16">
-
-    <!-- LIGHTNING ADDRESS -->
-    <div class="mb-8">
-      <p class="uppercase text-xs tracking-widest text-amber-300 mb-3">
-        LIGHTNING ADDRESS
-      </p>
-
-      <div class="flex items-center justify-between bg-black/60 rounded-2xl p-5">
-        <code class="font-mono text-2xl text-amber-400">
-          silverlenz@rizful.com
-        </code>
-
-        <button onclick="copyAddress()"
-                class="bg-amber-600 hover:bg-amber-500 px-6 py-3 rounded-2xl">
-          Copy
-        </button>
-      </div>
-    </div>
-
-    <!-- GLOBAL ZAP BUTTONS -->
-    <p class="uppercase text-xs tracking-widest text-amber-300 mb-5">
-      ZAP AMOUNTS
+    <p class="uppercase text-xs tracking-widest text-amber-300 mb-3">
+      LIGHTNING ADDRESS
     </p>
 
-    <div class="space-y-4">
+    <div class="flex items-center justify-between bg-black/60 rounded-2xl p-5 mb-6">
+      <code class="text-amber-400 text-lg">silverlenz@rizful.com</code>
 
-      <button onclick="zap(1440)" class="zap-row w-full flex items-center gap-6 bg-zinc-800 text-left">
-        👍 <span class="text-3xl font-bold w-24">1,440</span> Perfect Harmony ♫
+      <button onclick="copyAddress()"
+              class="bg-amber-600 hover:bg-amber-500 px-5 py-2 rounded-xl text-sm">
+        Copy
       </button>
-
-      <button onclick="zap(2330)" class="zap-row w-full flex items-center gap-6 bg-zinc-800 text-left">
-        🚀 <span class="text-3xl font-bold w-24">2,330</span> Artistic Flow 🌀
-      </button>
-
-      <button onclick="zap(3770)" class="zap-row w-full flex items-center gap-6 bg-zinc-800 text-left">
-        ☕ <span class="text-3xl font-bold w-24">3,770</span> Divine Proportion △
-      </button>
-
-      <button onclick="zap(6100)" class="zap-row w-full flex items-center gap-6 bg-zinc-800 text-left">
-        ✨ <span class="text-3xl font-bold w-24">6,100</span> Spiral Energy 🌀
-      </button>
-
-      <button onclick="zap(9870)" class="zap-row w-full flex items-center gap-6 bg-zinc-800 text-left">
-        🍷 <span class="text-3xl font-bold w-24">9,870</span> Golden Spiral ✨
-      </button>
-
-      <button onclick="zap(15970)" class="zap-row w-full flex items-center gap-6 bg-zinc-800 text-left">
-        👑 <span class="text-3xl font-bold w-24">15,970</span> Ultimate Fibonacci ✨
-      </button>
-
     </div>
+
+    <p id="status" class="status text-sm text-center text-gray-400">
+      Ready to receive zaps ⚡
+    </p>
   </div>
 
-</div>
+  <!-- ZAP BUTTONS -->
+  <div class="space-y-4">
 
-<!-- FACEBOOK FULL WIDTH -->
-<div class="fb-wrapper mb-16">
-  <div id="fb-root"></div>
+    <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
+            onclick="zap(1440)">
+      <span>👍 Perfect Harmony</span>
+      <span class="text-amber-300 font-bold">1,440 sats</span>
+    </button>
 
-  <div class="fb-page"
-       data-href="https://www.facebook.com/covellz/"
-       data-tabs="timeline"
-       data-width="5000"
-       data-height="700"
-       data-small-header="false"
-       data-adapt-container-width="true"
-       data-hide-cover="false"
-       data-show-facepile="true">
+    <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
+            onclick="zap(2330)">
+      <span>🚀 Artistic Flow</span>
+      <span class="text-amber-300 font-bold">2,330 sats</span>
+    </button>
+
+    <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
+            onclick="zap(3770)">
+      <span>☕ Divine Proportion</span>
+      <span class="text-amber-300 font-bold">3,770 sats</span>
+    </button>
+
+    <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
+            onclick="zap(6100)">
+      <span>✨ Spiral Energy</span>
+      <span class="text-amber-300 font-bold">6,100 sats</span>
+    </button>
+
+    <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
+            onclick="zap(9870)">
+      <span>🍷 Golden Spiral</span>
+      <span class="text-amber-300 font-bold">9,870 sats</span>
+    </button>
+
+    <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
+            onclick="zap(15970)">
+      <span>👑 Ultimate Fibonacci</span>
+      <span class="text-amber-300 font-bold">15,970 sats</span>
+    </button>
+
   </div>
+
 </div>
 
 <script>
 const LN_ADDRESS = "silverlenz@rizful.com";
 
-/* -----------------------
-   ZAP FLOW (LNURL SAFE)
-------------------------*/
+function setStatus(msg) {
+  document.getElementById("status").innerText = msg;
+}
+
 async function zap(sats) {
   try {
-    const msats = sats * 1000;
+    setStatus("Preparing zap ⚡...");
 
+    const msats = sats * 1000;
     const [name, domain] = LN_ADDRESS.split("@");
+
     const lnurl = `https://${domain}/.well-known/lnurlp/${name}`;
 
     const res = await fetch(lnurl);
+    if (!res.ok) throw new Error("LNURL failed");
+
     const data = await res.json();
 
     const invoiceRes = await fetch(`${data.callback}?amount=${msats}`);
     const invoice = await invoiceRes.json();
 
-    if (!invoice.pr) {
-      alert("Invoice failed");
-      return;
-    }
+    if (!invoice.pr) throw new Error("No invoice");
+
+    setStatus("Opening wallet...");
 
     if (window.webln) {
       await window.webln.enable();
       await window.webln.sendPayment(invoice.pr);
+      setStatus("⚡ Zap sent successfully!");
       return;
     }
 
     window.location.href = `lightning:${invoice.pr}`;
+    setStatus("Wallet opened ⚡");
 
   } catch (e) {
     console.error(e);
-    alert("Zap failed");
+    setStatus("Zap failed — wallet may not support this flow");
   }
 }
 
-/* -----------------------
-   COPY
-------------------------*/
 function copyAddress() {
   navigator.clipboard.writeText(LN_ADDRESS);
-  const btn = event.target;
-  const old = btn.textContent;
-  btn.textContent = "Copied!";
-  setTimeout(() => btn.textContent = old, 1500);
+  setStatus("Address copied ✔");
+  setTimeout(() => setStatus("Ready to receive zaps ⚡"), 2000);
 }
-
-/* -----------------------
-   FACEBOOK SDK
-------------------------*/
-!(function(d,s,id){
-  var js,fjs=d.getElementsByTagName(s)[0];
-  if(d.getElementById(id))return;
-  js=d.createElement(s);js.id=id;
-  js.src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0";
-  fjs.parentNode.insertBefore(js,fjs);
-}(document,'script','facebook-jssdk'));
-
 </script>
 
 </body>
