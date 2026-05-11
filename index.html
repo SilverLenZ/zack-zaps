@@ -8,7 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/nostr-zap@latest"></script>
   <style>
     body { background: #0a0a0a; color: #f1f1f1; font-family: system-ui, sans-serif; }
-    .art-hero { max-width: 100%; margin: 0 auto; }
+    .art-hero iframe, .art-hero img { max-height: 70vh; width: 100%; border-radius: 16px; box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.5); }
     .preset-row { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
     .preset-row:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgb(245 158 11 / 0.3); }
   </style>
@@ -18,9 +18,15 @@
     <h1 class="text-5xl font-light text-center mb-2 tracking-widest">ZAPS THAT RESONATE ⚡</h1>
     <p class="text-center text-amber-300 mb-12 text-lg">Latest from the Fibonacci Art Pipeline</p>
 
-    <!-- Nostr Post Container -->
-    <div id="latest-post" class="mb-16 bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl p-4">
-      Loading latest art post...
+    <!-- Live Nostr Post Section (njump gateway) -->
+    <div class="mb-16 bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl p-4">
+      <div class="art-hero">
+        <iframe 
+          src="https://njump.me/nevent1qvzqqqqqqypzqps0a52lc8r488gk6wlsla66nu4qljca5nn85llggk3wsrtt6al9qqsy209tvjpkg55syad7xa5rykhxy93faxkzu2m9de0jharkst745vgqpjjnn" 
+          style="height: 620px; width: 100%; border: none;" 
+          title="Latest SilverLenz Art Post">
+        </iframe>
+      </div>
     </div>
 
     <!-- Zap Presets -->
@@ -30,14 +36,13 @@
     </div>
 
     <footer class="text-center text-xs opacity-60 mt-24">
-      Powered by Nostr • Click any preset to zap
+      Powered by Nostr • Automatically shows recent art
     </footer>
   </div>
 
   <script>
     const npub = "npub1qc87690ur36nn5td80c07adf72s0evw6fen60l5ytghgp44awljsxml2ka";
 
-    // Render presets
     function renderPresets() {
       const presetsHTML = `
         <button data-npub="${npub}" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl p-7 text-left text-xl">
@@ -62,24 +67,6 @@
       document.getElementById('presets').innerHTML = presetsHTML;
     }
 
-    // Load nostr-embed properly
-    !(function () {
-      const n = document.createElement('script');
-      n.type = 'text/javascript';
-      n.async = true;
-      n.src = 'https://cdn.jsdelivr.net/gh/nostrband/nostr-embed@latest/dist/nostr-embed.js';
-      n.onload = function () {
-        nostrEmbed.init(
-          "nevent1qvzqqqqqqypzqps0a52lc8r488gk6wlsla66nu4qljca5nn85llggk3wsrtt6al9qqsy209tvjpkg55syad7xa5rykhxy93faxkzu2m9de0jharkst745vgqpjjnn",
-          "#latest-post",
-          "wss://relay.primal.net"
-        );
-      };
-      const a = document.getElementsByTagName('script')[0];
-      a.parentNode.insertBefore(n, a);
-    })();
-
-    // Initialize presets
     window.onload = renderPresets;
   </script>
 </body>
