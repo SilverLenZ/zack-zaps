@@ -35,7 +35,7 @@
       <p class="text-amber-300 font-medium mb-4">💡 How to Zap</p>
       <p class="text-sm mb-6">Tap any amount below or copy the Lightning Address</p>
       
-      <div class="flex items-center justify-center gap-4 bg-black/60 rounded-2xl p-5">
+      <div class="flex items-center justify-center gap-4">
         <code class="font-mono text-2xl text-amber-400">silverlenz@getalby.com</code>
         <button onclick="copyAddress()" 
                 class="bg-amber-600 hover:bg-amber-500 px-7 py-3 rounded-2xl text-base font-medium transition">
@@ -50,7 +50,7 @@
               width="100%" height="650" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>
     </div>
 
-    <!-- Zap Buttons - Opens Alby Web -->
+    <!-- Zap Buttons - Copy to Clipboard -->
     <div>
       <h3 class="text-3xl font-light text-center mb-8">Choose Your Resonance</h3>
       <div class="space-y-4" id="presets"></div>
@@ -66,26 +66,32 @@
 
     function renderPresets() {
       const html = `
-        <a href="https://getalby.com/send?to=${lnAddress}&amp;amount=1440" target="_blank" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
+        <button onclick="copyZap(1440000, 'Perfect Harmony ♫')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
           👍 <span class="text-3xl font-bold w-16">1,440</span><span class="flex-1">Perfect Harmony ♫</span>
-        </a>
-        <a href="https://getalby.com/send?to=${lnAddress}&amp;amount=2330" target="_blank" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
+        </button>
+        <button onclick="copyZap(2330000, 'Artistic Flow 🌀')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
           🚀 <span class="text-3xl font-bold w-16">2,330</span><span class="flex-1">Artistic Flow 🌀</span>
-        </a>
-        <a href="https://getalby.com/send?to=${lnAddress}&amp;amount=3770" target="_blank" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
+        </button>
+        <button onclick="copyZap(3770000, 'Divine Proportion △')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
           ☕ <span class="text-3xl font-bold w-16">3,770</span><span class="flex-1">Divine Proportion △</span>
-        </a>
-        <a href="https://getalby.com/send?to=${lnAddress}&amp;amount=6100" target="_blank" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
+        </button>
+        <button onclick="copyZap(6100000, 'Spiral Energy 🌀')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
           ✨ <span class="text-3xl font-bold w-16">6,100</span><span class="flex-1">Spiral Energy 🌀</span>
-        </a>
-        <a href="https://getalby.com/send?to=${lnAddress}&amp;amount=9870" target="_blank" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
+        </button>
+        <button onclick="copyZap(9870000, 'Golden Spiral ✨')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
           🍷 <span class="text-3xl font-bold w-16">9,870</span><span class="flex-1">Golden Spiral ✨</span>
-        </a>
-        <a href="https://getalby.com/send?to=${lnAddress}&amp;amount=15970" target="_blank" class="preset-row block w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
+        </button>
+        <button onclick="copyZap(15970000, 'Ultimate Fibonacci ✨')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
           👑 <span class="text-3xl font-bold w-16">15,970</span><span class="flex-1">Ultimate Fibonacci ✨</span>
-        </a>
+        </button>
       `;
       document.getElementById('presets').innerHTML = html;
+    }
+
+    function copyZap(amount, label) {
+      const uri = `lightning:${lnAddress}?amount=${amount}`;
+      navigator.clipboard.writeText(uri);
+      alert(`Copied: ${label}\n\nPaste into Alby Go or any Lightning wallet.`);
     }
 
     function copyAddress() {
