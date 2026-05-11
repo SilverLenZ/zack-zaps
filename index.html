@@ -12,6 +12,10 @@
       padding: 1.25rem 1.75rem;
     }
     .preset-row:hover { transform: translateY(-3px); }
+    iframe {
+      border-radius: 16px;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-6 md:p-12">
@@ -20,7 +24,8 @@
     <!-- Header -->
     <div class="flex items-center gap-5 mb-10 justify-center">
       <img src="https://raw.githubusercontent.com/SilverLenZ/zack-zaps/main/silverlenz%20logo.jpg" 
-           alt="SilverLenz" class="w-20 h-20 rounded-2xl object-cover border border-amber-400/50">
+           alt="SilverLenz" 
+           class="w-20 h-20 rounded-2xl object-cover border border-amber-400/50">
       <div>
         <h1 class="text-5xl font-light tracking-widest">ZACK COVELL</h1>
         <p class="text-amber-300 text-xl -mt-1">SilverLenz • Fibonacci Art Pipeline</p>
@@ -33,23 +38,23 @@
     <!-- Instructions -->
     <div class="bg-amber-900/30 border border-amber-400/30 rounded-3xl p-6 mb-12 text-center">
       <p class="text-amber-300 font-medium mb-2">💡 How to Zap</p>
-      <p class="text-sm">Tap any amount below. It will open your wallet (Alby Go, Phoenix, etc.) to send sats.</p>
+      <p class="text-sm">Tap any amount below. It will open Alby Go or your Lightning wallet.</p>
     </div>
 
-    <!-- Facebook Embed -->
+    <!-- Facebook Latest Post -->
     <div class="mb-16 bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl p-4">
-      <div class="fb-container">
-        <div class="fb-page" 
-             data-href="https://www.facebook.com/covellz/" 
-             data-tabs="timeline" 
-             data-width="1000" 
-             data-height="650" 
-             data-adapt-container-width="true">
-        </div>
-      </div>
+      <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fcovellz%2F&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=1032861222423751" 
+              width="100%" 
+              height="500" 
+              style="border:none;overflow:hidden" 
+              scrolling="no" 
+              frameborder="0" 
+              allowfullscreen="true" 
+              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+      </iframe>
     </div>
 
-    <!-- Reliable Lightning Buttons -->
+    <!-- Zap Buttons -->
     <div>
       <h3 class="text-3xl font-light text-center mb-8">Choose Your Resonance</h3>
       <div class="space-y-4" id="presets"></div>
