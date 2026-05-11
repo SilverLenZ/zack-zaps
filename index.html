@@ -17,34 +17,30 @@ body {
   font-family: system-ui, sans-serif;
 }
 
-.zap-row {
+.zap-btn {
   border: 2px solid rgba(251,191,36,0.18);
   transition: all 0.2s ease;
 }
 
-.zap-row:hover {
+.zap-btn:hover {
   transform: translateY(-2px);
   border-color: rgba(251,191,36,0.5);
   background: rgba(251,191,36,0.06);
 }
 
+/* tiers */
 .low { box-shadow: 0 0 10px rgba(251,191,36,0.08); }
 .mid { box-shadow: 0 0 16px rgba(251,191,36,0.12); }
 .high { box-shadow: 0 0 24px rgba(251,191,36,0.18); }
 .legend { box-shadow: 0 0 35px rgba(251,191,36,0.28); }
 
-.qr-box {
-  width: 60px;
-  height: 60px;
+/* QR mini */
+.qr-mini {
+  width: 52px;
+  height: 52px;
   background: white;
   border-radius: 8px;
   padding: 4px;
-  flex-shrink: 0;
-}
-
-.sats {
-  min-width: 120px;
-  text-align: right;
 }
 </style>
 </head>
@@ -81,60 +77,60 @@ body {
   </p>
 </div>
 
-<!-- ZAPS (RESTORED ORIGINAL SCALE) -->
+<!-- ZAPS -->
 <div class="max-w-3xl w-full space-y-3 mb-16">
 
-  <div class="zap-row low flex items-center justify-between bg-zinc-800 p-4 rounded-2xl">
-    <button onclick="zap(1440,this)" class="flex-1 text-left">
-      👍 Perfect Harmony
+  <!-- 144 -->
+  <div class="zap-btn low flex justify-between items-center bg-zinc-800 p-4 rounded-2xl">
+    <button onclick="zap(1440,this)" class="flex items-center gap-2 w-full text-left">
+      👍 Perfect Harmony <span class="text-amber-300 font-bold ml-auto">144 sats</span>
     </button>
-    <span class="sats text-amber-300 font-bold">1440 sats</span>
-    <div id="qr1440" class="qr-box ml-4"></div>
+    <div id="qr1440" class="qr-mini"></div>
   </div>
 
-  <div class="zap-row mid flex items-center justify-between bg-zinc-800 p-4 rounded-2xl">
-    <button onclick="zap(2330,this)" class="flex-1 text-left">
-      🚀 Artistic Flow
+  <!-- 233 -->
+  <div class="zap-btn mid flex justify-between items-center bg-zinc-800 p-4 rounded-2xl">
+    <button onclick="zap(2330,this)" class="flex items-center gap-2 w-full text-left">
+      🚀 Artistic Flow <span class="text-amber-300 font-bold ml-auto">233 sats</span>
     </button>
-    <span class="sats text-amber-300 font-bold">2330 sats</span>
-    <div id="qr2330" class="qr-box ml-4"></div>
+    <div id="qr2330" class="qr-mini"></div>
   </div>
 
-  <div class="zap-row mid flex items-center justify-between bg-zinc-800 p-4 rounded-2xl">
-    <button onclick="zap(3770,this)" class="flex-1 text-left">
-      ✨ Divine Proportion
+  <!-- 377 -->
+  <div class="zap-btn mid flex justify-between items-center bg-zinc-800 p-4 rounded-2xl">
+    <button onclick="zap(3770,this)" class="flex items-center gap-2 w-full text-left">
+      ✨ Divine Proportion <span class="text-amber-300 font-bold ml-auto">377 sats</span>
     </button>
-    <span class="sats text-amber-300 font-bold">3770 sats</span>
-    <div id="qr3770" class="qr-box ml-4"></div>
+    <div id="qr3770" class="qr-mini"></div>
   </div>
 
-  <div class="zap-row high flex items-center justify-between bg-zinc-800 p-4 rounded-2xl">
-    <button onclick="zap(6100,this)" class="flex-1 text-left">
-      🌀 Spiral Energy
+  <!-- 610 -->
+  <div class="zap-btn high flex justify-between items-center bg-zinc-800 p-4 rounded-2xl">
+    <button onclick="zap(6100,this)" class="flex items-center gap-2 w-full text-left">
+      🌀 Spiral Energy <span class="text-amber-300 font-bold ml-auto">610 sats</span>
     </button>
-    <span class="sats text-amber-300 font-bold">6100 sats</span>
-    <div id="qr6100" class="qr-box ml-4"></div>
+    <div id="qr6100" class="qr-mini"></div>
   </div>
 
-  <div class="zap-row high flex items-center justify-between bg-zinc-800 p-4 rounded-2xl">
-    <button onclick="zap(9870,this)" class="flex-1 text-left">
-      🍷 Golden Spiral
+  <!-- 987 -->
+  <div class="zap-btn high flex justify-between items-center bg-zinc-800 p-4 rounded-2xl">
+    <button onclick="zap(9870,this)" class="flex items-center gap-2 w-full text-left">
+      🍷 Golden Spiral <span class="text-amber-300 font-bold ml-auto">987 sats</span>
     </button>
-    <span class="sats text-amber-300 font-bold">9870 sats</span>
-    <div id="qr9870" class="qr-box ml-4"></div>
+    <div id="qr9870" class="qr-mini"></div>
   </div>
 
-  <div class="zap-row legend flex items-center justify-between bg-zinc-800 p-4 rounded-2xl">
-    <button onclick="zap(15970,this)" class="flex-1 text-left">
-      👑 Ultimate Fibonacci
+  <!-- 1597 -->
+  <div class="zap-btn legend flex justify-between items-center bg-zinc-800 p-4 rounded-2xl">
+    <button onclick="zap(15970,this)" class="flex items-center gap-2 w-full text-left">
+      👑 Ultimate Fibonacci <span class="text-amber-300 font-bold ml-auto">1597 sats</span>
     </button>
-    <span class="sats text-amber-300 font-bold">15970 sats</span>
-    <div id="qr15970" class="qr-box ml-4"></div>
+    <div id="qr15970" class="qr-mini"></div>
   </div>
 
 </div>
 
-<!-- FACEBOOK (STABLE FIXED VERSION) -->
+<!-- FACEBOOK -->
 <div class="w-full flex justify-center mb-16">
   <div class="max-w-[1100px] w-full text-center">
 
@@ -178,6 +174,9 @@ async function zap(sats, btn){
   a.click();
   a.remove();
 
+  btn.classList.add("flash");
+  setTimeout(()=>btn.classList.remove("flash"),600);
+
   confetti({ particleCount: 80, spread: 60 });
 }
 
@@ -201,32 +200,16 @@ window.onload = () => {
   generateQRs();
 };
 
-/* QR */
+/* QR generation (static lightning address hint) */
 function generateQRs(){
-  const satsList = [1440,2330,3770,6100,9870,15970];
-  const [name, domain] = LN.split("@");
+  const sats = [1440,2330,3770,6100,9870,15970];
 
-  const base = `https://${domain}/.well-known/lnurlp/${name}`;
-
-  satsList.forEach(async (sats) => {
-    const msats = sats * 1000;
-
-    try {
-      const res = await fetch(base);
-      const data = await res.json();
-
-      const inv = await fetch(`${data.callback}?amount=${msats}`);
-      const invoice = await inv.json();
-
-      new QRCode(document.getElementById("qr"+sats), {
-        text: "lightning:" + invoice.pr,
-        width: 60,
-        height: 60
-      });
-
-    } catch(e){
-      console.log(e);
-    }
+  sats.forEach(s => {
+    new QRCode(document.getElementById("qr"+s), {
+      text: `lightning:${LN}`,
+      width: 52,
+      height: 52
+    });
   });
 }
 
