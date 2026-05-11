@@ -48,10 +48,6 @@ body {
   max-width: 1100px;
   margin: 0 auto;
 }
-
-.fb-page {
-  width: 100% !important;
-}
 </style>
 </head>
 
@@ -128,15 +124,13 @@ body {
 
 </div>
 
-<!-- FACEBOOK (ONLY CHANGE: SIZE REDUCED BY ~50px) -->
+<!-- FACEBOOK (RESTORED FIX) -->
 <div class="w-full flex justify-center mb-16">
   <div class="fb-container text-center">
 
     <h2 class="text-xl font-light mb-5 text-amber-300">
       Live Art Pipeline Feed
     </h2>
-
-    <div id="fb-root"></div>
 
     <div class="fb-page"
       data-href="https://www.facebook.com/covellz/"
@@ -159,6 +153,7 @@ body {
   </div>
 </div>
 
+<!-- SCRIPTS -->
 <script>
 const LN = "silverlenz@rizful.com";
 
@@ -203,13 +198,42 @@ function setStatus(t) {
   document.getElementById("status").innerText = t;
 }
 
-/* WEbLN */
+/* WEBLN */
 window.onload = () => {
   const el = document.getElementById("weblnStatus");
   if (window.webln) {
     el.innerText = "⚡ Alby WebLN detected";
   }
 };
+</script>
+
+<!-- FACEBOOK SDK (THIS IS THE FIX) -->
+<div id="fb-root"></div>
+
+<script>
+window.fbAsyncInit = function() {
+  FB.init({
+    xfbml: true,
+    version: 'v18.0'
+  });
+
+  FB.XFBML.parse();
+};
+
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://connect.facebook.net/en_US/sdk.js";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+window.addEventListener("load", function () {
+  if (window.FB) {
+    FB.XFBML.parse();
+  }
+});
 </script>
 
 </body>
