@@ -7,18 +7,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { background: #0a0a0a; color: #f1f1f1; font-family: system-ui, sans-serif; }
-    .preset-row { 
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
-      padding: 1.3rem 1.8rem;
-    }
-    .preset-row:hover { transform: translateY(-3px); }
-    .lightning-address {
-      font-size: 1.35rem;
-      word-break: break-all;
-    }
-    @media (max-width: 480px) {
-      .lightning-address { font-size: 1.05rem; }
-    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-6 md:p-12">
@@ -35,23 +23,37 @@
     </div>
 
     <h2 class="text-center text-4xl font-light mb-4 tracking-wider">ZAPS THAT RESONATE ⚡</h2>
-    <p class="text-center text-amber-300 mb-8 text-lg">Support the daily art pipeline</p>
+    <p class="text-center text-amber-300 mb-10 text-lg">Support the daily art pipeline</p>
 
-    <!-- How to Zap + Lightning Address -->
-    <div class="bg-amber-900/30 border border-amber-400/30 rounded-3xl p-8 mb-12 text-center">
-      <p class="text-amber-300 font-medium mb-4">💡 How to Zap</p>
-      <p class="text-sm mb-6">Tap any amount below or copy the Lightning Address</p>
-      
-      <div class="flex items-center justify-center gap-3">
-        <code class="lightning-address font-mono text-amber-400">silverlenz@getalby.com</code>
-        <button onclick="copyAddress()" 
-                class="bg-amber-600 hover:bg-amber-500 px-6 py-3 rounded-2xl text-sm font-medium transition whitespace-nowrap">
-          Copy
-        </button>
+    <!-- Main Lightning Address + Presets Card -->
+    <div class="bg-zinc-900/90 border border-amber-400/20 rounded-3xl p-8 mb-16 shadow-2xl">
+      <!-- Lightning Address -->
+      <div class="mb-8">
+        <p class="uppercase text-xs tracking-widest text-amber-300 mb-3">LIGHTNING ADDRESS</p>
+        <div class="flex items-center justify-between bg-black/50 rounded-2xl p-5">
+          <code class="font-mono text-2xl text-amber-400">silverlenz@rizful.com</code>
+          <button onclick="copyAddress()" 
+                  class="bg-amber-600 hover:bg-amber-500 px-6 py-3 rounded-2xl text-base font-medium transition">
+            Copy
+          </button>
+        </div>
+      </div>
+
+      <!-- Preset Amounts (tight in the same box) -->
+      <div>
+        <p class="uppercase text-xs tracking-widest text-amber-300 mb-4">PRESET AMOUNTS</p>
+        <div class="grid grid-cols-1 gap-3 text-lg">
+          <div class="flex items-center gap-4">👍 <span class="font-bold w-20">1,440</span> Perfect Harmony ♫</div>
+          <div class="flex items-center gap-4">🚀 <span class="font-bold w-20">2,330</span> Artistic Flow 🌀</div>
+          <div class="flex items-center gap-4">☕ <span class="font-bold w-20">3,770</span> Divine Proportion △</div>
+          <div class="flex items-center gap-4">✨ <span class="font-bold w-20">6,100</span> Spiral Energy 🌀</div>
+          <div class="flex items-center gap-4">🍷 <span class="font-bold w-20">9,870</span> Golden Spiral ✨</div>
+          <div class="flex items-center gap-4">👑 <span class="font-bold w-20">15,970</span> Ultimate Fibonacci ✨</div>
+        </div>
       </div>
     </div>
 
-    <!-- Facebook Embed - SDK Method (no black wrapper) -->
+    <!-- Facebook Embed -->
     <div class="mb-16">
       <div id="fb-root"></div>
       <div class="fb-page" 
@@ -66,52 +68,14 @@
       </div>
     </div>
 
-    <!-- Zap Buttons -->
-    <div>
-      <h3 class="text-3xl font-light text-center mb-8">Choose Your Resonance</h3>
-      <div class="space-y-4" id="presets"></div>
-    </div>
-
-    <footer class="text-center text-xs opacity-60 mt-16">
+    <footer class="text-center text-xs opacity-60">
       Powered by Nostr & Lightning
     </footer>
   </div>
 
   <script>
-    const lnAddress = "silverlenz@getalby.com";
-
-    function renderPresets() {
-      const html = `
-        <button onclick="copyZap(1440000, '1,440 sats - Perfect Harmony ♫')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
-          👍 <span class="text-3xl font-bold w-16">1,440</span><span class="flex-1">Perfect Harmony ♫</span>
-        </button>
-        <button onclick="copyZap(2330000, '2,330 sats - Artistic Flow 🌀')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
-          🚀 <span class="text-3xl font-bold w-16">2,330</span><span class="flex-1">Artistic Flow 🌀</span>
-        </button>
-        <button onclick="copyZap(3770000, '3,770 sats - Divine Proportion △')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
-          ☕ <span class="text-3xl font-bold w-16">3,770</span><span class="flex-1">Divine Proportion △</span>
-        </button>
-        <button onclick="copyZap(6100000, '6,100 sats - Spiral Energy 🌀')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
-          ✨ <span class="text-3xl font-bold w-16">6,100</span><span class="flex-1">Spiral Energy 🌀</span>
-        </button>
-        <button onclick="copyZap(9870000, '9,870 sats - Golden Spiral ✨')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
-          🍷 <span class="text-3xl font-bold w-16">9,870</span><span class="flex-1">Golden Spiral ✨</span>
-        </button>
-        <button onclick="copyZap(15970000, '15,970 sats - Ultimate Fibonacci ✨')" class="preset-row w-full flex items-center gap-6 bg-zinc-800 hover:bg-amber-900/70 rounded-3xl text-left">
-          👑 <span class="text-3xl font-bold w-16">15,970</span><span class="flex-1">Ultimate Fibonacci ✨</span>
-        </button>
-      `;
-      document.getElementById('presets').innerHTML = html;
-    }
-
-    function copyZap(amount, label) {
-      const uri = `lightning:${lnAddress}?amount=${amount}`;
-      navigator.clipboard.writeText(uri);
-      alert(`✅ Copied ready-to-pay request for ${label}\n\nOpen Alby Go → Send → Paste → Confirm`);
-    }
-
     function copyAddress() {
-      navigator.clipboard.writeText(lnAddress);
+      navigator.clipboard.writeText("silverlenz@rizful.com");
       const btn = event.target;
       const original = btn.textContent;
       btn.textContent = "Copied!";
@@ -126,8 +90,6 @@
       js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0";
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
-
-    window.onload = renderPresets;
   </script>
 </body>
 </html>
