@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SilverLenz ⚡ Art Pipeline Zaps</title>
+  <title>SilverLenz ⚡ Zaps</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
   <style>
     body {
@@ -32,7 +33,7 @@
 
     @keyframes pulse {
       0% { box-shadow: 0 0 0 rgba(251,191,36,0); }
-      50% { box-shadow: 0 0 40px rgba(251,191,36,0.5); }
+      50% { box-shadow: 0 0 30px rgba(251,191,36,0.4); }
       100% { box-shadow: 0 0 0 rgba(251,191,36,0); }
     }
 
@@ -52,65 +53,65 @@
 
 <!-- HEADER -->
 <div class="max-w-3xl w-full text-center mb-10">
-  <h1 class="text-5xl font-light tracking-widest">SILVERLENZ</h1>
-  <p class="text-amber-300 mt-2">Fibonacci Art Pipeline ⚡ Live Zaps</p>
+  <h1 class="text-4xl font-light tracking-widest">SILVERLENZ</h1>
+  <p class="text-amber-300 mt-2 text-sm">Fibonacci Art Pipeline ⚡ Live Zaps</p>
 </div>
 
 <!-- ZAP CARD -->
 <div id="card"
-     class="max-w-3xl w-full bg-zinc-900/90 border border-amber-400/20 rounded-3xl p-8 shadow-2xl mb-10">
+     class="max-w-3xl w-full bg-zinc-900/90 border border-amber-400/20 rounded-3xl p-7 shadow-2xl mb-10">
 
-  <div class="flex justify-between items-center mb-6">
-    <code class="text-amber-400 text-lg">silverlenz@rizful.com</code>
+  <div class="flex justify-between items-center mb-5">
+    <code class="text-amber-400 text-base">silverlenz@rizful.com</code>
 
     <button onclick="copyAddress()"
-            class="bg-amber-600 hover:bg-amber-500 px-5 py-2 rounded-xl text-sm">
+            class="bg-amber-600 hover:bg-amber-500 px-4 py-2 rounded-xl text-xs">
       Copy
     </button>
   </div>
 
-  <p id="status" class="text-sm text-center text-gray-400">
+  <p id="status" class="text-xs text-center text-gray-400">
     Ready to receive zaps ⚡
   </p>
 </div>
 
 <!-- ZAP BUTTONS -->
-<div class="max-w-3xl w-full space-y-4 mb-16">
+<div class="max-w-3xl w-full space-y-3 mb-16">
 
-  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-6 rounded-2xl"
+  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
           onclick="zap(1440)">
-    <span class="text-2xl font-semibold tracking-wide">👍 Perfect Harmony</span>
-    <span class="text-3xl md:text-4xl font-extrabold text-amber-300">1,440 sats</span>
+    <span class="text-lg font-medium tracking-wide">👍 Perfect Harmony</span>
+    <span class="text-2xl font-bold text-amber-300">1,440 sats</span>
   </button>
 
-  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-6 rounded-2xl"
+  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
           onclick="zap(2330)">
-    <span class="text-2xl font-semibold tracking-wide">🚀 Artistic Flow</span>
-    <span class="text-3xl md:text-4xl font-extrabold text-amber-300">2,330 sats</span>
+    <span class="text-lg font-medium tracking-wide">🚀 Artistic Flow</span>
+    <span class="text-2xl font-bold text-amber-300">2,330 sats</span>
   </button>
 
-  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-6 rounded-2xl"
+  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
           onclick="zap(3770)">
-    <span class="text-2xl font-semibold tracking-wide">☕ Divine Proportion</span>
-    <span class="text-3xl md:text-4xl font-extrabold text-amber-300">3,770 sats</span>
+    <span class="text-lg font-medium tracking-wide">☕ Divine Proportion</span>
+    <span class="text-2xl font-bold text-amber-300">3,770 sats</span>
   </button>
 
-  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-6 rounded-2xl"
+  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
           onclick="zap(6100)">
-    <span class="text-2xl font-semibold tracking-wide">✨ Spiral Energy</span>
-    <span class="text-3xl md:text-4xl font-extrabold text-amber-300">6,100 sats</span>
+    <span class="text-lg font-medium tracking-wide">✨ Spiral Energy</span>
+    <span class="text-2xl font-bold text-amber-300">6,100 sats</span>
   </button>
 
-  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-6 rounded-2xl"
+  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
           onclick="zap(9870)">
-    <span class="text-2xl font-semibold tracking-wide">🍷 Golden Spiral</span>
-    <span class="text-3xl md:text-4xl font-extrabold text-amber-300">9,870 sats</span>
+    <span class="text-lg font-medium tracking-wide">🍷 Golden Spiral</span>
+    <span class="text-2xl font-bold text-amber-300">9,870 sats</span>
   </button>
 
-  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-6 rounded-2xl"
+  <button class="zap-btn w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
           onclick="zap(15970)">
-    <span class="text-2xl font-semibold tracking-wide">👑 Ultimate Fibonacci</span>
-    <span class="text-3xl md:text-4xl font-extrabold text-amber-300">15,970 sats</span>
+    <span class="text-lg font-medium tracking-wide">👑 Ultimate Fibonacci</span>
+    <span class="text-2xl font-bold text-amber-300">15,970 sats</span>
   </button>
 
 </div>
@@ -119,7 +120,7 @@
 <div class="fb-wrap mb-16">
   <div class="fb-inner text-center">
 
-    <h2 class="text-2xl font-light mb-6 text-amber-300">
+    <h2 class="text-xl font-light mb-5 text-amber-300">
       Live Art Pipeline Feed
     </h2>
 
@@ -139,11 +140,30 @@
   </div>
 </div>
 
+<!-- QR MODAL -->
+<div id="qrModal"
+     class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+
+  <div class="bg-zinc-900 p-6 rounded-2xl border border-amber-400/20 w-[320px] text-center">
+
+    <h2 class="text-amber-300 text-lg mb-4">Scan to Pay ⚡</h2>
+
+    <div id="qrcode" class="flex justify-center mb-4"></div>
+
+    <button onclick="closeQR()"
+            class="bg-amber-600 hover:bg-amber-500 px-4 py-2 rounded-xl text-sm">
+      Close
+    </button>
+
+  </div>
+</div>
+
 <script>
 const LN_ADDRESS = "silverlenz@rizful.com";
+let lastInvoice = null;
 
 /* -----------------------
-   ZAP SYSTEM
+   ZAP
 ------------------------*/
 async function zap(sats) {
   const card = document.getElementById("card");
@@ -165,14 +185,16 @@ async function zap(sats) {
 
     setStatus("Opening wallet...");
 
-    if (window.webln) {
-      await window.webln.enable();
-      await window.webln.sendPayment(invoice.pr);
-      successFX(card);
-      return;
-    }
+    const deepLink = `lightning:${invoice.pr}`;
 
-    window.location.href = `lightning:${invoice.pr}`;
+    const a = document.createElement("a");
+    a.href = deepLink;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    setTimeout(() => showQR(invoice.pr), 1200);
+
     successFX(card);
 
   } catch (e) {
@@ -185,18 +207,36 @@ async function zap(sats) {
    SUCCESS FX
 ------------------------*/
 function successFX(el) {
-  setStatus("⚡ Zap sent successfully!");
+  setStatus("⚡ Zap sent!");
 
   el.classList.add("success-glow");
   setTimeout(() => el.classList.remove("success-glow"), 700);
 
-  confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+  confetti({ particleCount: 100, spread: 65, origin: { y: 0.6 } });
 
   setTimeout(() => {
-    confetti({ particleCount: 60, spread: 50, origin: { x: 0 } });
+    confetti({ particleCount: 50, spread: 45, origin: { x: 0 } });
   }, 200);
 
   setTimeout(() => setStatus("Ready to receive zaps ⚡"), 2500);
+}
+
+/* -----------------------
+   QR
+------------------------*/
+function showQR(invoice) {
+  document.getElementById("qrModal").classList.remove("hidden");
+  document.getElementById("qrcode").innerHTML = "";
+
+  new QRCode(document.getElementById("qrcode"), {
+    text: invoice,
+    width: 220,
+    height: 220
+  });
+}
+
+function closeQR() {
+  document.getElementById("qrModal").classList.add("hidden");
 }
 
 /* -----------------------
