@@ -8,7 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/nostr-zap@latest"></script>
   <style>
     body { background: #0a0a0a; color: #f1f1f1; font-family: system-ui, sans-serif; }
-    .art-hero iframe { height: 580px; width: 100%; border: none; border-radius: 16px; }
+    .art-hero iframe { height: 560px; width: 100%; border: none; border-radius: 16px; }
     .preset-row { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
     .preset-row:hover { transform: translateY(-3px); box-shadow: 0 15px 25px -5px rgb(245 158 11 / 0.3); }
   </style>
@@ -17,10 +17,10 @@
   <div class="max-w-3xl w-full">
 
     <!-- Header with Logo -->
-    <div class="flex items-center gap-4 mb-10 justify-center">
-      <img src="https://raw.githubusercontent.com/SilverLenz/zack-zaps/main/silverlenz-logo.jpg" 
+    <div class="flex items-center gap-5 mb-10 justify-center">
+      <img src="https://raw.githubusercontent.com/SilverLenZ/zack-zaps/main/silverlenz%20logo.jpg" 
            alt="SilverLenz" 
-           class="w-20 h-20 rounded-2xl object-cover">
+           class="w-20 h-20 rounded-2xl object-cover border border-amber-400/50">
       <div>
         <h1 class="text-5xl font-light tracking-widest">ZACK COVELL</h1>
         <p class="text-amber-300 text-xl -mt-1">SilverLenz • Fibonacci Art Pipeline</p>
@@ -30,13 +30,13 @@
     <h2 class="text-center text-4xl font-light mb-4 tracking-wider">ZAPS THAT RESONATE ⚡</h2>
     <p class="text-center text-amber-300 mb-12 text-lg">Support the daily art pipeline</p>
 
-    <!-- Zap Presets (now higher up) -->
+    <!-- Zap Presets -->
     <div class="mb-16">
       <h3 class="text-3xl font-light text-center mb-8">Choose Your Resonance</h3>
       <div class="space-y-5" id="presets"></div>
     </div>
 
-    <!-- Live Nostr Post (moved to bottom) -->
+    <!-- Nostr Post at Bottom -->
     <div class="bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl p-3">
       <div class="art-hero">
         <iframe 
