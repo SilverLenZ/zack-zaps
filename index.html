@@ -12,6 +12,15 @@
       padding: 1.3rem 1.8rem;
     }
     .preset-row:hover { transform: translateY(-3px); }
+    .lightning-address {
+      font-size: 1.35rem;
+      word-break: break-all;
+    }
+    @media (max-width: 480px) {
+      .lightning-address {
+        font-size: 1.1rem;
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-6 md:p-12">
@@ -35,10 +44,10 @@
       <p class="text-amber-300 font-medium mb-4">💡 How to Zap</p>
       <p class="text-sm mb-6">Tap any amount below or copy the Lightning Address</p>
       
-      <div class="flex items-center justify-center gap-4">
-        <code class="font-mono text-2xl text-amber-400">silverlenz@getalby.com</code>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 bg-black/60 rounded-2xl p-5">
+        <code class="lightning-address font-mono text-amber-400">silverlenz@getalby.com</code>
         <button onclick="copyAddress()" 
-                class="bg-amber-600 hover:bg-amber-500 px-7 py-3 rounded-2xl text-base font-medium transition">
+                class="bg-amber-600 hover:bg-amber-500 px-7 py-3 rounded-2xl text-base font-medium transition whitespace-nowrap">
           Copy
         </button>
       </div>
