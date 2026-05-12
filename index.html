@@ -7,6 +7,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
 <style>
 body {
   background: radial-gradient(circle at top, #111 0%, #000 100%);
@@ -26,6 +27,7 @@ body {
 .mid { box-shadow: 0 0 16px rgba(251,191,36,0.12); }
 .high { box-shadow: 0 0 24px rgba(251,191,36,0.18); }
 .legend { box-shadow: 0 0 35px rgba(251,191,36,0.28); }
+
 .flash {
   animation: flash 0.6s ease;
 }
@@ -36,6 +38,7 @@ body {
 }
 </style>
 </head>
+
 <body class="min-h-screen flex flex-col items-center p-6 md:p-12">
 
 <!-- HEADER -->
@@ -46,13 +49,13 @@ body {
   </p>
 </div>
 
-<!-- HOW TO ZAP SECTION -->
+<!-- HOW TO ZAP -->
 <div class="max-w-3xl w-full bg-amber-900/30 border border-amber-400/30 rounded-3xl p-8 mb-8 text-center">
   <p class="text-amber-300 font-medium mb-2">💡 How to Zap</p>
   <p class="text-sm">Tap any amount below or copy the Lightning Address</p>
 </div>
 
-<!-- WALLET CARD -->
+<!-- WALLET -->
 <div class="max-w-3xl w-full bg-zinc-900/90 border border-amber-400/20 rounded-3xl p-7 shadow-2xl mb-10">
   <div class="flex justify-between items-center mb-5">
     <code class="text-amber-400 text-base">silverlenz@rizful.com</code>
@@ -61,38 +64,51 @@ body {
   <p id="status" class="text-xs text-center text-gray-400">Ready to receive zaps ⚡</p>
 </div>
 
-<!-- ZAPS WITH EMOJIS -->
+<!-- ZAPS -->
 <div class="max-w-3xl w-full space-y-3 mb-16">
+
   <button class="zap-btn low w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl" onclick="zap(1440,this)">
     <span>👍 Perfect Harmony ♫</span>
     <span class="text-2xl font-bold text-amber-300">1,440 sats</span>
   </button>
+
   <button class="zap-btn mid w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl" onclick="zap(2330,this)">
     <span>🚀 Artistic Flow 🌀</span>
     <span class="text-2xl font-bold text-amber-300">2,330 sats</span>
   </button>
+
   <button class="zap-btn mid w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl" onclick="zap(3770,this)">
     <span>☕ Divine Proportion △</span>
     <span class="text-2xl font-bold text-amber-300">3,770 sats</span>
   </button>
+
   <button class="zap-btn high w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl" onclick="zap(6100,this)">
     <span>✨ Spiral Energy 🌀</span>
     <span class="text-2xl font-bold text-amber-300">6,100 sats</span>
   </button>
+
   <button class="zap-btn high w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl" onclick="zap(9870,this)">
     <span>🍷 Golden Spiral ✨</span>
     <span class="text-2xl font-bold text-amber-300">9,870 sats</span>
   </button>
+
   <button class="zap-btn legend w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl" onclick="zap(15970,this)">
     <span>👑 Ultimate Fibonacci ✨</span>
     <span class="text-2xl font-bold text-amber-300">15,970 sats</span>
   </button>
+
 </div>
 
-<!-- Facebook Embed -->
+<!-- FACEBOOK -->
 <div class="w-full flex justify-center mb-16">
-  <div class="fb-container text-center">
-    <h2 class="text-xl font-light mb-5 text-amber-300">Live Art Pipeline Feed</h2>
+  <div class="text-center max-w-[1100px] w-full">
+
+    <h2 class="text-xl font-light mb-5 text-amber-300">
+      Live Art Pipeline Feed
+    </h2>
+
+    <div id="fb-root"></div>
+
     <div class="fb-page"
       data-href="https://www.facebook.com/covellz/"
       data-tabs="timeline"
@@ -102,6 +118,7 @@ body {
       data-hide-cover="false"
       data-show-facepile="true">
     </div>
+
   </div>
 </div>
 
@@ -109,43 +126,51 @@ body {
 <script>
 const LN = "silverlenz@rizful.com";
 
-/* ZAP */
 async function zap(sats, btn) {
   try {
     const msats = sats * 1000;
     const [name, domain] = LN.split("@");
+
     const lnurl = `https://${domain}/.well-known/lnurlp/${name}`;
     const res = await fetch(lnurl);
     const data = await res.json();
+
     const inv = await fetch(`${data.callback}?amount=${msats}`);
     const invoice = await inv.json();
+
     const a = document.createElement("a");
     a.href = "lightning:" + invoice.pr;
     document.body.appendChild(a);
     a.click();
     a.remove();
-    success(btn);
+
+    btn.classList.add("flash");
+    setTimeout(() => btn.classList.remove("flash"), 600);
+
+    confetti({ particleCount: 80, spread: 60 });
+
   } catch (e) {
     console.log(e);
   }
 }
 
-function success(btn) {
-  btn.classList.add("flash");
-  setTimeout(() => btn.classList.remove("flash"), 600);
-  confetti({ particleCount: 80, spread: 60 });
-}
-
 function copyAddress() {
   navigator.clipboard.writeText(LN);
-  setStatus("Copied ✔");
+  document.getElementById("status").innerText = "Copied ✔";
 }
+</script>
 
-function setStatus(t) {
-  document.getElementById("status").innerText = t;
-}
+<!-- FACEBOOK SDK FIX (THIS IS THE IMPORTANT PART) -->
+<script>
+window.fbAsyncInit = function() {
+  FB.init({
+    xfbml: true,
+    version: 'v18.0'
+  });
 
-/* Facebook SDK */
+  FB.XFBML.parse();
+};
+
 (function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
@@ -154,6 +179,13 @@ function setStatus(t) {
   js.src = "https://connect.facebook.net/en_US/sdk.js";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
+
+window.addEventListener("load", function () {
+  if (window.FB) {
+    FB.XFBML.parse();
+  }
+});
 </script>
+
 </body>
 </html>
