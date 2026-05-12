@@ -34,11 +34,6 @@ body {
   50% { box-shadow: 0 0 30px rgba(251,191,36,0.5); }
   100% { box-shadow: 0 0 0 rgba(251,191,36,0); }
 }
-.fb-container {
-  width: 100%;
-  max-width: 1100px;
-  margin: 0 auto;
-}
 </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-6 md:p-12">
@@ -49,10 +44,9 @@ body {
   <p class="text-amber-300 mt-2 text-sm">
     Living Lightning Art Economy ⚡
   </p>
-  <div id="weblnStatus" class="text-xs mt-2 opacity-70"></div>
 </div>
 
-<!-- HOW TO ZAP SECTION (added back) -->
+<!-- HOW TO ZAP SECTION -->
 <div class="max-w-3xl w-full bg-amber-900/30 border border-amber-400/30 rounded-3xl p-8 mb-8 text-center">
   <p class="text-amber-300 font-medium mb-2">💡 How to Zap</p>
   <p class="text-sm">Tap any amount below or copy the Lightning Address</p>
@@ -62,56 +56,43 @@ body {
 <div class="max-w-3xl w-full bg-zinc-900/90 border border-amber-400/20 rounded-3xl p-7 shadow-2xl mb-10">
   <div class="flex justify-between items-center mb-5">
     <code class="text-amber-400 text-base">silverlenz@rizful.com</code>
-    <button onclick="copyAddress()"
-            class="bg-amber-600 hover:bg-amber-500 px-4 py-2 rounded-xl text-xs">
-      Copy
-    </button>
+    <button onclick="copyAddress()" class="bg-amber-600 hover:bg-amber-500 px-4 py-2 rounded-xl text-xs">Copy</button>
   </div>
-  <p id="status" class="text-xs text-center text-gray-400">
-    Ready to receive zaps ⚡
-  </p>
+  <p id="status" class="text-xs text-center text-gray-400">Ready to receive zaps ⚡</p>
 </div>
 
-<!-- ZAPS -->
+<!-- ZAPS WITH EMOJIS -->
 <div class="max-w-3xl w-full space-y-3 mb-16">
-  <button class="zap-btn low w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(1440,this)">
-    <span class="text-lg">Perfect Harmony</span>
+  <button class="zap-btn low w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl" onclick="zap(1440,this)">
+    <span>👍 Perfect Harmony ♫</span>
     <span class="text-2xl font-bold text-amber-300">1,440 sats</span>
   </button>
-  <button class="zap-btn mid w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(2330,this)">
-    <span class="text-lg">Artistic Flow</span>
+  <button class="zap-btn mid w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl" onclick="zap(2330,this)">
+    <span>🚀 Artistic Flow 🌀</span>
     <span class="text-2xl font-bold text-amber-300">2,330 sats</span>
   </button>
-  <button class="zap-btn mid w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(3770,this)">
-    <span class="text-lg">Divine Proportion</span>
+  <button class="zap-btn mid w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl" onclick="zap(3770,this)">
+    <span>☕ Divine Proportion △</span>
     <span class="text-2xl font-bold text-amber-300">3,770 sats</span>
   </button>
-  <button class="zap-btn high w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(6100,this)">
-    <span class="text-lg">Spiral Energy</span>
+  <button class="zap-btn high w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl" onclick="zap(6100,this)">
+    <span>✨ Spiral Energy 🌀</span>
     <span class="text-2xl font-bold text-amber-300">6,100 sats</span>
   </button>
-  <button class="zap-btn high w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(9870,this)">
-    <span class="text-lg">Golden Spiral</span>
+  <button class="zap-btn high w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl" onclick="zap(9870,this)">
+    <span>🍷 Golden Spiral ✨</span>
     <span class="text-2xl font-bold text-amber-300">9,870 sats</span>
   </button>
-  <button class="zap-btn legend w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl"
-          onclick="zap(15970,this)">
-    <span class="text-lg">Ultimate Fibonacci</span>
+  <button class="zap-btn legend w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl" onclick="zap(15970,this)">
+    <span>👑 Ultimate Fibonacci ✨</span>
     <span class="text-2xl font-bold text-amber-300">15,970 sats</span>
   </button>
 </div>
 
-<!-- FACEBOOK (RESTORED FIX) -->
+<!-- Facebook Embed -->
 <div class="w-full flex justify-center mb-16">
   <div class="fb-container text-center">
-    <h2 class="text-xl font-light mb-5 text-amber-300">
-      Live Art Pipeline Feed
-    </h2>
+    <h2 class="text-xl font-light mb-5 text-amber-300">Live Art Pipeline Feed</h2>
     <div class="fb-page"
       data-href="https://www.facebook.com/covellz/"
       data-tabs="timeline"
@@ -121,14 +102,6 @@ body {
       data-hide-cover="false"
       data-show-facepile="true">
     </div>
-  </div>
-</div>
-
-<!-- QR Modal -->
-<div id="qrModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-  <div class="bg-zinc-900 p-6 rounded-2xl text-center">
-    <div id="qrcode"></div>
-    <button onclick="closeQR()" class="mt-4 bg-amber-600 px-4 py-2 rounded-xl">Close</button>
   </div>
 </div>
 
@@ -172,15 +145,7 @@ function setStatus(t) {
   document.getElementById("status").innerText = t;
 }
 
-/* WEBLN */
-window.onload = () => {
-  const el = document.getElementById("weblnStatus");
-  if (window.webln) {
-    el.innerText = "⚡ Alby WebLN detected";
-  }
-};
-
-/* FACEBOOK SDK */
+/* Facebook SDK */
 (function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
