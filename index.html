@@ -358,7 +358,8 @@
     }
 
     const ART_MANIFEST = "assets/artworks/manifest.json";
-    const ART_INTERVAL = 60_000;
+    const ART_INTERVAL = 45_000;
+    const ART_INTERVAL_SECONDS = ART_INTERVAL / 1000;
     const artSlots = [...document.querySelectorAll("[data-art-slot]")];
     const rotationStatus = document.getElementById("rotation-status");
     const rotationToggle = document.getElementById("rotation-toggle");
@@ -429,8 +430,8 @@
       rotationStatus.textContent = rotationPaused
         ? "Fresh artwork · automatic rotation paused"
         : source === "automatic"
-          ? "A fresh transmission · next change in 60 seconds"
-          : "6 of 302 artworks · auto-rotates every 60 seconds";
+          ? `A fresh transmission · next change in ${ART_INTERVAL_SECONDS} seconds`
+          : `6 of 302 artworks · auto-rotates every ${ART_INTERVAL_SECONDS} seconds`;
       scheduleArtworkRotation();
     }
 
@@ -442,7 +443,7 @@
         : 'Pause rotation <span aria-hidden="true">Ⅱ</span>';
       rotationStatus.textContent = rotationPaused
         ? "Automatic rotation paused · shuffle any time"
-        : "Artwork changes automatically every 60 seconds";
+        : `Artwork changes automatically every ${ART_INTERVAL_SECONDS} seconds`;
       scheduleArtworkRotation();
     }
 
@@ -452,7 +453,7 @@
         if (!response.ok) throw new Error(`Archive manifest request failed: ${response.status}`);
         artworks = await response.json();
         if (!Array.isArray(artworks) || artworks.length < artSlots.length) throw new Error("Archive manifest is incomplete");
-        rotationStatus.textContent = `302 artworks · automatic rotation every 60 seconds${rotationPaused ? " (paused for reduced motion)" : ""}`;
+        rotationStatus.textContent = `302 artworks · automatic rotation every ${ART_INTERVAL_SECONDS} seconds${rotationPaused ? " (paused for reduced motion)" : ""}`;
         rotationToggle.setAttribute("aria-pressed", String(rotationPaused));
         rotationToggle.innerHTML = rotationPaused
           ? 'Resume rotation <span aria-hidden="true">▶</span>'
