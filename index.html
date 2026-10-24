@@ -1,193 +1,469 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SilverLenz ⚡ Zaps</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080910">
+  <meta name="description" content="Send a Lightning zap to support Zack Covell's independent daily art practice and growing sacred-geometry archive.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="alternate icon" type="image/png" href="favicon.png">
+  <title>SilverLenz ⚡ Zaps — Keep the Art in Motion</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --night: #080910;
+      --panel: #11131f;
+      --panel-hi: #171a29;
+      --line: rgb(222 221 255 / 13%);
+      --white: #f4f1ff;
+      --soft: #bcb9ce;
+      --muted: #85849b;
+      --gold: #f5c95b;
+      --lime: #d6e28a;
+      --violet: #a995ff;
+      --blue: #86d9ed;
+      --serif: Georgia, "Times New Roman", serif;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { min-width: 320px; scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--white);
+      background:
+        radial-gradient(ellipse at 79% 7%, rgb(105 77 189 / 19%), transparent 35rem),
+        radial-gradient(ellipse at 9% 50%, rgb(39 111 142 / 10%), transparent 32rem),
+        var(--night);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    body::before {
+      position: fixed;
+      z-index: -1;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 19px 43px, rgb(255 255 255 / 65%) 99%, transparent),
+        radial-gradient(1px 1px at 117px 137px, rgb(245 201 91 / 70%) 99%, transparent),
+        radial-gradient(1.5px 1.5px at 203px 76px, rgb(255 255 255 / 55%) 99%, transparent);
+      background-size: 241px 211px, 313px 271px, 367px 337px;
+      opacity: .32;
+      content: "";
+      pointer-events: none;
+    }
+    a { color: inherit; }
+    .shell { width: min(1180px, calc(100% - 56px)); margin-inline: auto; }
+    .topbar { display: flex; min-height: 82px; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+    .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+    .brand-mark { display: grid; width: 40px; aspect-ratio: 1; place-items: center; border: 1px solid rgb(245 201 91 / 48%); border-radius: 50%; color: var(--gold); font: 22px var(--serif); box-shadow: 0 0 25px rgb(245 201 91 / 9%); }
+    .brand-name { display: block; font: 17px/1.2 var(--serif); letter-spacing: .03em; }
+    .brand-sub { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; }
+    .nav { display: flex; align-items: center; gap: 25px; }
+    .nav a { color: var(--soft); font-size: 12px; text-decoration: none; transition: color .2s; }
+    .nav a:hover { color: var(--gold); }
+    .nav .nav-zap { padding: 9px 14px; border: 1px solid rgb(245 201 91 / 40%); border-radius: 99px; color: var(--gold); }
 
-<style>
-body {
-  background: radial-gradient(circle at top, #111 0%, #000 100%);
-  color: #f1f1f1;
-  font-family: system-ui, sans-serif;
-}
-.zap-btn {
-  border: 2px solid rgba(251,191,36,0.18);
-  transition: all 0.2s ease;
-}
-.zap-btn:hover {
-  transform: translateY(-2px);
-  border-color: rgba(251,191,36,0.5);
-  background: rgba(251,191,36,0.06);
-}
-.low { box-shadow: 0 0 10px rgba(251,191,36,0.08); }
-.mid { box-shadow: 0 0 16px rgba(251,191,36,0.12); }
-.high { box-shadow: 0 0 24px rgba(251,191,36,0.18); }
-.legend { box-shadow: 0 0 35px rgba(251,191,36,0.28); }
+    .hero { display: grid; min-height: 600px; grid-template-columns: 1fr 1fr; align-items: center; gap: clamp(30px, 6vw, 90px); padding-block: 52px 62px; }
+    .eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 20px; color: var(--gold); font-size: 10px; font-weight: 750; letter-spacing: .21em; text-transform: uppercase; }
+    .eyebrow::before { width: 26px; height: 1px; background: currentColor; content: ""; }
+    h1 { max-width: 640px; margin: 0; font: 400 clamp(54px, 7vw, 88px)/.94 var(--serif); letter-spacing: -.06em; }
+    h1 em { color: var(--gold); font-weight: 400; }
+    .hero-copy { max-width: 510px; margin: 25px 0 0; color: var(--soft); font-size: clamp(16px, 1.55vw, 18px); line-height: 1.8; }
+    .hero-copy strong { color: var(--white); font-weight: 600; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 27px; }
+    .button { display: inline-flex; min-height: 46px; align-items: center; justify-content: center; gap: 9px; padding: 0 16px; border: 1px solid var(--line); border-radius: 3px; color: var(--white); font-size: 12px; font-weight: 650; text-decoration: none; transition: transform .2s, border-color .2s, background .2s; }
+    .button:hover { transform: translateY(-2px); border-color: rgb(245 201 91 / 50%); }
+    .button.primary { border-color: var(--gold); background: var(--gold); color: #19150b; }
+    .button.primary:hover { background: #ffdc7c; }
+    .hero-note { display: flex; align-items: center; gap: 8px; margin-top: 23px; color: var(--muted); font-size: 11px; }
+    .hero-note span { color: var(--blue); }
 
-.flash {
-  animation: flash 0.6s ease;
-}
-@keyframes flash {
-  0% { box-shadow: 0 0 0 rgba(251,191,36,0); }
-  50% { box-shadow: 0 0 30px rgba(251,191,36,0.5); }
-  100% { box-shadow: 0 0 0 rgba(251,191,36,0); }
-}
-</style>
+    .art-orbit { position: relative; display: grid; min-height: 420px; place-items: center; isolation: isolate; }
+    .art-orbit::before { position: absolute; z-index: -1; width: min(92%, 430px); aspect-ratio: 1; border: 1px solid rgb(169 149 255 / 19%); border-radius: 50%; box-shadow: 0 0 90px rgb(110 83 183 / 13%), inset 0 0 70px rgb(110 83 183 / 9%); content: ""; }
+    .art-orbit::after { position: absolute; z-index: -1; width: min(72%, 335px); aspect-ratio: 1; border: 1px solid rgb(245 201 91 / 13%); border-radius: 50%; content: ""; }
+    .art-main { position: relative; width: min(74%, 330px); overflow: hidden; border: 1px solid rgb(245 201 91 / 54%); background: #11131f; box-shadow: 0 24px 80px rgb(0 0 0 / 55%), 0 0 44px rgb(169 149 255 / 16%); transform: rotate(2deg); }
+    .art-main img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; transition: opacity .35s ease; }
+    .art-float img { transition: opacity .35s ease; }
+    .art-image-changing { opacity: .08 !important; }
+    .art-main figcaption { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 13px; color: var(--soft); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+    .art-main figcaption strong { color: var(--gold); font-weight: 650; }
+    .art-float { position: absolute; width: clamp(104px, 16vw, 148px); aspect-ratio: 1; overflow: hidden; border: 1px solid rgb(222 221 255 / 48%); background: var(--panel); box-shadow: 0 18px 50px rgb(0 0 0 / 55%); }
+    .art-float img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .art-float.one { top: 5%; right: 0; transform: rotate(7deg); }
+    .art-float.two { bottom: 2%; left: 0; transform: rotate(-7deg); }
+    .orbit-dot { position: absolute; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 18px var(--gold); }
+    .orbit-dot.a { top: 14%; left: 13%; }
+    .orbit-dot.b { right: 9%; bottom: 16%; width: 5px; height: 5px; background: var(--blue); box-shadow: 0 0 15px var(--blue); }
 
-<link rel="icon" type="image/png" href="favicon.png">
+    .section { padding-block: 70px; border-top: 1px solid var(--line); }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 25px; margin-bottom: 27px; }
+    .section-head .eyebrow { margin-bottom: 11px; }
+    h2 { margin: 0; font: 400 clamp(36px, 5vw, 56px)/1 var(--serif); letter-spacing: -.04em; }
+    .section-intro { max-width: 380px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.75; }
+
+    .wallet-card { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 15px; padding: 19px 21px; border: 1px solid rgb(134 217 237 / 20%); background: linear-gradient(100deg, rgb(28 45 57 / 61%), rgb(17 19 31 / 85%)); }
+    .wallet-label { display: block; margin-bottom: 4px; color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+    .wallet-address { color: var(--blue); font: 17px/1.3 ui-monospace, SFMono-Regular, Menlo, monospace; text-decoration: none; }
+    .copy-btn { display: inline-flex; min-height: 40px; flex: 0 0 auto; align-items: center; gap: 8px; padding: 0 13px; border: 1px solid rgb(134 217 237 / 27%); border-radius: 3px; background: transparent; color: var(--white); font: inherit; font-size: 11px; cursor: pointer; transition: border-color .2s, background .2s; }
+    .copy-btn:hover { border-color: var(--blue); background: rgb(134 217 237 / 8%); }
+    .copy-btn svg { width: 15px; height: 15px; color: var(--blue); }
+    .status { min-height: 21px; margin: 0 0 20px; color: var(--muted); font-size: 11px; }
+    .status[data-state="success"] { color: var(--lime); }
+    .status[data-state="error"] { color: var(--rose); }
+
+    .zap-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px; }
+    .zap-btn { position: relative; display: flex; min-height: 156px; flex-direction: column; align-items: flex-start; justify-content: space-between; padding: 18px; overflow: hidden; border: 1px solid var(--line); border-radius: 3px; background: linear-gradient(145deg, rgb(24 26 41 / 95%), rgb(14 15 25 / 95%)); color: var(--white); text-align: left; cursor: pointer; transition: transform .2s, border-color .2s, background .2s, box-shadow .2s; }
+    .zap-btn::after { position: absolute; right: -23px; bottom: -39px; width: 100px; aspect-ratio: 1; border: 1px solid rgb(245 201 91 / 8%); border-radius: 50%; box-shadow: 0 0 0 14px rgb(245 201 91 / 2%), 0 0 0 30px rgb(245 201 91 / 2%); content: ""; transition: transform .4s; }
+    .zap-btn:hover, .zap-btn:focus-visible { transform: translateY(-3px); border-color: rgb(245 201 91 / 59%); background: linear-gradient(145deg, rgb(39 36 36 / 98%), rgb(22 20 25 / 98%)); box-shadow: 0 14px 36px rgb(0 0 0 / 22%); }
+    .zap-btn:hover::after { transform: scale(1.25); }
+    .zap-btn:disabled { opacity: .65; cursor: wait; }
+    .tier-line { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 8px; }
+    .tier-number { color: var(--muted); font-size: 9px; letter-spacing: .14em; }
+    .tier-symbol { color: var(--gold); font-size: 17px; }
+    .tier-name { display: block; margin-top: 17px; font: 20px/1.15 var(--serif); }
+    .tier-note { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; }
+    .tier-amount { display: flex; width: 100%; align-items: baseline; justify-content: space-between; gap: 8px; margin-top: 16px; color: var(--gold); font-size: 18px; font-weight: 720; }
+    .tier-amount small { color: var(--muted); font-size: 9px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
+    .zap-btn.featured { border-color: rgb(245 201 91 / 48%); background: linear-gradient(145deg, rgb(51 43 32 / 98%), rgb(23 20 26 / 98%)); }
+    .zap-btn.featured .tier-name { color: #ffe39a; }
+    .zap-btn.flash { animation: zap-flash .7s ease-out; }
+    @keyframes zap-flash { 50% { box-shadow: 0 0 38px rgb(245 201 91 / 40%); border-color: var(--gold); } }
+
+    .art-section { padding-bottom: 74px; }
+    .art-rotation { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin: -8px 0 17px; }
+    .rotation-status { color: var(--muted); font-size: 10px; }
+    .rotation-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .rotation-btn { min-height: 34px; padding: 0 11px; border: 1px solid var(--line); border-radius: 3px; background: rgb(255 255 255 / 2%); color: var(--soft); font: inherit; font-size: 10px; cursor: pointer; transition: border-color .2s, color .2s, background .2s; }
+    .rotation-btn:hover { border-color: rgb(245 201 91 / 55%); background: rgb(245 201 91 / 5%); color: var(--gold); }
+    .rotation-btn[aria-pressed="true"] { border-color: rgb(134 217 237 / 38%); color: var(--blue); }
+    .art-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .art-card { position: relative; display: block; overflow: hidden; border: 1px solid var(--line); background: var(--panel); text-decoration: none; }
+    .art-card img { display: block; width: 100%; aspect-ratio: 1.15 / .92; object-fit: cover; transition: transform .45s ease; }
+    .art-card:hover img { transform: scale(1.035); }
+    .art-card figcaption { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; }
+    .art-card strong { font: 16px/1.2 var(--serif); font-weight: 400; }
+    .art-card span { color: var(--muted); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+    .archive-link { display: flex; width: fit-content; align-items: center; gap: 8px; margin: 22px auto 0; color: var(--gold); font-size: 11px; text-decoration: none; }
+    .archive-link:hover { color: #ffe39a; }
+
+    .closing { display: flex; align-items: center; justify-content: space-between; gap: 25px; padding: 24px 0 32px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; }
+    .closing a { color: var(--soft); text-decoration: none; }
+    .closing a:hover { color: var(--gold); }
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+    @media (max-width: 800px) {
+      .shell { width: min(calc(100% - 36px), 620px); }
+      .hero { min-height: 0; grid-template-columns: 1fr; gap: 5px; padding-block: 58px 44px; }
+      .art-orbit { min-height: 380px; margin-top: 5px; }
+      .section-head { align-items: flex-start; flex-direction: column; gap: 12px; }
+      .section-intro { max-width: 520px; }
+      .zap-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 500px) {
+      .shell { width: min(calc(100% - 28px), 440px); }
+      .topbar { min-height: 70px; }
+      .brand-mark { width: 35px; }
+      .brand-name { font-size: 15px; }
+      .nav { gap: 12px; }
+      .nav a { font-size: 10px; }
+      .nav .nav-zap { padding: 7px 10px; }
+      h1 { font-size: clamp(49px, 13.8vw, 66px); }
+      .hero { padding-top: 48px; }
+      .art-orbit { min-height: 310px; }
+      .art-main { width: min(73%, 280px); }
+      .art-float { width: 100px; }
+      .section { padding-block: 52px; }
+      .wallet-card { padding: 15px 12px; }
+      .wallet-address { font-size: clamp(13px, 4vw, 16px); }
+      .copy-btn { min-height: 37px; padding-inline: 9px; font-size: 10px; }
+      .zap-grid { gap: 9px; }
+      .zap-btn { min-height: 146px; padding: 14px 12px; }
+      .tier-name { font-size: 17px; }
+      .tier-amount { font-size: 16px; }
+      .tier-amount small { font-size: 8px; }
+      .art-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .art-card:last-child { grid-column: 1 / -1; width: 72%; justify-self: center; }
+      .art-card figcaption { align-items: flex-start; flex-direction: column; gap: 5px; padding: 10px; }
+      .art-rotation { align-items: flex-start; flex-direction: column; }
+      .rotation-actions { width: 100%; }
+      .art-card strong { font-size: 14px; }
+      .art-card span { font-size: 9px; }
+      .closing { align-items: flex-start; flex-direction: column; gap: 10px; }
+    }
+    @media (max-width: 355px) {
+      .nav a:not(.nav-zap) { display: none; }
+      .wallet-card { align-items: stretch; flex-direction: column; gap: 10px; }
+      .copy-btn { width: 100%; justify-content: center; }
+      .zap-grid { grid-template-columns: 1fr; }
+      .zap-btn { min-height: 126px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
 </head>
+<body>
+  <header class="topbar shell">
+    <a class="brand" href="https://silverlenz.github.io/daily-art/" aria-label="SilverLenz daily art home">
+      <span class="brand-mark" aria-hidden="true">ϟ</span>
+      <span><span class="brand-name">SILVERLENZ</span><span class="brand-sub">Art · Geometry · Lightning</span></span>
+    </a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="https://silverlenz.github.io/daily-art/">Gallery ↗</a>
+      <a href="https://primal.net/p/nprofile1qqsqvrldzh7pcafe69knhu8lwk5l9g8uk8dyuea8l6z95t5q667h0egw4nc7y" target="_blank" rel="noopener noreferrer">Nostr ↗</a>
+      <a class="nav-zap" href="#zap">Send a zap <span aria-hidden="true">↓</span></a>
+    </nav>
+  </header>
 
-<body class="min-h-screen flex flex-col items-center p-6 md:p-12">
+  <main>
+    <section class="hero shell" aria-labelledby="hero-title">
+      <div>
+        <p class="eyebrow">A daily art practice · powered by Lightning</p>
+        <h1 id="hero-title">Art is a<br><em>signal.</em><br>Zaps keep<br>it moving.</h1>
+        <p class="hero-copy">Every day, a new pattern enters the world—<strong>sacred geometry, color, and symbols with room to mean something different to everyone.</strong> If the work resonates, send a little energy back into the current.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#zap">Choose your zap <span aria-hidden="true">↓</span></a>
+          <a class="button" href="https://silverlenz.github.io/daily-art/">Explore the 302-piece archive ↗</a>
+        </div>
+        <p class="hero-note"><span aria-hidden="true">✦</span> No account on this page. Just your Lightning wallet.</p>
+      </div>
 
-<!-- HEADER -->
-<div class="max-w-3xl w-full text-center mb-6">
-  <h1 class="text-4xl font-light tracking-widest">SILVERLENZ</h1>
-  <p class="text-amber-300 mt-2 text-sm">
-    Living Lightning Art Economy ⚡
-  </p>
-</div>
+      <div class="art-orbit" aria-label="Selected works from the SilverLenz art archive">
+        <span class="orbit-dot a" aria-hidden="true"></span><span class="orbit-dot b" aria-hidden="true"></span>
+        <figure class="art-float one" data-art-slot><img src="assets/art/spectral-portal.webp" alt="Rainbow geometric star portal" fetchpriority="high"></figure>
+        <figure class="art-float two" data-art-slot><img src="assets/art/luminous-pentagram.webp" alt="Sacred pentagram geometry in translucent color" fetchpriority="high"></figure>
+        <figure class="art-main" data-art-slot><img src="assets/art/numbered-mandala.webp" alt="Blue numbered mandala over an ornamental silver disc" fetchpriority="high"><figcaption><strong data-art-title>Numbered Mandala</strong><span data-art-number>Archive · 171</span></figcaption></figure>
+      </div>
+    </section>
 
-<!-- HOW TO ZAP -->
-<div class="max-w-3xl w-full bg-amber-900/30 border border-amber-400/30 rounded-3xl p-8 mb-8 text-center">
-  <p class="text-amber-300 font-medium mb-2">💡 How to Zap</p>
-  <p class="text-sm">Tap any amount below or copy the Lightning Address</p>
-</div>
+    <section class="section shell" id="zap" aria-labelledby="zap-title">
+      <div class="section-head">
+        <div><p class="eyebrow">Send a little energy back</p><h2 id="zap-title">Choose your pulse.</h2></div>
+        <p class="section-intro">Pick a Fibonacci-inspired amount to open a Lightning invoice in your wallet. Or copy the address and zap any amount you like.</p>
+      </div>
 
-<!-- WALLET -->
-<div class="max-w-3xl w-full bg-zinc-900/90 border border-amber-400/20 rounded-3xl p-7 shadow-2xl mb-10">
-  <div class="flex justify-between items-center mb-5">
-    <code class="text-amber-400 text-base">silverlenz@rizful.com</code>
-    <button onclick="copyAddress()" class="bg-amber-600 hover:bg-amber-500 px-4 py-2 rounded-xl text-xs">Copy</button>
-  </div>
-  <p id="status" class="text-xs text-center text-gray-400">Ready to receive zaps ⚡</p>
-</div>
-FIBONACCI LIGHTNING SUGGESTED ZAPS!
-<!-- ZAPS -->
-<div class="max-w-3xl w-full space-y-3 mb-16">
+      <div class="wallet-card">
+        <div><span class="wallet-label">Lightning address · any amount</span><a class="wallet-address" href="lightning:silverlenz@rizful.com" aria-label="Open Lightning wallet for silverlenz@rizful.com">silverlenz@rizful.com</a></div>
+        <button class="copy-btn" id="copy-address" type="button" onclick="copyAddress()" aria-label="Copy Lightning address">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="6.5" y="6.5" width="10" height="11" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M13.5 6.5V4A1.5 1.5 0 0 0 12 2.5H4A1.5 1.5 0 0 0 2.5 4v9A1.5 1.5 0 0 0 4 14.5h2.5" stroke="currentColor" stroke-width="1.5"/></svg>
+          <span>Copy address</span>
+        </button>
+      </div>
+      <p class="status" id="status" role="status" aria-live="polite">Ready when you are ⚡</p>
 
-  <button class="zap-btn low w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl" onclick="zap(1440,this)">
-    <span>👍 Perfect Harmony ♫</span>
-    <span class="text-2xl font-bold text-amber-300">1,440 sats</span>
-  </button>
+      <div class="zap-grid" aria-label="Suggested Lightning zap amounts">
+        <button class="zap-btn" type="button" data-sats="1440" onclick="zap(1440,this)"><span class="tier-line"><span class="tier-number">01 / A NOTE OF THANKS</span><span class="tier-symbol" aria-hidden="true">♫</span></span><span><span class="tier-name">Perfect Harmony</span><span class="tier-note">A small signal, sent with care</span></span><span class="tier-amount">1,440 <small>sats · zap ↗</small></span></button>
+        <button class="zap-btn" type="button" data-sats="2330" onclick="zap(2330,this)"><span class="tier-line"><span class="tier-number">02 / THE CREATIVE CURRENT</span><span class="tier-symbol" aria-hidden="true">◉</span></span><span><span class="tier-name">Artistic Flow</span><span class="tier-note">Keep the ideas in motion</span></span><span class="tier-amount">2,330 <small>sats · zap ↗</small></span></button>
+        <button class="zap-btn featured" type="button" data-sats="3770" onclick="zap(3770,this)"><span class="tier-line"><span class="tier-number">03 / THE GOLDEN MEAN</span><span class="tier-symbol" aria-hidden="true">△</span></span><span><span class="tier-name">Divine Proportion</span><span class="tier-note">A little more room to create</span></span><span class="tier-amount">3,770 <small>sats · zap ↗</small></span></button>
+        <button class="zap-btn" type="button" data-sats="6100" onclick="zap(6100,this)"><span class="tier-line"><span class="tier-number">04 / A BRIGHTER SIGNAL</span><span class="tier-symbol" aria-hidden="true">✦</span></span><span><span class="tier-name">Spiral Energy</span><span class="tier-note">Carry the daily practice forward</span></span><span class="tier-amount">6,100 <small>sats · zap ↗</small></span></button>
+        <button class="zap-btn" type="button" data-sats="9870" onclick="zap(9870,this)"><span class="tier-line"><span class="tier-number">05 / THE DEEPER RESONANCE</span><span class="tier-symbol" aria-hidden="true">◎</span></span><span><span class="tier-name">Golden Spiral</span><span class="tier-note">Help the archive keep unfolding</span></span><span class="tier-amount">9,870 <small>sats · zap ↗</small></span></button>
+        <button class="zap-btn" type="button" data-sats="15970" onclick="zap(15970,this)"><span class="tier-line"><span class="tier-number">06 / THE INFINITE LOOP</span><span class="tier-symbol" aria-hidden="true">∞</span></span><span><span class="tier-name">Ultimate Fibonacci</span><span class="tier-note">A powerful current of support</span></span><span class="tier-amount">15,970 <small>sats · zap ↗</small></span></button>
+      </div>
+    </section>
 
-  <button class="zap-btn mid w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl" onclick="zap(2330,this)">
-    <span>🚀 Artistic Flow 🌀</span>
-    <span class="text-2xl font-bold text-amber-300">2,330 sats</span>
-  </button>
+    <section class="section shell art-section" aria-labelledby="art-title">
+      <div class="section-head">
+        <div><p class="eyebrow">A few signals from the archive</p><h2 id="art-title">The work behind the zap.</h2></div>
+        <p class="section-intro">Each piece is part of an expanding visual language—made to be explored, questioned, and shared.</p>
+      </div>
+      <div class="art-rotation">
+        <span class="rotation-status" id="rotation-status" role="status" aria-live="polite">Loading the 302-piece archive…</span>
+        <div class="rotation-actions">
+          <button class="rotation-btn" id="shuffle-art" type="button" onclick="rotateArtwork()" aria-label="Show six new artworks now">Shuffle now <span aria-hidden="true">↻</span></button>
+          <button class="rotation-btn" id="rotation-toggle" type="button" onclick="toggleRotation()" aria-pressed="false">Pause rotation <span aria-hidden="true">Ⅱ</span></button>
+        </div>
+      </div>
+      <div class="art-grid">
+        <a class="art-card" data-art-slot href="https://silverlenz.github.io/daily-art/#gallery" aria-label="Explore the gallery"><img src="assets/art/spectral-portal.webp" alt="Rainbow Merkaba and prismatic geometry" loading="lazy"><figcaption><strong data-art-title>Spectral Portal</strong><span data-art-number>Archive · 217</span></figcaption></a>
+        <a class="art-card" data-art-slot href="https://silverlenz.github.io/daily-art/#gallery" aria-label="Explore the gallery"><img src="assets/art/luminous-pentagram.webp" alt="Translucent star and sacred pentagram geometry" loading="lazy"><figcaption><strong data-art-title>Luminous Pentagram</strong><span data-art-number>Archive · 183</span></figcaption></a>
+        <a class="art-card" data-art-slot href="https://silverlenz.github.io/daily-art/#gallery" aria-label="Explore the gallery"><img src="assets/art/sacred-flower.webp" alt="Layered translucent petals in a geometric flower" loading="lazy"><figcaption><strong data-art-title>Sacred Flower</strong><span data-art-number>Archive · 284</span></figcaption></a>
+      </div>
+      <a class="archive-link" href="https://silverlenz.github.io/daily-art/">Wander the full 302-piece archive <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
 
-  <button class="zap-btn mid w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl" onclick="zap(3770,this)">
-    <span>☕ Divine Proportion △</span>
-    <span class="text-2xl font-bold text-amber-300">3,770 sats</span>
-  </button>
+  <footer class="closing shell">
+    <span>Independent art. Open protocol. Infinite thanks. <span aria-hidden="true">⚡</span></span>
+    <a href="https://primal.net/p/nprofile1qqsqvrldzh7pcafe69knhu8lwk5l9g8uk8dyuea8l6z95t5q667h0egw4nc7y" target="_blank" rel="noopener noreferrer">Follow the daily transmissions on Nostr ↗</a>
+  </footer>
 
-  <button class="zap-btn high w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl" onclick="zap(6100,this)">
-    <span>✨ Spiral Energy 🌀</span>
-    <span class="text-2xl font-bold text-amber-300">6,100 sats</span>
-  </button>
+  <script>
+    const LN = "silverlenz@rizful.com";
+    const statusEl = document.getElementById("status");
 
-  <button class="zap-btn high w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl" onclick="zap(9870,this)">
-    <span>🍷 Golden Spiral ✨</span>
-    <span class="text-2xl font-bold text-amber-300">9,870 sats</span>
-  </button>
+    function setStatus(message, state = "") {
+      statusEl.textContent = message;
+      statusEl.dataset.state = state;
+    }
 
-  <button class="zap-btn legend w-full flex justify-between items-center bg-zinc-800 p-5 rounded-2xl" onclick="zap(15970,this)">
-    <span>👑 Ultimate Fibonacci ✨</span>
-    <span class="text-2xl font-bold text-amber-300">15,970 sats</span>
-  </button>
+    async function zap(sats, button) {
+      const amount = Number(sats);
+      if (!Number.isSafeInteger(amount) || amount <= 0) return;
+      button.disabled = true;
+      setStatus(`Preparing a ${amount.toLocaleString()} sat invoice…`);
+      try {
+        const [name, domain] = LN.split("@");
+        const lnurlResponse = await fetch(`https://${domain}/.well-known/lnurlp/${name}`);
+        if (!lnurlResponse.ok) throw new Error("Lightning address lookup failed");
+        const lnurlData = await lnurlResponse.json();
+        const invoiceResponse = await fetch(`${lnurlData.callback}?amount=${amount * 1000}`);
+        if (!invoiceResponse.ok) throw new Error("Invoice request failed");
+        const invoice = await invoiceResponse.json();
+        if (!invoice.pr) throw new Error("No payment request was returned");
 
-</div>
+        const walletLink = document.createElement("a");
+        walletLink.href = `lightning:${invoice.pr}`;
+        document.body.appendChild(walletLink);
+        walletLink.click();
+        walletLink.remove();
+        button.classList.add("flash");
+        window.setTimeout(() => button.classList.remove("flash"), 700);
+        setStatus(`Your ${amount.toLocaleString()} sat zap is ready in your Lightning wallet.`, "success");
+      } catch (error) {
+        console.error("Zap request failed:", error);
+        setStatus("Couldn’t prepare an invoice. Copy the Lightning address and zap from your wallet instead.", "error");
+      } finally {
+        button.disabled = false;
+      }
+    }
 
-<!-- FACEBOOK -->
-<div class="w-full flex justify-center mb-16">
-  <div class="text-center max-w-[1100px] w-full">
+    async function copyAddress() {
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(LN);
+        } else {
+          const field = document.createElement("textarea");
+          field.value = LN;
+          field.setAttribute("readonly", "");
+          field.style.position = "fixed";
+          field.style.opacity = "0";
+          document.body.appendChild(field);
+          field.select();
+          const copied = document.execCommand("copy");
+          field.remove();
+          if (!copied) throw new Error("Clipboard unavailable");
+        }
+        setStatus("Lightning address copied. Paste it into your wallet to send any amount.", "success");
+      } catch (error) {
+        console.error("Copy address failed:", error);
+        setStatus("Copy didn’t work—select the address above and copy it manually.", "error");
+      }
+    }
 
-    <h2 class="text-xl font-light mb-5 text-amber-300">
-      Live Art Pipeline Feed
-    </h2>
+    const ART_MANIFEST = "assets/artworks/manifest.json";
+    const ART_INTERVAL = 60_000;
+    const artSlots = [...document.querySelectorAll("[data-art-slot]")];
+    const rotationStatus = document.getElementById("rotation-status");
+    const rotationToggle = document.getElementById("rotation-toggle");
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let artworks = [];
+    let currentArtwork = new Set();
+    let rotationPaused = prefersReducedMotion.matches;
+    let rotationTimer;
 
-    <div id="fb-root"></div>
+    function shuffled(items) {
+      const result = [...items];
+      for (let i = result.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [result[i], result[j]] = [result[j], result[i]];
+      }
+      return result;
+    }
 
-    <div class="fb-page"
-      data-href="https://www.facebook.com/covellz/"
-      data-tabs="timeline"
-      data-width="450"
-      data-height="750"
-      data-adapt-container-width="true"
-      data-hide-cover="false"
-      data-show-facepile="true">
-    </div>
+    function showArtwork(slot, artwork) {
+      const image = slot.querySelector("img");
+      if (!image) return;
 
-  </div>
-</div>
+      const applyArtwork = () => {
+        const change = () => {
+          image.src = artwork.image;
+          image.alt = `${artwork.title}, artwork archive number ${artwork.number}`;
+          const title = slot.querySelector("[data-art-title]");
+          const number = slot.querySelector("[data-art-number]");
+          if (title) title.textContent = artwork.title;
+          if (number) number.textContent = `Archive · ${artwork.number}`;
+          if (slot.matches(".art-card")) {
+            slot.setAttribute("aria-label", `Explore the gallery featuring ${artwork.title}, archive ${artwork.number}`);
+          }
+          image.classList.remove("art-image-changing");
+        };
 
-<!-- SCRIPTS -->
-<script>
-const LN = "silverlenz@rizful.com";
+        if (prefersReducedMotion.matches) {
+          change();
+          return;
+        }
+        image.classList.add("art-image-changing");
+        window.setTimeout(() => {
+          change();
+          window.requestAnimationFrame(() => window.requestAnimationFrame(() => image.classList.remove("art-image-changing")));
+        }, 180);
+      };
 
-async function zap(sats, btn) {
-  try {
-    const msats = sats * 1000;
-    const [name, domain] = LN.split("@");
+      const preload = new Image();
+      preload.onload = applyArtwork;
+      preload.onerror = () => console.warn(`Could not load artwork archive number ${artwork.number}`);
+      preload.src = artwork.image;
+    }
 
-    const lnurl = `https://${domain}/.well-known/lnurlp/${name}`;
-    const res = await fetch(lnurl);
-    const data = await res.json();
+    function scheduleArtworkRotation() {
+      window.clearTimeout(rotationTimer);
+      if (rotationPaused || document.hidden || !artworks.length) return;
+      rotationTimer = window.setTimeout(() => rotateArtwork("automatic"), ART_INTERVAL);
+    }
 
-    const inv = await fetch(`${data.callback}?amount=${msats}`);
-    const invoice = await inv.json();
+    function rotateArtwork(source = "manual") {
+      if (!artworks.length) {
+        rotationStatus.textContent = "The archive is still loading—try again in a moment.";
+        return;
+      }
+      const next = shuffled(artworks.filter(item => !currentArtwork.has(item.number))).slice(0, artSlots.length);
+      currentArtwork = new Set(next.map(item => item.number));
+      artSlots.forEach((slot, index) => showArtwork(slot, next[index]));
+      rotationStatus.textContent = rotationPaused
+        ? "Fresh artwork · automatic rotation paused"
+        : source === "automatic"
+          ? "A fresh transmission · next change in 60 seconds"
+          : "6 of 302 artworks · auto-rotates every 60 seconds";
+      scheduleArtworkRotation();
+    }
 
-    const a = document.createElement("a");
-    a.href = "lightning:" + invoice.pr;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+    function toggleRotation() {
+      rotationPaused = !rotationPaused;
+      rotationToggle.setAttribute("aria-pressed", String(rotationPaused));
+      rotationToggle.innerHTML = rotationPaused
+        ? 'Resume rotation <span aria-hidden="true">▶</span>'
+        : 'Pause rotation <span aria-hidden="true">Ⅱ</span>';
+      rotationStatus.textContent = rotationPaused
+        ? "Automatic rotation paused · shuffle any time"
+        : "Artwork changes automatically every 60 seconds";
+      scheduleArtworkRotation();
+    }
 
-    btn.classList.add("flash");
-    setTimeout(() => btn.classList.remove("flash"), 600);
+    async function loadArtworkArchive() {
+      try {
+        const response = await fetch(ART_MANIFEST);
+        if (!response.ok) throw new Error(`Archive manifest request failed: ${response.status}`);
+        artworks = await response.json();
+        if (!Array.isArray(artworks) || artworks.length < artSlots.length) throw new Error("Archive manifest is incomplete");
+        rotationStatus.textContent = `302 artworks · automatic rotation every 60 seconds${rotationPaused ? " (paused for reduced motion)" : ""}`;
+        rotationToggle.setAttribute("aria-pressed", String(rotationPaused));
+        rotationToggle.innerHTML = rotationPaused
+          ? 'Resume rotation <span aria-hidden="true">▶</span>'
+          : 'Pause rotation <span aria-hidden="true">Ⅱ</span>';
+        rotateArtwork("initial");
+      } catch (error) {
+        console.error("Artwork archive could not be loaded:", error);
+        rotationStatus.textContent = "The featured pieces are still here; the archive rotation is temporarily unavailable.";
+        document.getElementById("shuffle-art").disabled = true;
+        rotationToggle.disabled = true;
+      }
+    }
 
-    confetti({ particleCount: 80, spread: 60 });
-
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-function copyAddress() {
-  navigator.clipboard.writeText(LN);
-  document.getElementById("status").innerText = "Copied ✔";
-}
-</script>
-
-<!-- FACEBOOK SDK FIX (THIS IS THE IMPORTANT PART) -->
-<script>
-window.fbAsyncInit = function() {
-  FB.init({
-    xfbml: true,
-    version: 'v18.0'
-  });
-
-  FB.XFBML.parse();
-};
-
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s);
-  js.id = id;
-  js.src = "https://connect.facebook.net/en_US/sdk.js";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-
-window.addEventListener("load", function () {
-  if (window.FB) {
-    FB.XFBML.parse();
-  }
-});
-</script>
-
+    document.addEventListener("visibilitychange", scheduleArtworkRotation);
+    prefersReducedMotion.addEventListener?.("change", event => {
+      if (event.matches && !rotationPaused) toggleRotation();
+    });
+    loadArtworkArchive();
+  </script>
 </body>
 </html>
