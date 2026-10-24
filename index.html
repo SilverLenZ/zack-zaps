@@ -78,10 +78,15 @@
     .button.primary:hover { background: #ffdc7c; }
     .hero-note { display: flex; align-items: center; gap: 8px; margin-top: 23px; color: var(--muted); font-size: 11px; }
     .hero-note span { color: var(--blue); }
+    .hero-note a { margin-left: 5px; color: var(--blue); text-decoration: none; opacity: .78; transition: opacity .2s; }
+    .hero-note a:hover { opacity: 1; text-decoration: underline; }
 
     .art-orbit { position: relative; display: grid; min-height: 420px; place-items: center; isolation: isolate; }
     .art-orbit::before { position: absolute; z-index: -1; width: min(92%, 430px); aspect-ratio: 1; border: 1px solid rgb(169 149 255 / 19%); border-radius: 50%; box-shadow: 0 0 90px rgb(110 83 183 / 13%), inset 0 0 70px rgb(110 83 183 / 9%); content: ""; }
     .art-orbit::after { position: absolute; z-index: -1; width: min(72%, 335px); aspect-ratio: 1; border: 1px solid rgb(245 201 91 / 13%); border-radius: 50%; content: ""; }
+    .portrait-halo { position: absolute; z-index: 2; right: 1%; bottom: 4%; display: block; width: min(29%, 138px); aspect-ratio: 1; overflow: hidden; border: 1px solid rgb(134 217 237 / 48%); border-radius: 50%; background: #182438; box-shadow: 0 10px 32px rgb(0 0 0 / 55%), 0 0 28px rgb(134 217 237 / 15%); opacity: .48; transform: rotate(5deg); transition: opacity .3s, transform .3s; }
+    .portrait-halo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 29%; filter: saturate(.78) brightness(1.08); }
+    .portrait-halo:hover, .portrait-halo:focus-visible { opacity: .94; transform: rotate(0) scale(1.04); }
     .art-main { position: relative; width: min(74%, 330px); overflow: hidden; border: 1px solid rgb(245 201 91 / 54%); background: #11131f; box-shadow: 0 24px 80px rgb(0 0 0 / 55%), 0 0 44px rgb(169 149 255 / 16%); transform: rotate(2deg); }
     .art-main img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; transition: opacity .35s ease; }
     .art-float img { transition: opacity .35s ease; }
@@ -172,6 +177,7 @@
       .art-orbit { min-height: 310px; }
       .art-main { width: min(73%, 280px); }
       .art-float { width: 100px; }
+      .portrait-halo { width: 90px; right: 0; bottom: 1%; }
       .section { padding-block: 52px; }
       .wallet-card { padding: 15px 12px; }
       .wallet-address { font-size: clamp(13px, 4vw, 16px); }
@@ -225,11 +231,12 @@
           <a class="button primary" href="#zap">Choose your zap <span aria-hidden="true">↓</span></a>
           <a class="button" href="https://silverlenz.github.io/daily-art/">Explore the 302-piece archive ↗</a>
         </div>
-        <p class="hero-note"><span aria-hidden="true">✦</span> No account on this page. Just your Lightning wallet.</p>
+        <p class="hero-note"><span aria-hidden="true">✦</span> No account on this page. Just your Lightning wallet. <a href="assets/portraits/zack-blue.webp" target="_blank" rel="noopener noreferrer" aria-label="Open a portrait of Zack Covell in a new tab">Meet the artist ↗</a></p>
       </div>
 
       <div class="art-orbit" aria-label="Selected works from the SilverLenz art archive">
         <span class="orbit-dot a" aria-hidden="true"></span><span class="orbit-dot b" aria-hidden="true"></span>
+        <a class="portrait-halo" href="assets/portraits/zack-blue.webp" target="_blank" rel="noopener noreferrer" aria-label="Open a portrait of Zack Covell in a new tab"><img src="assets/portraits/zack-blue.webp" alt="" fetchpriority="high"></a>
         <figure class="art-float one" data-art-slot><img src="assets/art/spectral-portal.webp" alt="Rainbow geometric star portal" fetchpriority="high"></figure>
         <figure class="art-float two" data-art-slot><img src="assets/art/luminous-pentagram.webp" alt="Sacred pentagram geometry in translucent color" fetchpriority="high"></figure>
         <figure class="art-main" data-art-slot><img src="assets/art/numbered-mandala.webp" alt="Blue numbered mandala over an ornamental silver disc" fetchpriority="high"><figcaption><strong data-art-title>Numbered Mandala</strong><span data-art-number>Archive · 171</span></figcaption></figure>
